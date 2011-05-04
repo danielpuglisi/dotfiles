@@ -10,4 +10,4 @@ then
 fi
 
 # github propane hax
-alias propane=`sh ~/Dropbox/GitHub/propane/install.sh`
+#alias propane=`sh ~/Dropbox/GitHub/propane/install.sh`
