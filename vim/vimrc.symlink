@@ -27,6 +27,11 @@ let mapleader = ","
 " exit to normal mode with 'jj'
 inoremap jj <ESC>
 
+" Colors **********************************************************************
+set background=dark 
+syntax on " syntax highlighting
+colorscheme railscasts
+
 
 " reflow paragraph with Q in normal and visual mode
 nnoremap Q gqap
@@ -43,6 +48,32 @@ vnoremap <Down> gj
 vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
+
+
+" File stuff
+
+filetype plugin indent on
+
+set grepprg=ack            " Uuse ack instead of grep for searching
+
+" Ruby stuff ******************************************************************
+"compiler ruby         " Enable compiler support for ruby
+"map <F5> :!ruby %<CR>
+
+
+" Omni Completion *************************************************************
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType c set omnifunc=ccomplete#Complete
+" May require ruby compiled in
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete 
+
+
+
 
 " ----------------------------------------------------------------------------
 "  UI
@@ -71,7 +102,7 @@ set mat=5                  " duration to show matching brace (1/10 sec)
 set incsearch              " do incremental searching
 set laststatus=2           " always show the status line
 set ignorecase             " ignore case when searching
-set nohlsearch             " don't highlight searches
+set hlsearch               " highlight searches 
 set visualbell             " shut the fuck up
 
 
@@ -83,3 +114,17 @@ function! StripWhitespace ()
     exec ':%s/ \+$//gc'
 endfunction
 map ,s :call StripWhitespace ()<CR>
+
+" ---------------------------------------------------------------------------
+" PLUGINS 
+" ---------------------------------------------------------------------------
+
+" NERDTree ********************************************************************
+:noremap <Leader>n :NERDTreeToggle<CR>
+let NERDTreeHijackNetrw=1 " User instead of Netrw when doing an edit /foobar
+let NERDTreeMouseMode=1 " Single click for everything
+
+" NERD Commenter **************************************************************
+let NERDCreateDefaultMappings=0 " I turn this off to make it simple
+:map <Leader>c :call NERDComment(0, "toggle")<CR> 
+
