@@ -135,6 +135,11 @@ let g:AutoComplPop_IgnoreCaseOption = 0
 let g:AutoComplPop_BehaviorKeywordLength = 2
 
 
+" fuzzyfinder ********************************************************
+" I'm using CommandT for main searching, but it doesn't do buffers, so I'm
+" using FuzzyFinder for that
+map <Leader>b :FufBuffer<CR>
+"let g:fuzzy_ignore = '.o;.obj;.bak;.exe;.pyc;.pyo;.DS_Store;.db'
 
 
 
