@@ -141,6 +141,15 @@ let g:AutoComplPop_BehaviorKeywordLength = 2
 map <Leader>b :FufBuffer<CR>
 "let g:fuzzy_ignore = '.o;.obj;.bak;.exe;.pyc;.pyo;.DS_Store;.db'
 
+" CommandT ********************************************************
+  " To compile:
+  " cd ~/cl/etc/vim/ruby/command-t
+  " ruby extconf.rb
+  " make
+"let g:CommandTMatchWindowAtTop = 1
+map <Leader>t :CommandT<CR>
+map <leader>r :CommandTFlush<CR>
+
 
 
 " NERDTree ********************************************************************
