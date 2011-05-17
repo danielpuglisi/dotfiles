@@ -77,6 +77,9 @@ autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 " May require ruby compiled in
 autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete 
+autocmd FileType scss set omnifunc=scss
+
+au BufRead,BufNewFile *.scss set filetype=scss
 
 
 
