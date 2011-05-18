@@ -1,4 +1,3 @@
-colorscheme railscasts
 set anti
 set lines=999 columns=120
 set guioptions=egmrt
@@ -11,7 +10,7 @@ if has("gui_macvim")
   set guifont=Menlo\ Regular:h12
   set guioptions-=T  " remove toolbar
   set stal=2 " turn on tabs by default
-"  set guioptions-=r
+  set guioptions-=r
 elseif has("gui_gtk2")
 
   set guifont=Monaco
