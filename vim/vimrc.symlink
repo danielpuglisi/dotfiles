@@ -32,7 +32,7 @@ inoremap jj <ESC>
 " Colors **********************************************************************
 set background=dark 
 syntax on " syntax highlighting
-colorscheme paper
+colorscheme ir_black
 
 
 " reflow paragraph with Q in normal and visual mode
