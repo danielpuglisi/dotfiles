@@ -34,7 +34,6 @@ set background=dark
 syntax on " syntax highlighting
 colorscheme ir_black
 
-
 " reflow paragraph with Q in normal and visual mode
 nnoremap Q gqap
 vnoremap Q gq
