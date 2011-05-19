@@ -52,6 +52,10 @@ inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
 
 
+"Set the tag file search order
+set tags=./tags;
+
+
 " File stuff
 
 filetype plugin indent on
