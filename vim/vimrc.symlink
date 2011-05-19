@@ -1,3 +1,4 @@
+"TODO: Cleanup this hell of a mess
 set noswapfile
 set nocompatible
 
@@ -126,6 +127,17 @@ function! StripWhitespace ()
     exec ':%s/ \+$//gc'
 endfunction
 map ,s :call StripWhitespace ()<CR>
+
+
+" ---------------------------------------------------------------------------
+"  Add some todo-list shortcuts. Requires the ACK plugin 
+" ---------------------------------------------------------------------------
+
+map <leader>T :Ack --all TODO *<CR>
+map <leader>F :Ack --all FIXME *<CR>
+map <leader>C :Ack --all CHANGED *<CR>
+
+
 
 " ---------------------------------------------------------------------------
 " PLUGINS 
