@@ -1,7 +1,7 @@
 set anti
 set lines=999 columns=120
 set guioptions=egmrt
-colorscheme molokai
+colorscheme railscasts 
 
 " OS Specific *****************************************************************
 if has("gui_macvim")
