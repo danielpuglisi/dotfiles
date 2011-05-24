@@ -55,7 +55,9 @@ inoremap <Up> <C-o>gk
 "Set the tag file search order
 set tags=./tags;
 
-
+"ctags navigation
+map <leader>ta :exec("tag ".expand("<cword>"))<CR>
+map <leader>ts :vsp <CR>:exec("tag " .expand("<cword>"))<CR>
 " File stuff
 
 filetype plugin indent on
