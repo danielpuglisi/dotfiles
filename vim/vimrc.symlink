@@ -19,7 +19,7 @@ set nosmarttab             " fuck tabs
 set formatoptions+=n       " support for numbered/bullet lists
 "set textwidth=80           " wrap at 80 chars by default
 set virtualedit=block      " allow virtual edit in visual block ..
-
+"set autochdir
 " ----------------------------------------------------------------------------
 "  Remapping
 " ----------------------------------------------------------------------------
@@ -77,13 +77,12 @@ map <Enter> o<ESC>
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType python set omnifunc=pythoncomplete#Complete
 autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType css,scss,sass set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 " May require ruby compiled in
 autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete 
-autocmd FileType scss set omnifunc=scss
 
 au BufRead,BufNewFile *.scss set filetype=scss
 
@@ -135,9 +134,9 @@ map ,s :call StripWhitespace ()<CR>
 "  Add some todo-list shortcuts. Requires the ACK plugin 
 " ---------------------------------------------------------------------------
 
-map <leader>T :Ack --all TODO *<CR>
-map <leader>F :Ack --all FIXME *<CR>
-map <leader>C :Ack --all CHANGED *<CR>
+map <leader>T :Ack --all --ignore-dir=vendor/rails TODO *<CR>
+map <leader>F :Ack --all --ignore-dir=vendor/rails FIXME *<CR>
+map <leader>C :Ack --all --ignore-dir=vendor/rails CHANGED *<CR>
 
 
 
@@ -170,7 +169,7 @@ map <Leader>b :FufBuffer<CR>
 map <Leader>t :CommandT<CR>
 map <leader>r :CommandTFlush<CR>
 
-
+set wildignore+=vendor/rails/*
 
 " NERDTree ********************************************************************
 :noremap <Leader>n :NERDTreeToggle<CR>
