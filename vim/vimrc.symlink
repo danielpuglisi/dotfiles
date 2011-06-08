@@ -1,7 +1,6 @@
-"TODO: Cleanup this hell of a mess
 set noswapfile
 set nocompatible
-
+filetype plugin indent on
 
 " ----------------------------------------------------------------------------
 "  Text Formatting
@@ -17,9 +16,10 @@ set tabstop=4
 set expandtab              " expand tabs to spaces
 set nosmarttab             " fuck tabs
 set formatoptions+=n       " support for numbered/bullet lists
-"set textwidth=80           " wrap at 80 chars by default
+"set textwidth=80          " wrap at 80 chars by default
 set virtualedit=block      " allow virtual edit in visual block ..
-"set autochdir
+syntax on                  " syntax highlighting
+
 " ----------------------------------------------------------------------------
 "  Remapping
 " ----------------------------------------------------------------------------
@@ -29,11 +29,6 @@ let mapleader = ","
 
 " exit to normal mode with 'jj'
 inoremap jj <ESC>
-
-" Colors **********************************************************************
-set background=dark 
-syntax on " syntax highlighting
-colorscheme ir_black
 
 " reflow paragraph with Q in normal and visual mode
 nnoremap Q gqap
@@ -51,44 +46,6 @@ vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
 
-
-"Set the tag file search order
-set tags=./tags;
-
-"ctags navigation
-map <leader>ta :exec("tag ".expand("<cword>"))<CR>
-map <leader>ts :vsp <CR>:exec("tag " .expand("<cword>"))<CR>
-" File stuff
-
-filetype plugin indent on
-
-set grepprg=ack            " Uuse ack instead of grep for searching
-
-
-map <S-Enter> O<ESC> 
-map <Enter> o<ESC>
-
-" Ruby stuff ******************************************************************
-"compiler ruby         " Enable compiler support for ruby
-"map <F5> :!ruby %<CR>
-
-
-" Omni Completion *************************************************************
-autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType css,scss,sass set omnifunc=csscomplete#CompleteCSS
-autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-autocmd FileType c set omnifunc=ccomplete#Complete
-" May require ruby compiled in
-autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete 
-
-au BufRead,BufNewFile *.scss set filetype=scss
-
-
-
-
 " ----------------------------------------------------------------------------
 "  UI
 " ----------------------------------------------------------------------------
@@ -97,7 +54,7 @@ set ruler                  " show the cursor position all the time
 set noshowcmd              " don't display incomplete commands
 set nolazyredraw           " turn off lazy redraw
 set number                 " line numbers
-set wildmenu               " turn on wild menu
+set nowildmenu               " turn on wild menu
 set wildmode=list:longest,full
 set ch=2                   " command line height
 set backspace=2            " allow backspacing over everything in insert mode
@@ -105,7 +62,6 @@ set whichwrap+=<,>,h,l,[,] " backspace and cursor keys wrap to
 set shortmess=filtIoOA     " shorten messages
 set report=0               " tell us about changes
 set nostartofline          " don't jump to the start of line when scrolling
-
 
 " ----------------------------------------------------------------------------
 " Visual Cues
@@ -116,8 +72,17 @@ set mat=5                  " duration to show matching brace (1/10 sec)
 set incsearch              " do incremental searching
 set laststatus=2           " always show the status line
 set ignorecase             " ignore case when searching
-set hlsearch               " highlight searches 
+set nohlsearch               " highlight searches 
 set visualbell             " shut the fuck up
+
+" ----------------------------------------------------------------------------
+"  Folding
+" ----------------------------------------------------------------------------
+
+set foldmethod=indent   "fold based on indent
+set foldnestmax=10      "deepest fold is 10 levels
+set foldenable        "fold by default
+set foldlevel=1         "default fold level
 
 
 " ---------------------------------------------------------------------------
@@ -131,52 +96,76 @@ map ,s :call StripWhitespace ()<CR>
 
 
 " ---------------------------------------------------------------------------
-"  Add some todo-list shortcuts. Requires the ACK plugin 
+"  Omni Completion 
+" ---------------------------------------------------------------------------
+
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType *.scss set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType c set omnifunc=ccomplete#Complete
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete 
+
+" ---------------------------------------------------------------------------
+"  Aliases 
+" ---------------------------------------------------------------------------
+
+set grepprg=ack            " Fuck grep 
+
+" ---------------------------------------------------------------------------
+" TODO HAX 
 " ---------------------------------------------------------------------------
 
 map <leader>T :Ack --all --ignore-dir=vendor/rails TODO *<CR>
 map <leader>F :Ack --all --ignore-dir=vendor/rails FIXME *<CR>
 map <leader>C :Ack --all --ignore-dir=vendor/rails CHANGED *<CR>
 
+" ---------------------------------------------------------------------------
+" CTAGS
+" ---------------------------------------------------------------------------
+map <leader>ta :exec("tag ".expand("<cword>"))<CR>
+map <leader>ts :vsp <CR>:exec("tag " .expand("<cword>"))<CR>
+set tags=./tags;
+
+" ---------------------------------------------------------------------------
+" ALL KINDS OF SHIT
+" ---------------------------------------------------------------------------
+
+map <S-Enter> O<ESC> 
+map <Enter> o<ESC>
 
 
 " ---------------------------------------------------------------------------
-" PLUGINS 
+"  FUZZYFINDER 
 " ---------------------------------------------------------------------------
 
-
-" autocomplpop ***************************************************************
-" complete option
-"set complete=.,w,b,u,t,k
-"let g:AutoComplPop_CompleteOption = '.,w,b,u,t,k'
-"set complete=.
-let g:AutoComplPop_IgnoreCaseOption = 0
-let g:AutoComplPop_BehaviorKeywordLength = 2
-
-
-" fuzzyfinder ********************************************************
-" I'm using CommandT for main searching, but it doesn't do buffers, so I'm
-" using FuzzyFinder for that
 map <Leader>b :FufBuffer<CR>
-"let g:fuzzy_ignore = '.o;.obj;.bak;.exe;.pyc;.pyo;.DS_Store;.db'
+let g:fuzzy_ignore = '.o;.obj;.bak;.exe;.pyc;.pyo;.DS_Store;.db'
 
-" CommandT ********************************************************
-  " To compile:
-  " cd ~/cl/etc/vim/ruby/command-t
-  " ruby extconf.rb
-  " make
-"let g:CommandTMatchWindowAtTop = 1
+" ---------------------------------------------------------------------------
+"  COMMANDT 
+" ---------------------------------------------------------------------------
+
+let g:CommandTMatchWindowAtTop = 1
 map <Leader>t :CommandT<CR>
 map <leader>r :CommandTFlush<CR>
 
 set wildignore+=vendor/rails/*
 
-" NERDTree ********************************************************************
+" ---------------------------------------------------------------------------
+"  NERDTree 
+" ---------------------------------------------------------------------------
+
 :noremap <Leader>n :NERDTreeToggle<CR>
 let NERDTreeHijackNetrw=1 " User instead of Netrw when doing an edit /foobar
 let NERDTreeMouseMode=1 " Single click for everything
 
-" NERD Commenter **************************************************************
+" ---------------------------------------------------------------------------
+"  NERD Commenter 
+" ---------------------------------------------------------------------------
+
 let NERDCreateDefaultMappings=0 " I turn this off to make it simple
 :map <Leader>c :call NERDComment(0, "toggle")<CR> 
-
