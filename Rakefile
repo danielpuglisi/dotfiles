@@ -1,3 +1,6 @@
+
+# TODO : Make this work under Linux
+
 require 'rake'
 
 desc "Hook our dotfiles into system-standard positions."
