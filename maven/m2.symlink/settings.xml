@@ -57,7 +57,5 @@
 	</profiles>
 	<activeProfiles>
     <activeProfile>repository-bootstrap</activeProfile>
-    <activeProfile>selenium</activeProfile>
-    <activeProfile>firefox</activeProfile>
 	</activeProfiles>
 </settings>
