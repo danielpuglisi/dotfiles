@@ -1,0 +1,63 @@
+<settings>
+  <profiles>
+    <profile>
+      <id>repository-bootstrap</id>
+      <repositories>
+        <repository>
+          <id>xwiki-releases</id>
+          <name>XWiki Maven2 Remote Repository for Releases</name>
+          <url>http://maven.xwiki.org/releases</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>celements-releases</id>
+          <name>Celements Maven2 Remote Repository for Releases</name>
+          <url>http://maven.celements.ch/releases</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+	  <profile>
+      <id>selenium</id>
+      <properties>
+        <!-- celementsweb -->
+        <selenium.browserURL.celementsweb>http://celements2web.localhost:8080/</selenium.browserURL.celementsweb>        
+        <selenium.username.celementsweb>admin</selenium.username.celementsweb>
+        <selenium.password.celementsweb>admin</selenium.password.celementsweb>
+        <catalina.home.celementsweb>${env.CATALINA_HOME}</catalina.home.celementsweb>
+        <!-- manualizerweb -->     
+        <selenium.browserURL.manualizerweb>http://manualizer.localhost:8080/</selenium.browserURL.manualizerweb>
+        <selenium.username.manualizerweb>admin</selenium.username.manualizerweb>
+        <selenium.password.manualizerweb>admin</selenium.password.manualizerweb>             
+        <catalina.home.manualizerweb>${env.CATALINA_HOME}</catalina.home.manualizerweb>  
+      </properties>
+    </profile>  
+    <profile>
+      <id>firefox</id>
+      <properties>
+        <selenium.serverHost>localhost</selenium.serverHost>
+      </properties>
+    </profile>
+    <profile>
+      <id>iexplore</id>
+      <properties>
+        <selenium.serverHost>localhost</selenium.serverHost>
+      </properties>
+    </profile>		
+	</profiles>
+	<activeProfiles>
+    <activeProfile>repository-bootstrap</activeProfile>
+    <activeProfile>selenium</activeProfile>
+    <activeProfile>firefox</activeProfile>
+	</activeProfiles>
+</settings>
