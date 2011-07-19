@@ -7,6 +7,7 @@ alias aack="ack --all"
 alias rack="ack --ruby --follow"
 alias jack="ack --js"
 alias pack="ack --python"
+alias ls="ls -lah"
 
 # default ctags alias
 alias ctags="ctags -R --exclude=.git --exclude=log *"
