@@ -1,4 +1,4 @@
-colorscheme ir_black 
+colorscheme molokai
 set anti
 set lines=999 columns=120
 set guioptions=egmrt
