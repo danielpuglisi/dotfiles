@@ -1,5 +1,5 @@
 " Set the colorscheme
-colorscheme molokai 
+colorscheme molokai
 
 " Directory for swap files
 set directory=~/.tmp/vim-rodrigo
@@ -12,6 +12,14 @@ set nocompatible
 call pathogen#runtime_append_all_bundles() 
 
 filetype plugin indent on
+
+" Reload .vimrc right after saving
+if has("autocmd")
+  autocmd bufwritepost .vimrc source $MYVIMRC
+endif
+
+" Open .vimrc file
+nmap <leader>v :tabedit $MYVIMRC<CR>
 
 " ----------------------------------------------------------------------------
 "  Text Formatting
@@ -27,9 +35,6 @@ set expandtab              " expand tabs to spaces
 set nosmarttab             " fuck tabs
 set formatoptions+=n       " support for numbered/bullet lists
 set virtualedit=block      " allow virtual edit in visual block ..
-
-
-
 syntax on                  " syntax highlighting
 
 " ----------------------------------------------------------------------------
