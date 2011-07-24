@@ -7,9 +7,6 @@
 [submodule "vim/vim.symlink/bundle/command-t"]
 	path = vim/vim.symlink/bundle/command-t
 	url = https://github.com/wincent/Command-T.git 
-[submodule "vim/vim.symlink/bundle/fugitive.vim"]
-	path = vim/vim.symlink/bundle/fugitive.vim
-	url = https://github.com/tpope/vim-fugitive.git
 [submodule "vim/vim.symlink/bundle/fuzzyfinder_textmate"]
 	path = vim/vim.symlink/bundle/fuzzyfinder_textmate
 	url = https://github.com/jamis/fuzzyfinder_textmate.git 
@@ -34,3 +31,6 @@
 [submodule "vim/vim.symlink/bundle/vim-surround"]
 	path = vim/vim.symlink/bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
+[submodule "vim/vim.symlink/bundle/fugitive"]
+	path = vim/vim.symlink/bundle/fugitive
+	url = https://github.com/tpope/vim-fugitive.git
