@@ -74,6 +74,22 @@ dependency, but if you make it happen, THEY'LL MAKE **YOU** HAPPEN.
 - If you install the excellent [rvm](http://rvm.beginrescueend.com) to manage
   multiple rubies, your current branch will show up in the prompt. Bonus.
 
+## VIM notes (by rodrigo)
+ Using Tim Popes [pathogen](https://github.com/tpope/vim-pathogen) plugin for plugin managmenet.
+
+### Install predefined plugins (must be run after git clone from the root directory)
+`git submodule init`
+`git submodule update`
+
+This will install all configured bundles in .gitmodules into: `vim/vim.symlink/bundles`
+
+### Add additional plugins:
+`git submodule add https://github.com/username/plugin.git vim/vim.symlink/bundles/plugin`
+
+### Update installed plugins:
+`git submodule update`
+
+
 ## thanks
 
 I forked [Ryan Bates](http://github.com/ryanb)' excellent
