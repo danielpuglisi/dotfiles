@@ -209,5 +209,8 @@ hi link javaScriptNumber      Number
 " Special for CSharp
 hi  link csXmlTag             Keyword      
 
+"Hidden Character colors
+ highlight NonText guifg=#4a4a59
+ highlight SpecialKey guifg=#4a4a59
 
 " Special for PHP
