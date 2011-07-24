@@ -7,6 +7,10 @@ set directory=~/.tmp/vim-rodrigo
 " Real men don't use vi
 set nocompatible
 
+" Use pathogen for bundle management -
+" http://www.vim.org/scripts/script.php?script_id=2332
+call pathogen#runtime_append_all_bundles() 
+
 filetype plugin indent on
 
 " ----------------------------------------------------------------------------
