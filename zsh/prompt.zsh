@@ -83,7 +83,7 @@ directory_name(){
 }
 
 #export PROMPT=$'\n$(rvm_prompt) in $(directory_name) $(project_name_color)$(git_dirty)$(need_push) › '
-export PROMPT=$'\n$(directory_name) $(project_name_color)$(git_dirty)$(need_push)› '
+export PROMPT=$'$(directory_name) $(project_name_color)$(git_dirty)$(need_push)› '
 set_prompt () {
   export RPROMPT="%{$fg_bold[grey]%}$(todo)%{$reset_color%}"
 }
