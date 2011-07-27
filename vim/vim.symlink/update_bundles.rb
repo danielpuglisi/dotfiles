@@ -15,7 +15,7 @@ git_bundles = [
     "git://github.com/timcharper/textile.vim.git",        # Textile for Vim https://raw.github.com/timcharper/textile.vim/master/doc/textile.txt
     "git://github.com/tpope/vim-markdown.git",            # Vim Markdown runtime files
     "git://github.com/tpope/vim-repeat.git",              # enable repeating supported plugin maps with "."
-    "git://github.com/scrooloose/nerdcommenter.git"       # Vim plugin for commenting
+    "git://github.com/scrooloose/nerdcommenter.git",      # Vim plugin for commenting
     "git://github.com/vim-ruby/vim-ruby.git",             # Edit and compile Ruby within Vim.
 ]
 
