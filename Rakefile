@@ -33,8 +33,3 @@ task :install do
   end
 end
 task :default => 'install'
-
-task :vimbundles do
-  #TODO: read all vim bundle git links from a file and do a checkout. 
-end
-

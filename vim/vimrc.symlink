@@ -1,6 +1,9 @@
 " Use pathogen for bundle management -
 " http://www.vim.org/scripts/script.php?script_id=2332
+filetype off 
 call pathogen#infect() 
+call pathogen#helptags()
+call pathogen#runtime_append_all_bundles()
 
 " Set the colorscheme
 colorscheme molokai
