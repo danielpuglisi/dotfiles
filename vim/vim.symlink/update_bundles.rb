@@ -1,27 +1,22 @@
 #!/usr/bin/env ruby
 
 git_bundles = [ 
-	"git://github.com/vim-scripts/AutoComplPop.git",
-	"git://github.com/mileszs/ack.vim.git",
-	"git://github.com/wincent/Command-T.git",
-	"git://github.com/jamis/fuzzyfinder_textmate.git",
-	"git://github.com/scrooloose/nerdtree.git",
-	"git://github.com/msanders/snipmate.vim.git",
-	"git://github.com/vim-scripts/taglist.vim.git",
-	"git://github.com/shemerey/vim-peepopen.git",
-	"git://github.com/tpope/vim-rails.git",
-	"git://github.com/tpope/vim-surround.git",
-	"git://github.com/tpope/vim-fugitive.git",
-    "git://github.com/astashov/vim-ruby-debugger.git",
-    "git://github.com/timcharper/textile.vim.git",
-    "git://github.com/tpope/vim-git.git",
-    "git://github.com/tpope/vim-markdown.git",
-    "git://github.com/tpope/vim-repeat.git",
-    "git://github.com/tpope/vim-vividchalk.git",
-    "git://github.com/tsaleh/vim-align.git",
-    "git://github.com/tsaleh/vim-shoulda.git",
-    "git://github.com/tsaleh/vim-tcomment.git",
-    "git://github.com/vim-ruby/vim-ruby.git",
+	"git://github.com/vim-scripts/AutoComplPop.git",      # Automatically opens popup menu for completions
+	"git://github.com/mileszs/ack.vim.git",               # Vim plugin for the Perl module / CLI script "ack"
+	"git://github.com/wincent/Command-T.git",             # Fast file opener
+	"git://github.com/scrooloose/nerdtree.git",           # Vim Tree explorer
+	"git://github.com/msanders/snipmate.vim.git",         # TextMate Snippets for Vim
+	"git://github.com/vim-scripts/taglist.vim.git",       # Source code browser
+	"git://github.com/shemerey/vim-peepopen.git",         # Peepopen extension
+	"git://github.com/tpope/vim-rails.git",               # Ruby on Rails power tools
+	"git://github.com/tpope/vim-surround.git",            # quoting/parenthesizing made simple
+	"git://github.com/tpope/vim-fugitive.git",            # Git wrapper
+    "git://github.com/astashov/vim-ruby-debugger.git",    # Ruby debugger
+    "git://github.com/timcharper/textile.vim.git",        # Textile for Vim https://raw.github.com/timcharper/textile.vim/master/doc/textile.txt
+    "git://github.com/tpope/vim-markdown.git",            # Vim Markdown runtime files
+    "git://github.com/tpope/vim-repeat.git",              # enable repeating supported plugin maps with "."
+    "git://github.com/scrooloose/nerdcommenter.git"       # Vim plugin for commenting
+    "git://github.com/vim-ruby/vim-ruby.git",             # Edit and compile Ruby within Vim.
 ]
 
 vim_org_scripts = [
