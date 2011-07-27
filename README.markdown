@@ -77,18 +77,13 @@ dependency, but if you make it happen, THEY'LL MAKE **YOU** HAPPEN.
 ## VIM notes (by rodrigo)
  Using Tim Popes [pathogen](https://github.com/tpope/vim-pathogen) plugin for plugin managmenet.
 
-### Install predefined plugins (must be run after git clone from the root directory)
-`git submodule init`
-`git submodule update`
+### Installing plugins 
+run `~/.dotfiles/vim/vim.symlink/update_bundles.rb`
 
-This will install all configured bundles in .gitmodules into: `vim/vim.symlink/bundles`
+This will install all the VIM bundles that are defined inside the file.
 
 ### Add additional plugins:
-`git submodule add https://github.com/username/plugin.git vim/vim.symlink/bundles/plugin`
-
-### Update installed plugins:
-`git submodule update`
-
+Just edit `update_bundles.rb` to your liking.
 
 ## thanks
 
