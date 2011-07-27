@@ -24,6 +24,9 @@ endif
 " Open .vimrc file
 nmap <leader>v :tabedit $MYVIMRC<CR>
 
+" Only use one snippet directory
+let g:snippets_dir='~/.vim/snippets'
+
 " ----------------------------------------------------------------------------
 "  Text Formatting
 " ----------------------------------------------------------------------------
