@@ -22,7 +22,7 @@ if has("autocmd")
 endif
 
 " Open .vimrc file
-nmap <leader>v :tabedit $MYVIMRC<CR>
+nmap <leader>v :e ~/.vimrc<CR>
 
 " Only use one snippet directory
 let g:snippets_dir='~/.vim/snippets'

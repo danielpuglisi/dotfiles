@@ -11,7 +11,6 @@ git_bundles = [
 	"git://github.com/tpope/vim-rails.git",               # Ruby on Rails power tools
 	"git://github.com/tpope/vim-surround.git",            # quoting/parenthesizing made simple
 	"git://github.com/tpope/vim-fugitive.git",            # Git wrapper
-    "git://github.com/astashov/vim-ruby-debugger.git",    # Ruby debugger
     "git://github.com/timcharper/textile.vim.git",        # Textile for Vim https://raw.github.com/timcharper/textile.vim/master/doc/textile.txt
     "git://github.com/tpope/vim-markdown.git",            # Vim Markdown runtime files
     "git://github.com/tpope/vim-repeat.git",              # enable repeating supported plugin maps with "."
