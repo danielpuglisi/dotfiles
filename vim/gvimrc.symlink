@@ -1,4 +1,5 @@
-colorscheme molokai
+colorscheme railscasts
+set gfn=Menlo-Regular:h11
 set anti
 set lines=999 columns=120
 set guioptions=egmrt
