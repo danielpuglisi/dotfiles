@@ -16,7 +16,8 @@ git_bundles = [
     "git://github.com/tpope/vim-repeat.git",              # enable repeating supported plugin maps with "."
     "git://github.com/scrooloose/nerdcommenter.git",      # Vim plugin for commenting
     "git://github.com/vim-ruby/vim-ruby.git",             # Edit and compile Ruby within Vim.
-    "git://github.com/vim-scripts/Gist.vim.git",        # Vimscript for gist
+    "git://github.com/vim-scripts/velocity.vim.git",      # Velocity scripts 
+    "git://github.com/vim-scripts/Gist.vim.git",          # Vimscript for gist
 ]
 
 require 'fileutils'
