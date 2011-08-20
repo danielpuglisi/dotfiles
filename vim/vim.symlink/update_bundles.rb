@@ -17,7 +17,8 @@ git_bundles = [
     "git://github.com/scrooloose/nerdcommenter.git",      # Vim plugin for commenting
     "git://github.com/vim-ruby/vim-ruby.git",             # Edit and compile Ruby within Vim.
     "git://github.com/vim-scripts/velocity.vim.git",      # Velocity scripts 
-    "git://github.com/vim-scripts/Gist.vim.git",          # Vimscript for gist
+    "git://github.com/vim-scripts/Gist.vim.git",          
+    "git clone https://github.com/kchmck/vim-coffee-script.git" #Coffeescript support for vim
 ]
 
 require 'fileutils'
