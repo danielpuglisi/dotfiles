@@ -2,6 +2,10 @@
 alias dotvim='mvim $ZSH'
 alias dotcd='cd $ZSH'
 
+
+# editors
+alias m='mvim'
+
 #ack madness!
 alias aack="ack --all"
 alias rack="ack --ruby --follow"
