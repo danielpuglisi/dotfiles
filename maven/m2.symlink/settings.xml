@@ -25,6 +25,17 @@
             <enabled>false</enabled>
           </snapshots>
         </repository>
+        <repository>
+          <id>progon-releases</id>
+          <name>Programm Online main repository</name>
+          <url>http://maven.programmonline.ch/releases</url>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
       </repositories>
     </profile>
 	  <profile>
@@ -55,6 +66,23 @@
       </properties>
     </profile>		
 	</profiles>
+    <servers>
+      <server>
+      <id>progon-externals</id>
+      <username>progon</username>
+      <password>20prog11on</password>
+    </server>
+    <server>
+      <id>progon-releases</id>
+      <username>progon</username>
+      <password>20prog11on</password>
+    </server>
+    <server>
+      <id>progon-snapshots</id>
+      <username>progon</username>
+      <password>20prog11on</password>
+    </server>
+    </servers>
 	<activeProfiles>
     <activeProfile>repository-bootstrap</activeProfile>
 	</activeProfiles>
