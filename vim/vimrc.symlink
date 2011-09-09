@@ -156,9 +156,9 @@ set grepprg=ack            " Fuck grep
 " ---------------------------------------------------------------------------
 " CTAGS
 " ---------------------------------------------------------------------------
-"map <leader>ta :exec("tag ".expand("<cword>"))<CR>
-"map <leader>ts :vsp <CR>:exec("tag " .expand("<cword>"))<CR>
-"set tags=./tags;
+map <leader>ta :exec("tag ".expand("<cword>"))<CR>
+map <leader>ts :vsp <CR>:exec("tag " .expand("<cword>"))<CR>
+set tags=./tags;
 
 " ---------------------------------------------------------------------------
 "  COMMANDT 
