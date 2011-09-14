@@ -1,10 +1,17 @@
+# edit this file
+alias ealias='vim $ZSH/zsh/aliases.zsh'
+
 # edit dotfiles
 alias dotvim='mvim $ZSH'
 alias dotcd='cd $ZSH'
 
+# edit vim stuff
+alias evimrc='vim $ZSH/vim/vimrc.symlink'
+alias egvimrc='vim $ZSH/vim/gvimrc.symlink'
 
 # editors
 alias m='mvim'
+alias vi='vim'
 
 #ack madness!
 alias aack="ack --all"
