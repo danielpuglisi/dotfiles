@@ -158,6 +158,9 @@ set smartcase
 set hlsearch               " highlight searches
 set visualbell             " shut the fuck up
 
+" Style search results
+highlight Search ctermfg=green cterm=underline
+
 " ----------------------------------------------------------------------------
 "  Folding
 " ----------------------------------------------------------------------------
