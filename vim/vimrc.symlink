@@ -95,6 +95,9 @@ endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
 
+" Copy stuf into the OS X Clipboard
+map <leader>y "*y<CR>
+
 " ---------------------------------------------------------------------------
 " LEADER SHORTCUTS FOR RAILS
 " ---------------------------------------------------------------------------
