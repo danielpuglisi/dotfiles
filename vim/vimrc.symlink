@@ -2,27 +2,40 @@
 
 " Use pathogen for bundle management -
 " http://www.vim.org/scripts/script.php?script_id=2332
-call pathogen#infect() 
+call pathogen#infect()
 call pathogen#helptags()
 call pathogen#runtime_append_all_bundles()
 
+" Use Vim settings, rather then Vi settings (much better!).
+" This must be first, because it changes other options as a side effect.
+set nocompatible
+
+" Allow backgrounding buffers without writing them, and remember marks/undo
+" for backgrounded buffers
 set hidden
+
+" Remember more commands and search history
 set history=1000
+
+" Colorscheme Settings
+:set t_Co=256 " 256 colors
+set background=light
+color solarized
 
 " Keep more context when scrolling off the end of a buffer
 set scrolloff=3
 set cmdheight=2
 set switchbuf=useopen
+
+" Always show tab bar
 set showtabline=2
 
 " Set the colorscheme (Terminal)
-colorscheme molokai
+colorscheme solarized
 
-" Directory for swap files
-set directory=~/.tmp/vim-rodrigo
-
-" Use vim  
-set nocompatible
+" Store temporary files in a central spot
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
 filetype plugin indent on
 
@@ -33,10 +46,9 @@ let g:snippets_dir='~/.vim/snippets'
 "  Text Formatting
 " ----------------------------------------------------------------------------
 set autoindent             " automatic indent new lines
-set smartindent            " be smart about it
 set nowrap                 " do not wrap lines
-set softtabstop=2          " yep, two
-set shiftwidth=2           " ..
+set softtabstop=4          " yep, two
+set shiftwidth=4           " ..
 set tabstop=4
 set expandtab              " expand tabs to spaces
 set nosmarttab             " fuck tabs
@@ -70,31 +82,43 @@ vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
 
+" Remap the tab key to do autocompletion or indentation depending on the
+" context (from http://www.vim.org/tips/tip.php?tip_id=102)
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <s-tab> <c-n>
+
 " ---------------------------------------------------------------------------
 " LEADER SHORTCUTS FOR RAILS
 " ---------------------------------------------------------------------------
-map <Leader>m :Rmodel 
-map <Leader>C :Rcontroller 
-map <Leader>v :Rview 
-map <Leader>u :Runittest 
-map <Leader>f :Rfunctionaltest 
-map <Leader>tm :RTmodel 
-map <Leader>tc :RTcontroller 
-map <Leader>tv :RTview 
-map <Leader>tu :RTunittest 
-map <Leader>tf :RTfunctionaltest 
-map <Leader>sm :RSmodel 
-map <Leader>sc :RScontroller 
-map <Leader>sv :RSview 
-map <Leader>su :RSunittest 
-map <Leader>sf :RSfunctionaltest 
+map <Leader>m :Rmodel
+map <Leader>c :Rcontroller
+map <Leader>v :Rview
+map <Leader>u :Runittest
+map <Leader>f :Rfunctionaltest
+map <Leader>tm :RTmodel
+map <Leader>tc :RTcontroller
+map <Leader>tv :RTview
+map <Leader>tu :RTunittest
+map <Leader>tf :RTfunctionaltest
+map <Leader>sm :RSmodel
+map <Leader>sc :RScontroller
+map <Leader>sv :RSview
+map <Leader>su :RSunittest
+map <Leader>sf :RSfunctionaltest
 
 " ---------------------------------------------------------------------------
-" TODO HAX 
+" TODO HAX
 " ---------------------------------------------------------------------------
 map <leader>T :Ack --all --ignore-dir=vendor/rails TODO *<CR>
 map <leader>F :Ack --all --ignore-dir=vendor/rails FIXME *<CR>
-"map <leader>C :Ack --all --ignore-dir=vendor/rails CHANGED *<CR>
 
 " ----------------------------------------------------------------------------
 "  UI
@@ -102,21 +126,33 @@ map <leader>F :Ack --all --ignore-dir=vendor/rails FIXME *<CR>
 set noshowcmd              " don't display incomplete commands
 set nolazyredraw           " turn off lazy redraw
 set number                 " line numbers
-set wildmenu               " turn on wild menu
-set wildmode=list:longest,full
+set wildmenu               " Make tab completion for files/buffers act like bash
+set wildmode=longest,list
 set backspace=indent,eol,start
 set whichwrap+=<,>,h,l,[,] " backspace and cursor keys wrap to
 set shortmess=filtIoOA     " shorten messages
 set report=0               " tell us about changes
 set nostartofline          " don't jump to the start of line when scrolling
+
 " ----------------------------------------------------------------------------
 " Visual Cues
 " ----------------------------------------------------------------------------
 set showmatch              " brackets/braces that is
 set incsearch              " do incremental searching
 set laststatus=2           " always show the status line
-set ignorecase             " ignore case when searching
-set nohlsearch             " highlight searches 
+set cursorline
+
+" GRB: Put useful info in status line
+:set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
+:hi User1 term=inverse,bold cterm=inverse,bold ctermfg=red
+
+" GRB: clear the search buffer when hitting return
+:nnoremap <CR> :nohlsearch<cr>
+
+" Make searches case-sensitive only if they contain upper-case characters
+set ignorecase
+set smartcase
+set hlsearch               " highlight searches
 set visualbell             " shut the fuck up
 
 " ----------------------------------------------------------------------------
@@ -136,7 +172,7 @@ endfunction
 map ,s :call StripWhitespace ()<CR>
 
 " ---------------------------------------------------------------------------
-"  Omni Completion 
+"  Omni Completion
 " ---------------------------------------------------------------------------
 autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
 autocmd FileType python set omnifunc=pythoncomplete#Complete
@@ -146,12 +182,12 @@ autocmd FileType scss set omnifunc=csscomplete#CompleteCSS
 autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
-autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete 
+autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
 
 " ---------------------------------------------------------------------------
-" ALIASES 
+" ALIASES
 " ---------------------------------------------------------------------------
-set grepprg=ack            " Fuck grep 
+set grepprg=ack            " Fuck grep
 
 " ---------------------------------------------------------------------------
 " CTAGS
@@ -161,22 +197,22 @@ map <leader>ts :vsp <CR>:exec("tag " .expand("<cword>"))<CR>
 set tags=./tags;
 
 " ---------------------------------------------------------------------------
-"  COMMANDT 
+"  COMMANDT
 " ---------------------------------------------------------------------------
 let g:CommandTMatchWindowAtTop = 1
-map <Leader>t :CommandT<CR>
-map <leader>r :CommandTFlush<CR>
 set wildignore+=vendor/rails/*
 
-" ---------------------------------------------------------------------------
-"  NERDTree 
-" ---------------------------------------------------------------------------
-:noremap <Leader>n :NERDTreeToggle<CR>
-let NERDTreeHijackNetrw=1 " User instead of Netrw when doing an edit /foobar
-let NERDTreeMouseMode=1 " Single click for everything
-
-" ---------------------------------------------------------------------------
-"  NERD Commenter 
-" ---------------------------------------------------------------------------
-let NERDCreateDefaultMappings=0 " I turn this off to make it simple
-:map <Leader>c :call NERDComment(0, "toggle")<CR> 
+" File navigation LIKE A BOSS
+map <leader>gR :call ShowRoutes()<cr>
+map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
+map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
+map <leader>gs :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
+map <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
+map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
+map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
+map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
+map <leader>gg :topleft 100 :split Gemfile<cr>
+map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
+map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
