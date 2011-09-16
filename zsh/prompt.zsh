@@ -109,12 +109,18 @@ directory_name(){
 
 #export PROMPT=$'\n$(rvm_prompt) in $(directory_name) $(project_name_color)$(git_dirty)$(need_push) › '
 # export PROMPT=$'$(directory_name) $(grb_git_prompt)>'
-
-export PROMPT=$'$(directory_name) $(rod_git_prompt)$(need_push)› '
-
+export PROMPT=$'\n$(directory_name) $(rod_git_prompt)$(need_push)\n› '
 set_prompt () {
-  export RPROMPT="%{$fg_bold[grey]%}$(todo)%{$reset_color%}"
+  export RPROMPT="%{$fg[yellow]%}$(todo)%{$reset_color%}"
 }
+
+# export PROMPT=$'\n$(rvm_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
+# set_prompt () {
+#   export RPROMPT="%{$fg[green]%}$(todo)%{$reset_color%}"
+# }
+
+
+
 
 precmd() {
   title "zsh" "%m" "%55<...<%~"
