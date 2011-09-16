@@ -46,7 +46,6 @@ rod_git_prompt() {
             local COLOR=$fg[green]
         fi
         local SINCE_LAST_COMMIT="${COLOR}$(minutes_since_last_commit)m$reset_color"
-        # The __git_ps1 function inserts the current git branch where %s is
         local GIT_PROMPT="($fg[green]`git_dirty`$reset_color|${SINCE_LAST_COMMIT})"
         echo ${GIT_PROMPT}
     fi
@@ -108,19 +107,10 @@ directory_name(){
 }
 
 #export PROMPT=$'\n$(rvm_prompt) in $(directory_name) $(project_name_color)$(git_dirty)$(need_push) › '
-# export PROMPT=$'$(directory_name) $(grb_git_prompt)>'
 export PROMPT=$'\n$(directory_name) $(rod_git_prompt)$(need_push)\n› '
 set_prompt () {
   export RPROMPT="%{$fg[yellow]%}$(todo)%{$reset_color%}"
 }
-
-# export PROMPT=$'\n$(rvm_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
-# set_prompt () {
-#   export RPROMPT="%{$fg[green]%}$(todo)%{$reset_color%}"
-# }
-
-
-
 
 precmd() {
   title "zsh" "%m" "%55<...<%~"
