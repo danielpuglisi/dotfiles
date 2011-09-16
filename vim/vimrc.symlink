@@ -98,6 +98,12 @@ inoremap <s-tab> <c-n>
 " Copy stuf into the OS X Clipboard
 map <leader>y "*y<CR>
 
+" Map ,e and ,v to open files in the same directory as the current file
+cnoremap %% <C-R>=expand('%:h').'/'<cr> 
+map <leader>e :edit %%
+map <leader>V :view %%
+
+
 " ---------------------------------------------------------------------------
 " LEADER SHORTCUTS FOR RAILS
 " ---------------------------------------------------------------------------
