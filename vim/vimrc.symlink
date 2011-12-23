@@ -1,5 +1,4 @@
 " This is Rodrigo Haenggi's .vimrc file
-
 " Use pathogen for bundle management -
 " http://www.vim.org/scripts/script.php?script_id=2332
 call pathogen#infect()
@@ -215,7 +214,7 @@ let g:CommandTMatchWindowAtTop = 1
 set wildignore+=vendor/rails/*
 
 " File navigation LIKE A BOSS
-map <leader>gR :call ShowRoutes()<cr>
+" map <leader>gR :call ShowRoutes()<cr>
 map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
 map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
 map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
@@ -225,6 +224,12 @@ map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
 map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
 map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
 map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
+map <leader>gr :CommandTFlush<cr>\|:CommandT spec<cr>
 map <leader>gg :topleft 100 :split Gemfile<cr>
 map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
 map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
+
+" ---------------------------------------------------------------------------
+"  Velocity
+" ---------------------------------------------------------------------------
+au BufNewFile,BufRead *.vm set filetype=velocity
