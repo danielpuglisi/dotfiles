@@ -5,6 +5,10 @@ call pathogen#infect()
 call pathogen#helptags()
 call pathogen#runtime_append_all_bundles()
 
+
+
+" Set encoding to UTF-8 for all files
+set encoding=utf-8
 " Use Vim settings, rather then Vi settings (much better!).
 " This must be first, because it changes other options as a side effect.
 set nocompatible

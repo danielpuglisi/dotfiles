@@ -3,3 +3,9 @@
 # Stage all unstaged.
 
 git clone --depth 1 git://github.com/rails/rails.git vendor/rails
+
+# Add vendor rails to git directory
+
+echo "" >> .gitignore
+echo "# Ignore vendored rails" >> .gitignore
+echo "vendor/rails" >> .gitignore
