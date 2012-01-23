@@ -1,4 +1,5 @@
-# holman does dotfiles
+# ~~[holman](https://github.com/holman/dotfiles)~~ haenggi ~~does~~ steals dotfiles
+
 
 ## dotfiles
 
@@ -6,19 +7,12 @@ Your dotfiles are how you personalize your system. These are mine. The very
 prejudiced mix: OS X, zsh, Ruby, Rails, git, homebrew, rvm, vim. If you
 match up along most of those lines, you may dig my dotfiles.
 
-I was a little tired of having long alias files and everything strewn about
-(which is extremely common on other dotfiles projects, too). That led to this
-project being much more topic-centric. I realized I could split a lot of things
-up into the main areas I used (Ruby, git, system libraries, and so on), so I
-structured the project accordingly.
-
-If you're interested in the philosophy behind why projects like these are
-awesome, you might want to [read my post on the
+If you're interested in the philosophy behind why projects like these are awesome, you might want to [read my post on the
 subject](http://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/).
 
 ## install
 
-- `git clone git://github.com/holman/dotfiles ~/.dotfiles`
+- `git clone git://github.com/rodrigohaenggi/dotfiles ~/.dotfiles`
 - `cd ~/.dotfiles`
 - `rake install`
 
@@ -69,7 +63,7 @@ bubble bath.
 - If you install the excellent [rvm](http://rvm.beginrescueend.com) to manage
   multiple rubies, your current branch will show up in the prompt. Bonus.
 
-## VIM notes (by rodrigo)
+## VIM notes
  Using Tim Popes [pathogen](https://github.com/tpope/vim-pathogen) plugin for plugin managmenet.
 
 ### Installing plugins 
@@ -82,9 +76,4 @@ Just edit `update_bundles.rb` to your liking.
 
 ## thanks
 
-I forked [Ryan Bates](http://github.com/ryanb)' excellent
-[dotfiles](http://github.com/ryanb/dotfiles) for a couple years before the
-weight of my changes and tweaks inspired me to finally roll my own. But Ryan's
-dotfiles were an easy way to get into bash customization, and then to jump ship
-to zsh a bit later. A decent amount of the code in these dotfiles stem or are
-inspired from Ryan's original project.
+to [holman](https://github.com/holman/dotfiles) for the bacon!
