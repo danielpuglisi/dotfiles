@@ -28,4 +28,4 @@ alias reload!='. ~/.zshrc'
 
 # Current Projects
 alias pomcd="cd /Volumes/Development/programmonline/progon-web/src/main/webapp" 
-alias porcd="cd /Volumes/Development/programmonline-rails"
+alias porcd="cd /Volumes/Development/programmonline/progon-rails"
