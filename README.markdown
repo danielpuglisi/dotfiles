@@ -7,7 +7,7 @@ Your dotfiles are how you personalize your system. These are mine. The very
 prejudiced mix: OS X, zsh, Ruby, Rails, git, homebrew, rvm, vim. If you
 match up along most of those lines, you may dig my dotfiles.
 
-If you're interested in the philosophy behind why projects like these are awesome, you might want to [read my post on the
+If you're interested in the philosophy behind why projects like these are awesome, you might want to [read holmans post on the
 subject](http://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/).
 
 ## install
@@ -51,17 +51,6 @@ There's a few special files in the hierarchy.
   symlinked in when you run `rake install`.
 - **topic/\*.completion.sh**: Any files ending in `completion.sh` get loaded
   last so that they get loaded after we set up zsh autocomplete functions.
-
-## add-ons
-
-There are a few things I use to make my life awesome. They're not a required
-dependency, but if you install them they'll make your life a bit more like a
-bubble bath.
-
-- If you want some more colors for things like `ls`, install grc: `brew install
-  grc`.
-- If you install the excellent [rvm](http://rvm.beginrescueend.com) to manage
-  multiple rubies, your current branch will show up in the prompt. Bonus.
 
 ## VIM notes
  Using Tim Popes [pathogen](https://github.com/tpope/vim-pathogen) plugin for plugin managmenet.
