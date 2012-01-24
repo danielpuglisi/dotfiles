@@ -216,6 +216,7 @@ set tags=./tags;
 " ---------------------------------------------------------------------------
 let g:CommandTMatchWindowAtTop = 1
 set wildignore+=vendor/rails/*
+set wildignore+=tmp/*
 
 " File navigation LIKE A BOSS
 " map <leader>gR :call ShowRoutes()<cr>
