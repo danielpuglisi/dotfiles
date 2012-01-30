@@ -1,4 +1,4 @@
-# ~~[holman](https://github.com/holman/dotfiles)~~ haenggi ~~does~~ steals dotfiles
+# ~~[holman](https://github.com/holman/dotfiles)~~ therod ~~does~~ steals dotfiles
 
 
 ## dotfiles
@@ -12,7 +12,7 @@ subject](http://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/).
 
 ## install
 
-- `git clone git://github.com/rodrigohaenggi/dotfiles ~/.dotfiles`
+- `git clone git://github.com/therod/dotfiles ~/.dotfiles`
 - `cd ~/.dotfiles`
 - `rake install`
 
