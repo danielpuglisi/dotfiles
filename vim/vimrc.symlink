@@ -45,16 +45,28 @@ filetype plugin indent on
 " Only use one snippet directory
 let g:snippets_dir='~/.vim/snippets'
 
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+if &t_Co > 2 || has("gui_running")
+  syntax on
+  set hlsearch
+  " set guifont=Monaco:h14
+  set guifont=Inconsolata-dz:h14
+endif
+
 " ----------------------------------------------------------------------------
 "  Text Formatting
 " ----------------------------------------------------------------------------
 set autoindent             " automatic indent new lines
+set smartindent            " be smart about it 
+inoremap # X<BS>#
 set nowrap                 " do not wrap lines
 set softtabstop=2          " yep, two
 set shiftwidth=2           " ..
 set tabstop=4
 set expandtab              " expand tabs to spaces
 set nosmarttab             " fuck tabs
+set formatoptions+=n       " support for numbered/bullet lists
 set virtualedit=block      " allow virtual edit in visual block ..
 syntax on                  " syntax highlighting
 
@@ -234,4 +246,60 @@ map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 " ---------------------------------------------------------------------------
 "  Velocity
 " ---------------------------------------------------------------------------
-au BufNewFile,BufRead *.vm set filetype=velocity
+au BufNewFile,BufRead *.vm set ft=html syntax=velocity 
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Running tests
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! RunTests(filename)
+    " Write the file and run tests for the given filename
+    :w
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    if match(a:filename, '\.feature$') != -1
+        exec ":!bundle exec cucumber " . a:filename
+    else
+        if filereadable("script/test")
+            exec ":!script/test " . a:filename
+        elseif filereadable("Gemfile")
+            exec ":!bundle exec rspec --color " . a:filename
+        else
+            exec ":!rspec --color " . a:filename
+        end
+    end
+endfunction
+
+function! SetTestFile()
+    " Set the spec file that tests will be run for.
+    let t:grb_test_file=@%
+endfunction
+
+function! RunTestFile(...)
+    if a:0
+        let command_suffix = a:1
+    else
+        let command_suffix = ""
+    endif
+
+    " Run the tests for the previously-marked file.
+    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
+    if in_test_file
+        call SetTestFile()
+    elseif !exists("t:grb_test_file")
+        return
+    end
+    call RunTests(t:grb_test_file . command_suffix)
+endfunction
+
+function! RunNearestTest()
+    let spec_line_number = line('.')
+    call RunTestFile(":" . spec_line_number)
+endfunction
+
+map <leader>te :call RunTestFile()<cr>
+" map <leader>T :call RunNearestTest()<cr>
+" map <leader>a :call RunTests('')<cr>
+" map <leader>c :w\|:!cucumber<cr>
+" map <leader>w :w\|:!cucumber --profile wip<cr>
+
+
