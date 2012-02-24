@@ -3,7 +3,7 @@ alias ealias='vim $ZSH/zsh/aliases.zsh'
 alias hubot='ssh hubot@192.168.51.200'
 
 # edit dotfiles
-alias dotvim='mvim $ZSH'
+alias edot='mvim $ZSH'
 alias dotcd='cd $ZSH'
 
 # edit vim stuff
@@ -25,8 +25,8 @@ alias l="ls -lah"
 alias ctags="ctags -R --exclude=.git --exclude=log *"
 
 # Current Projects
-alias pomcd="cd /Volumes/Development/programmonline/progon-web/src/main/webapp" 
-alias porcd="cd /Volumes/Development/programmonline/progon-rails"
+alias pomcd="cd ~/Development/programmonline/progon-web/src/main/webapp" 
+alias porcd="cd ~/Development/programmonline/progon-rails"
 
 alias reload!='. ~/.zshrc'
 
