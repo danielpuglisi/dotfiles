@@ -11,7 +11,7 @@ alias evimrc='vim $ZSH/vim/vimrc.symlink'
 alias egvimrc='vim $ZSH/vim/gvimrc.symlink'
 
 # editors
-alias m='mvim'
+alias m='vim'
 alias vi='vim'
 
 #ack madness!
