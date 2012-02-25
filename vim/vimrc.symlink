@@ -240,9 +240,8 @@ set grepprg=ack            " Fuck grep
 " ---------------------------------------------------------------------------
 map <leader>ta :exec("tag ".expand("<cword>"))<CR>
 map <leader>ts :vsp <CR>:exec("tag " .expand("<cword>"))<CR>
-set tags+=./tags;   " Source The tags file of the current directory
-set tags+=~/tags/rails/rails.tags
-set tags+=~/tags/omniauth/omniauth.tags
+set tags+=./tags;
+set tags+=./gems.tags;
 
 
 " ---------------------------------------------------------------------------
