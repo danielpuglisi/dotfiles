@@ -5,8 +5,6 @@ call pathogen#infect()
 call pathogen#helptags()
 call pathogen#runtime_append_all_bundles()
 
-
-
 " Set encoding to UTF-8 for all files
 set encoding=utf-8
 " Use Vim settings, rather then Vi settings (much better!).
@@ -21,7 +19,7 @@ set hidden
 set history=1000
 
 " Colorscheme Settings
-:set t_Co=256 " 256 colors
+set t_Co=256 " 256 colors
 set background=dark
 color solarized
 
@@ -30,10 +28,10 @@ set scrolloff=3
 set cmdheight=2
 set switchbuf=useopen
 
-" Always show tab bar
-set showtabline=2
+" Only show the tab bar if there are open tabs
+ set showtabline=1
 
-" Set the colorscheme (Terminal)
+" Set the colorscheme
 colorscheme solarized
 
 " Store temporary files in a central spot
@@ -42,19 +40,31 @@ set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
 filetype plugin indent on
 
-" Only use one snippet directory
-let g:snippets_dir='~/.vim/snippets'
+" Only use one snippet directory => Fuck snippets
+" let g:snippets_dir='~/.vim/snippets'
+
+" Switch syntax highlighting on, when the terminal has colors
+" Also switch on highlighting the last used search pattern.
+" if &t_Co > 2 || has("gui_running")
+"   syntax on
+"   set hlsearch
+"   " set guifont=Monaco:h14
+"   set guifont=Inconsolata-dz:h14
+" endif
 
 " ----------------------------------------------------------------------------
 "  Text Formatting
 " ----------------------------------------------------------------------------
 set autoindent             " automatic indent new lines
+set smartindent            " be smart about it
+" inoremap # X<BS>#          " I have no clue what this does
 set nowrap                 " do not wrap lines
 set softtabstop=2          " yep, two
 set shiftwidth=2           " ..
-set tabstop=4
+set tabstop=2
 set expandtab              " expand tabs to spaces
 set nosmarttab             " fuck tabs
+set formatoptions+=n       " support for numbered/bullet lists
 set virtualedit=block      " allow virtual edit in visual block ..
 syntax on                  " syntax highlighting
 
@@ -112,7 +122,7 @@ map <Leader>c :Rcontroller
 map <Leader>v :Rview
 map <Leader>u :Runittest
 map <Leader>f :Rfunctionaltest
-map <Leader>tm :RTmodel
+map <Leader>ts :RTmodel
 map <Leader>tc :RTcontroller
 map <Leader>tv :RTview
 map <Leader>tu :RTunittest
@@ -124,10 +134,34 @@ map <Leader>su :RSunittest
 map <Leader>sf :RSfunctionaltest
 
 " ---------------------------------------------------------------------------
+"  COMMANDT
+" ---------------------------------------------------------------------------
+let g:CommandTMatchWindowAtTop = 1
+set wildignore+=vendor/rails/*
+set wildignore+=tmp/*
+
+" File navigation LIKE A BOSS
+map <leader>gR :call ShowRoutes()<cr>
+map <leader>sp :CommandTFlush<cr>\|:CommandT spec<cr>
+map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
+map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
+map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
+map <leader>gs :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
+map <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
+map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
+map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
+map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
+map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
+map <leader>gr :CommandTFlush<cr>\|:CommandT spec<cr>
+map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
+map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
+map <leader>gg :topleft 100 :split Gemfile<cr>
+
+" ---------------------------------------------------------------------------
 " TODO HAX
 " ---------------------------------------------------------------------------
 map <leader>T :Ack --all --ignore-dir=vendor/rails TODO *<CR>
-map <leader>F :Ack --all --ignore-dir=vendor/rails FIXME *<CR>
+" map <leader>F :Ack --all --ignore-dir=vendor/rails FIXME *<CR>
 
 " ----------------------------------------------------------------------------
 "  UI
@@ -206,32 +240,67 @@ set grepprg=ack            " Fuck grep
 " ---------------------------------------------------------------------------
 map <leader>ta :exec("tag ".expand("<cword>"))<CR>
 map <leader>ts :vsp <CR>:exec("tag " .expand("<cword>"))<CR>
-set tags=./tags;
+set tags+=./tags;
+set tags+=./gems.tags;
 
-" ---------------------------------------------------------------------------
-"  COMMANDT
-" ---------------------------------------------------------------------------
-let g:CommandTMatchWindowAtTop = 1
-set wildignore+=vendor/rails/*
-set wildignore+=tmp/*
-
-" File navigation LIKE A BOSS
-" map <leader>gR :call ShowRoutes()<cr>
-map <leader>gv :CommandTFlush<cr>\|:CommandT app/views<cr>
-map <leader>gc :CommandTFlush<cr>\|:CommandT app/controllers<cr>
-map <leader>gm :CommandTFlush<cr>\|:CommandT app/models<cr>
-map <leader>gs :CommandTFlush<cr>\|:CommandT app/assets/stylesheets<cr>
-map <leader>ga :CommandTFlush<cr>\|:CommandT app/assets<cr>
-map <leader>gh :CommandTFlush<cr>\|:CommandT app/helpers<cr>
-map <leader>gl :CommandTFlush<cr>\|:CommandT lib<cr>
-map <leader>gp :CommandTFlush<cr>\|:CommandT public<cr>
-map <leader>gf :CommandTFlush<cr>\|:CommandT features<cr>
-map <leader>gr :CommandTFlush<cr>\|:CommandT spec<cr>
-map <leader>gg :topleft 100 :split Gemfile<cr>
-map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
-map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
 
 " ---------------------------------------------------------------------------
 "  Velocity
 " ---------------------------------------------------------------------------
-au BufNewFile,BufRead *.vm set filetype=velocity
+autocmd BufRead,BufNewFile *.vm set syntax=vm filetype=vm 
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Running tests
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! RunTests(filename)
+    " Write the file and run tests for the given filename
+    :w
+    :silent !echo;echo;echo;echo;echo;echo;echo;echo;echo;echo
+    if match(a:filename, '\.feature$') != -1
+        exec ":!bundle exec cucumber " . a:filename
+    else
+        if filereadable("script/test")
+            exec ":!script/test " . a:filename
+        elseif filereadable("Gemfile")
+            exec ":!bundle exec rspec --color " . a:filename
+        else
+            exec ":!rspec --color " . a:filename
+        end
+    end
+endfunction
+
+function! SetTestFile()
+    " Set the spec file that tests will be run for.
+    let t:grb_test_file=@%
+endfunction
+
+function! RunTestFile(...)
+    if a:0
+        let command_suffix = a:1
+    else
+        let command_suffix = ""
+    endif
+
+    " Run the tests for the previously-marked file.
+    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
+    if in_test_file
+        call SetTestFile()
+    elseif !exists("t:grb_test_file")
+        return
+    end
+    call RunTests(t:grb_test_file . command_suffix)
+endfunction
+
+function! RunNearestTest()
+    let spec_line_number = line('.')
+    call RunTestFile(":" . spec_line_number)
+endfunction
+
+map <leader>te :call RunTestFile()<cr>
+" map <leader>T :call RunNearestTest()<cr>
+" map <leader>a :call RunTests('')<cr>
+" map <leader>c :w\|:!cucumber<cr>
+" map <leader>w :w\|:!cucumber --profile wip<cr>
+
+

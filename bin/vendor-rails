@@ -9,3 +9,5 @@ git clone --depth 1 git://github.com/rails/rails.git vendor/rails
 echo "" >> .gitignore
 echo "# Ignore vendored rails" >> .gitignore
 echo "vendor/rails" >> .gitignore
+echo "# Ignore ctags file" >> .gitignore
+echo "tags" >> .gitignore
