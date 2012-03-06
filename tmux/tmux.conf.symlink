@@ -7,7 +7,7 @@ set-window-option -g utf8 on # utf8 support
 set-window-option -g mode-mouse off # disable mouse
 
 # Fix pb{copy,paste}
-# set-option -g default-command "$USERNAME -l $SHELL"
+set-option -g default-command "reattach-to-user-namespace -l zsh"
 
 # Vim configuraiton
 setw -g mode-keys vi
