@@ -25,7 +25,7 @@ color solarized
 
 " Keep more context when scrolling off the end of a buffer
 set scrolloff=3
-set cmdheight=2
+set cmdheight=1
 set switchbuf=useopen
 
 " Only show the tab bar if there are open tabs
