@@ -11,20 +11,39 @@
         name = Zach Holman
         email = your@example.com
 [alias]
+        a = config --get-regexp alias
+        b = branch
+        l = log --graph --pretty=format':%C(red)%h% %C(yellow) %an:%Cblue%d%Creset %s %C(green) (%ar)%Creset'
+        lol = log --pretty=oneline --abbrev-commit --graph --decorate
+        r = !git l -20
+        s = status --short
+        ci = commit -m
+        pom = push origin master
+        phm = push heroku-master +HEAD:master
+        phs = push heroku-staging +HEAD:master
+        phd = push heroku-demo +HEAD:master
         co = checkout
-        promote = !$ZSH/bin/git-promote
-        wtf     = !$ZSH/bin/git-wtf
-        rank-contributers = !$ZSH/bin/git-rank-contributers
+        aa = add --all
+        h = !git l -1
+        la = !git l --all
+        ds = diff --stat=160,120
+        ra = !git r --all
+        dh1 = diff HEAD~1
+        unstage = reset HEAD
         count   = !git shortlog -sn
+        current-branch = !git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||'
+        wtf     = !$ZSH/bin/git-wtf
+        rank = !$ZSH/bin/git-rank-contributers
 [color]
         diff = auto
+        ui = auto
         status = auto
         branch = auto
 [core]
         excludesfile = ~/.gitignore
-        editor = mate -w
+        editor = vim
 [apply]
-        whitespace = nowarn
+        whitespace = warn
 [github]
         user = holman
 [mergetool]
