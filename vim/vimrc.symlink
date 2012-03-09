@@ -25,7 +25,7 @@ color solarized
 
 " Keep more context when scrolling off the end of a buffer
 set scrolloff=3
-set cmdheight=2
+set cmdheight=1
 set switchbuf=useopen
 
 " Only show the tab bar if there are open tabs
@@ -39,18 +39,6 @@ set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
 filetype plugin indent on
-
-" Only use one snippet directory => Fuck snippets
-" let g:snippets_dir='~/.vim/snippets'
-
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-" if &t_Co > 2 || has("gui_running")
-"   syntax on
-"   set hlsearch
-"   " set guifont=Monaco:h14
-"   set guifont=Inconsolata-dz:h14
-" endif
 
 " ----------------------------------------------------------------------------
 "  Text Formatting
@@ -229,6 +217,7 @@ autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
 autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 autocmd FileType c set omnifunc=ccomplete#Complete
 autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
+autocmd BufRead,BufNewFile *.vm set filetype=velocity 
 
 " ---------------------------------------------------------------------------
 " ALIASES
@@ -242,13 +231,6 @@ map <leader>ta :exec("tag ".expand("<cword>"))<CR>
 map <leader>ts :vsp <CR>:exec("tag " .expand("<cword>"))<CR>
 set tags+=./tags;
 set tags+=./gems.tags;
-
-
-" ---------------------------------------------------------------------------
-"  Velocity
-" ---------------------------------------------------------------------------
-autocmd BufRead,BufNewFile *.vm set syntax=vm filetype=vm 
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Running tests
@@ -298,9 +280,3 @@ function! RunNearestTest()
 endfunction
 
 map <leader>te :call RunTestFile()<cr>
-" map <leader>T :call RunNearestTest()<cr>
-" map <leader>a :call RunTests('')<cr>
-" map <leader>c :w\|:!cucumber<cr>
-" map <leader>w :w\|:!cucumber --profile wip<cr>
-
-

@@ -16,7 +16,7 @@ directories=(
   ".ssh"
   ".boom"
   ".localrc"
-  ".dotfiles/git"
+  ".dotfiles"
 )
 
 hdiutil attach -noverify $sparsebundle

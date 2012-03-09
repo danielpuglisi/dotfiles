@@ -21,12 +21,15 @@ alias jack="ack --js"
 alias pack="ack --python"
 alias l="ls -lah"
 
+#grep zsh history
+alias hi="history 1 | grep $*"
+
 # default ctags alias
 alias ctags="ctags -R --exclude=.git --exclude=log *"
 
 # Current Projects
-alias pomcd="cd ~/Development/programmonline/progon-web/src/main/webapp" 
-alias porcd="cd ~/Development/programmonline/progon-rails"
+alias pomcd="cd ~/Development/progon/progon-web/src/main/webapp" 
+alias porcd="cd ~/Development/progon/progon-rails"
 
 alias reload!='. ~/.zshrc'
 

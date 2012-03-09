@@ -1,5 +1,4 @@
 .DS_Store
 vim/vim.symlink/.netrwhist
 git/gitconfig.symlink
-maven/m2.symlink/repository/*
 vim/vim.symlink/bundle/*
