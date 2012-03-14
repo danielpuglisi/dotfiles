@@ -61,9 +61,6 @@ syntax on                  " syntax highlighting
 " ----------------------------------------------------------------------------
 let mapleader = ","
 
-" exit to normal mode with 'jj'
-inoremap jj <ESC>
-
 " write file
 map WW :w!<CR>
 
