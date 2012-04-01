@@ -55,6 +55,8 @@ set nosmarttab             " fuck tabs
 set formatoptions+=n       " support for numbered/bullet lists
 set virtualedit=block      " allow virtual edit in visual block ..
 syntax on                  " syntax highlighting
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
 
 " ----------------------------------------------------------------------------
 "  Remapping
