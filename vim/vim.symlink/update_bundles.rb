@@ -13,7 +13,7 @@ git_bundles = [
     "git://github.com/vim-scripts/taglist.vim.git",               # Source code browser
     "git://github.com/mileszs/ack.vim.git",                       # Vim plugin for the Perl module / CLI script "ack"
     "git://github.com/tpope/vim-markdown.git",                    # Vim Markdown runtime files
-    "git://github.com/lepture/vim-velocity.git",                  # Velocity extensions
+    "git://github.com/lepture/vim-velocity.git"                   # Velocity extensions
 
     # "git://github.com/msanders/snipmate.vim.git",               # TextMate Snippets for Vim
     # "git://github.com/tpope/vim-surround.git",                  # quoting/parenthesizing made simple
