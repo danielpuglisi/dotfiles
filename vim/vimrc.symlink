@@ -20,7 +20,7 @@ set history=1000
 
 " Colorscheme Settings
 set t_Co=256 " 256 colors
-set background=dark
+set background=light
 color solarized
 
 " Keep more context when scrolling off the end of a buffer
