@@ -1,6 +1,5 @@
 # edit this file
 alias ealias='vim $ZSH/zsh/aliases.zsh'
-alias hubot='ssh hubot@192.168.51.200'
 
 # edit dotfiles
 alias edot='vim $ZSH'
