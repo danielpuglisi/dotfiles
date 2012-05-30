@@ -7,11 +7,13 @@ alias dotcd='cd $ZSH'
 
 # edit vim stuff
 alias evimrc='vim $ZSH/vim/vimrc.symlink'
-alias egvimrc='vim $ZSH/vim/gvimrc.symlink'
 
 # editors
 alias m='vim'
 alias vi='vim'
+
+# Producitivity
+alias ta='task'
 
 #ack madness!
 alias aack="ack --all"
@@ -25,10 +27,6 @@ alias hi="history 1 | grep $*"
 
 # default ctags alias
 alias ctags="ctags -R --exclude=.git --exclude=log *"
-
-# Current Projects
-alias pomcd="cd ~/Development/progon/progon-web/src/main/webapp" 
-alias porcd="cd ~/Development/progon/progon-rails"
 
 alias reload!='. ~/.zshrc'
 

@@ -1,16 +1,4 @@
-# ~~[holman](https://github.com/holman/dotfiles)~~ therod ~~does~~ steals dotfiles
-
-
-## dotfiles
-
-Your dotfiles are how you personalize your system. These are mine. The very
-prejudiced mix: OS X, zsh, Ruby, Rails, git, homebrew, rvm, vim. If you
-match up along most of those lines, you may dig my dotfiles.
-
-If you're interested in the philosophy behind why projects like these are awesome, you might want to [read holmans post on the
-subject](http://zachholman.com/2010/08/dotfiles-are-meant-to-be-forked/).
-
-## install
+## Installation
 
 - `git clone git://github.com/therod/dotfiles ~/.dotfiles`
 - `cd ~/.dotfiles`
@@ -23,19 +11,12 @@ though.
 The main file you'll want to change right off the bat is `zsh/zshrc.symlink`,
 which sets up a few paths that'll be different on your particular machine.
 
-## topical
-
+## Topical
 Everything's built around topic areas. If you're adding a new area to your
 forked dotfiles — say, "Java" — you can simply add a `java` directory and put
 files in there. Anything with an extension of `.zsh` will get automatically
 included into your shell. Anything with an extension of `.symlink` will get
 symlinked without extension into `$HOME` when you run `rake install`.
-
-## what's inside
-
-A lot of stuff. Seriously, a lot of stuff. Check them out in the file browser
-above and see what components may mesh up with you. Fork it, remove what you
-don't use, and build on what you do use.
 
 ## components
 
@@ -52,17 +33,14 @@ There's a few special files in the hierarchy.
 - **topic/\*.completion.sh**: Any files ending in `completion.sh` get loaded
   last so that they get loaded after we set up zsh autocomplete functions.
 
-## VIM notes
- Using Tim Popes [pathogen](https://github.com/tpope/vim-pathogen) plugin for plugin managmenet.
+## Notes on Email
 
-### Installing plugins 
-run `~/.dotfiles/vim/vim.symlink/update_bundles.rb`
-
-This will install all the VIM bundles that are defined inside the file.
+I have moved my complete email to [mutt](http://www.mutt.org/) and use it in combination with [offlineimap](https://github.com/nicolas33/offlineimap), [msmtp](http://msmtp.sourceforge.net/) and [mu](http://code.google.com/p/mu0/).
+For detailed configuration instructions read the README.md inside the `mail` folder.
 
 ### Add additional plugins:
 Just edit `update_bundles.rb` to your liking.
 
-## thanks
+## Special Thanks
 
-to [holman](https://github.com/holman/dotfiles) for the bacon!
+to [holman](https://github.com/holman/dotfiles) for the raw bacon!

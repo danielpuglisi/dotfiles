@@ -8,8 +8,8 @@
 # install this to the correct location by running the project's main `rake`
 # task.
 [user]
-        name = Zach Holman
-        email = your@example.com
+        name = "Daniel Puglisi"
+        email = pulleasy@gmail.com
 [alias]
         a = config --get-regexp alias
         b = branch
@@ -18,10 +18,6 @@
         r = !git l -20
         s = status --short
         ci = commit -m
-        pom = push origin master
-        phm = push heroku-master +HEAD:master
-        phs = push heroku-staging +HEAD:master
-        phd = push heroku-demo +HEAD:master
         co = checkout
         aa = add --all
         h = !git l -1
@@ -45,6 +41,16 @@
 [apply]
         whitespace = warn
 [github]
-        user = holman
+        user = YOUR_GITHUB_USERNAME
+        token = YOUR_GITHUB_TOKEN
+[merge]
+        tool = vimdiff
 [mergetool]
         keepBackup = false
+[help]
+        autocorrect = 1
+[status]
+        submodule = 1
+[push]
+        # Only push branches that have been set up to track a remote branch.
+        default = current
