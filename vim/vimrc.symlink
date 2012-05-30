@@ -1,4 +1,4 @@
-" This is Rodrigo Haenggi's .vimrc file
+" This is Daniel Puglisi's .vimrc file
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PATHOGEN
@@ -275,3 +275,11 @@ function! RenameFile()
   endif
 endfunction
 map <leader>n :call RenameFile()<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" OS X Specific
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Open the file using Marked.app => Good for previewing MARKDOWN files
+map <leader>p :!open -a /Applications/Marked.app %<cr>
+
+

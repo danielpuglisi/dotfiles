@@ -17,6 +17,8 @@ directories=(
   ".boom"
   ".localrc"
   ".dotfiles"
+  ".heroku"
+  ".zsh_history"
 )
 
 hdiutil attach -noverify $sparsebundle

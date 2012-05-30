@@ -1,3 +1,6 @@
+# Fix pb{copy,paste} requires: reattach-to-usernamespace brew
+set-option -g default-command "reattach-to-user-namespace -l zsh"
+
 # Don't torture me with your C-b
 unbind C-b
 set-option -g prefix C-f
@@ -15,8 +18,6 @@ set -g visual-activity on
 set -g base-index 1
 setw -g pane-base-index 1
 
-# Fix pb{copy,paste} requires: reattach-to-usernamespace brew
-set-option -g default-command "reattach-to-user-namespace -l zsh"
 
 # Vim configuraiton
 setw -g mode-keys vi
