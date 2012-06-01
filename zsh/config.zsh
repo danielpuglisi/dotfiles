@@ -53,11 +53,3 @@ bindkey "^[[B" history-search-forward
 bindkey -v
 bindkey '\e[3~' delete-char
 bindkey '^R' history-incremental-search-backward
-
-# search history on up and down keys
-up-line-or-search-prefix () {
-  local CURSOR_before_search=$CURSOR
-  zle up-line-or-search "$LBUFFER"
-  CURSOR=$CURSOR_before_search
-}
-zle -N up-line-or-search-prefix
