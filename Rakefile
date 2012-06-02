@@ -92,7 +92,8 @@ task :dependencies do
 
     # Various
     "transmission",                         # Bittorrent Client
-    "earthquake"                            # Twitter Client
+    "earthquake",                           # Twitter Client
+    "grc"                                   # colorizes nifty unix tools all over the place
   ]
 
   brew_recipes.each do |recipe|
