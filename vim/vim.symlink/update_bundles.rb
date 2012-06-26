@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 git_bundles = [ 
-    "git://github.com/wincent/Command-T.git",                     # Fast file opener
     "git://github.com/tpope/vim-markdown.git",                    # Markdown Support
     "git://github.com/altercation/vim-colors-solarized.git",      # Solarized colorscheme for VIM
     "git://github.com/tpope/vim-commentary.git",                  # New commenting plugin by tpope
@@ -14,7 +13,8 @@ git_bundles = [
     "git://github.com/lepture/vim-velocity.git",                  # Velocity extensions
     "git://github.com/skalnik/vim-vroom.git",                     # Run tests from within vim
     "git://github.com/sunaku/vim-ruby-minitest.git",              # Minitest vor VIM
-    "git://github.com/kchmck/vim-coffee-script.git"               # Coffeescript support for vim
+    "git://github.com/kchmck/vim-coffee-script.git",              # Coffeescript support for vim
+    "git://github.com/kien/ctrlp.vim.git"                         # Full path file, buffer, mru,tag ... finder for Vim
 ]
 
 require 'fileutils'
