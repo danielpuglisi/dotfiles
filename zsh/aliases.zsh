@@ -12,15 +12,6 @@ alias evimrc='vim $ZSH/vim/vimrc.symlink'
 alias m='vim'
 alias vi='vim'
 
-# Lists
-alias books='vim ~/DropBox/Lists/Personal/books.md'
-alias learning='vim ~/DropBox/Lists/Personal/learning.md'
-alias future='vim ~/DropBox/Lists/Personal/future.md'
-alias movies='vim ~/DropBox/Lists/Personal/movies.md'
-alias anime='vim ~/DropBox/Lists/Personal/anime.md'
-alias habits='vim ~/DropBox/Lists/Personal/habits.md'
-alias projects='vim ~/DropBox/Lists/Personal/projects.md'
-
 #ack madness!
 alias aack="ack --all"
 alias rack="ack --ruby --follow"
