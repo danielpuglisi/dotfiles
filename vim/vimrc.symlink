@@ -72,6 +72,7 @@ augroup vimrcEx
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
   autocmd FileType ruby match OverLength /\%81v.\+/
+  autocmd FileType markdown match OverLength /\%81v.\+/
 
   autocmd! BufRead,BufNewFile *.sass setfiletype sass
 
@@ -93,7 +94,7 @@ augroup END
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256
-set background=light
+set background=dark
 colorscheme solarized
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 
