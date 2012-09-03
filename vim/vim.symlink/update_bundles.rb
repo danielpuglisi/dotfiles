@@ -14,7 +14,8 @@ git_bundles = [
     "git://github.com/skalnik/vim-vroom.git",                     # Run tests from within vim
     "git://github.com/sunaku/vim-ruby-minitest.git",              # Minitest vor VIM
     "git://github.com/kchmck/vim-coffee-script.git",              # Coffeescript support for vim
-    "git://github.com/kien/ctrlp.vim.git"                         # Full path file, buffer, mru,tag ... finder for Vim
+    "git://github.com/kien/ctrlp.vim.git",                        # Full path file, buffer, mru,tag ... finder for Vim
+    "git://github.com/kakkyz81/evervim.git"                       # Edit Evernote within vim
 ]
 
 require 'fileutils'
