@@ -43,7 +43,7 @@ set shortmess=filtIoOA
 set showmatch
 set showtabline=1
 set smartindent
-set softtabstop=4
+set softtabstop=2
 set switchbuf=useopen
 set tabstop=4
 set virtualedit=block
@@ -97,6 +97,11 @@ set t_Co=256
 set background=dark
 colorscheme solarized
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TABS N SHIT
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <C-t>     :tabnew<CR>
 
 " ----------------------------------------------------------------------------
 " REMAPPING
@@ -197,6 +202,12 @@ function! StripWhitespace ()
     exec ':%s/ \+$//gc'
 endfunction
 map ,s :call StripWhitespace ()<CR>
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+au ColorScheme * highlight ExtraWhitespace guibg=red
+au BufEnter * match ExtraWhitespace /\s\+$/
+au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+au InsertLeave * match ExtraWhiteSpace /\s\+$/
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MULTIPURPOSE TAB KEY
