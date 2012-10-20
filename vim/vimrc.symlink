@@ -94,7 +94,7 @@ augroup END
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256
-set background=dark
+set background=light
 colorscheme solarized
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 
@@ -194,6 +194,9 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 " ----------------------------------------------------------------------------
 " clear the search buffer when hitting return
 :nnoremap <CR> :nohlsearch<cr>
+
+" Run the current file in irb
+map <leader>c :!irb -r %<cr>
 
 " ---------------------------------------------------------------------------
 " STRIP ALL TRAILING WHITESPACE
