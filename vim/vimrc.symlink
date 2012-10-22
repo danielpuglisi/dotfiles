@@ -1,5 +1,8 @@
 " This is Rodrigo Haenggi's .vimrc file
 
+" Save yourself a lot of pain by leaving this at the top...
+set nocompatible
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PATHOGEN
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -23,12 +26,11 @@ set encoding=utf-8
 set expandtab
 set formatoptions+=n
 set hidden
-set history=1000
 set hlsearch
 set ignorecase smartcase
 set incsearch
 set laststatus=2
-set nocompatible
+set history=500
 set nolazyredraw
 set noshowcmd
 set nosmarttab
@@ -264,3 +266,4 @@ map <leader>n :call RenameFile()<cr>
 map <leader>p :!open -a /Applications/Marked.app %<cr>
 
 
+"set history=1000
