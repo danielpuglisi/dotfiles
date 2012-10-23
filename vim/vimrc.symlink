@@ -30,7 +30,7 @@ set hlsearch
 set ignorecase smartcase
 set incsearch
 set laststatus=2
-set history=500
+set history=1000
 set nolazyredraw
 set noshowcmd
 set nosmarttab
