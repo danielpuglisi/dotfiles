@@ -39,7 +39,7 @@ set nowrap
 set number
 set report=0
 set scrolloff=3
-set shell=bash
+set shell=zsh
 set shiftwidth=2
 set shortmess=filtIoOA
 set showmatch
@@ -96,7 +96,7 @@ augroup END
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256
-set background=light
+set background=dark
 colorscheme solarized
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 
