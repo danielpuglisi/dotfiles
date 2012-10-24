@@ -1,5 +1,8 @@
 " This is Daniel Puglisi's .vimrc file
 
+" Save yourself a lot of pain by leaving this at the top...
+set nocompatible
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " PATHOGEN
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -23,12 +26,11 @@ set encoding=utf-8
 set expandtab
 set formatoptions+=n
 set hidden
-set history=1000
 set hlsearch
 set ignorecase smartcase
 set incsearch
 set laststatus=2
-set nocompatible
+set history=500
 set nolazyredraw
 set noshowcmd
 set nosmarttab
@@ -37,13 +39,13 @@ set nowrap
 set number
 set report=0
 set scrolloff=3
-set shell=bash
+set shell=zsh
 set shiftwidth=2
 set shortmess=filtIoOA
 set showmatch
 set showtabline=1
 set smartindent
-set softtabstop=4
+set softtabstop=2
 set switchbuf=useopen
 set tabstop=4
 set virtualedit=block
@@ -72,6 +74,7 @@ augroup vimrcEx
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
   autocmd FileType ruby match OverLength /\%81v.\+/
+  autocmd FileType markdown match OverLength /\%81v.\+/
 
   autocmd! BufRead,BufNewFile *.sass setfiletype sass
 
@@ -93,9 +96,14 @@ augroup END
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256
-set background=light
+set background=dark
 colorscheme solarized
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TABS N SHIT
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <C-t>     :tabnew<CR>
 
 " ----------------------------------------------------------------------------
 " REMAPPING
@@ -189,6 +197,9 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 " clear the search buffer when hitting return
 :nnoremap <CR> :nohlsearch<cr>
 
+" Run the current file in irb
+map <leader>c :!irb -r %<cr>
+
 " ---------------------------------------------------------------------------
 " STRIP ALL TRAILING WHITESPACE
 " ---------------------------------------------------------------------------
@@ -196,6 +207,12 @@ function! StripWhitespace ()
     exec ':%s/ \+$//gc'
 endfunction
 map ,s :call StripWhitespace ()<CR>
+
+highlight ExtraWhitespace ctermbg=red guibg=red
+au ColorScheme * highlight ExtraWhitespace guibg=red
+au BufEnter * match ExtraWhitespace /\s\+$/
+au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+au InsertLeave * match ExtraWhiteSpace /\s\+$/
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " MULTIPURPOSE TAB KEY
@@ -249,3 +266,4 @@ map <leader>n :call RenameFile()<cr>
 map <leader>p :!open -a /Applications/Marked.app %<cr>
 
 
+"set history=1000

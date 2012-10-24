@@ -36,7 +36,6 @@ task :install do
 end
 
 task :uninstall do
-
   Dir.glob('**/*.symlink').each do |linkable|
 
     file = linkable.split('/').last.split('.symlink').last
@@ -46,15 +45,17 @@ task :uninstall do
     if File.symlink?(target)
       FileUtils.rm(target)
     end
-    
+
     # Replace any backups made during installation
     if File.exists?("#{ENV["HOME"]}/.#{file}.backup")
-      `mv "$HOME/.#{file}.backup" "$HOME/.#{file}"` 
+      `mv "$HOME/.#{file}.backup" "$HOME/.#{file}"`
     end
 
   end
 end
 
+# TODO: Add Support for MacPorts
+desc "Install all the dependencies for these dotfiles using Homebrew"
 task :dependencies do
   # Check if we have Homebrew installed:
   unless system("which brew 2>&1 > /dev/null")
@@ -64,26 +65,39 @@ task :dependencies do
   end
 
   brew_recipes = [
-    # VIM with ruby support for OS X
-    "https://raw.github.com/Homebrew/homebrew-dupes/master/vim.rb",
-
-    # Base utilities
-    "git",                                  # THE SCM tool of choice
-    "hub",                                  # GitHub Wrapper for git
-    "rbenv",                                # RVM alternative
-    "ruby-build",                           # Ruby builder
+    "zsh",
+    "mercurial",
+    "git",
+    "hub",
     "bash-completion",
     "coreutils",
-    "wget",                                 # Too dumb to use CURL
-    "spark",
-    "tmux",                                 # Because fuck screen
-    "reattach-to-user-namespace",           # For OS X
+    "tmux",
+    "reattach-to-user-namespace",
+    "https://raw.github.com/Homebrew/homebrew-dupes/master/vim.rb",
+    "ctags",
+    "curl",
+    "macvim",
+    "nodejs",
+    "postgresql"
   ]
 
   brew_recipes.each do |recipe|
     puts "Installing #{recipe}..."
-    `brew install #{recipe}`
+    system("brew install #{recipe}")
   end
 end
 
-task :default => 'install'
+namespace :vim do
+  namespace :plugins do
+    desc "Install the configured VIM plugins"
+    task :install do
+      puts "Installing git submodules..."
+      system("git submodule init")
+    end
+    desc "Update the installed plugin "
+    task :update do
+      puts "Updating git submodules..."
+      system("git submodule foreach git pull origin master")
+    end
+  end
+end
