@@ -1,9 +1,0 @@
-mutt.symlink/cache/*
-mutt.symlink/temp/*
-mutt.symlink/pulleasy.muttrc
-mutt.symlink/muttrc
-mutt.symlink/pulleasy.sig
-mutt.symlink/certificates
-mutt.symlink/nametrans.pyc
-msmtprc.symlink
-offlineimaprc.symlink
