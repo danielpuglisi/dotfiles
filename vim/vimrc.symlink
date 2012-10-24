@@ -96,7 +96,7 @@ augroup END
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256
-set background=dark
+set background=light
 colorscheme solarized
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 
