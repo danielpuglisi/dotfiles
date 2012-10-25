@@ -92,7 +92,8 @@ namespace :vim do
     desc "Install the configured VIM plugins"
     task :install do
       puts "Installing git submodules..."
-      system("git pull && git submodule init && git submodule update && git submodule status")
+      system("git submodule init")
+      system("git submodule update")
     end
     desc "Update the installed plugin "
     task :update do
