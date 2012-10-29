@@ -264,6 +264,3 @@ map <leader>n :call RenameFile()<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Open the file using Marked.app => Good for previewing MARKDOWN files
 map <leader>p :!open -a /Applications/Marked.app %<cr>
-
-
-"set history=1000
