@@ -200,6 +200,9 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 " Run the current file in irb
 map <leader>c :!irb -r %<cr>
 
+" Shortcut to rapidly toggle `set list
+nmap <leader>l :set list!<cr>
+
 " ---------------------------------------------------------------------------
 " STRIP ALL TRAILING WHITESPACE
 " ---------------------------------------------------------------------------
