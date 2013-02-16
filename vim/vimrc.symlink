@@ -44,7 +44,6 @@ Bundle 't9md/vim-ruby-xmpfilter'
 
 " Ruby & Rails
 Bundle 'vim-ruby/vim-ruby'
-Bundle 'sunaku/vim-ruby-minitest'
 Bundle 'tpope/vim-rails'
 Bundle 'danchoi/ri.vim'
 
@@ -54,11 +53,9 @@ Bundle 'kchmck/vim-coffee-script'
 " Markdown etc.
 Bundle 'tpope/vim-markdown'
 Bundle 'duwanis/tomdoc.vim'
-Bundle 'davidoc/taskpaper.vim'
 
 " Colorschemes
 Bundle 'altercation/vim-colors-solarized'
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
