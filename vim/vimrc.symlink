@@ -266,7 +266,6 @@ nnoremap  ,DK :call ri#LookupNameUnderCursor()<cr> " keyword lookup
 " Shortcut to rapidly toggle `set list
 nmap <leader>l :set list!<cr>
 
-=======
 " Shortcut to rapidly toggle `set list
 nmap <leader>l :set list!<cr>
 
