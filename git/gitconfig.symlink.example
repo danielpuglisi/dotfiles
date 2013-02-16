@@ -8,8 +8,8 @@
 # install this to the correct location by running the project's main `rake`
 # task.
 [user]
-        name = "Daniel Puglisi"
-        email = pulleasy@gmail.com
+        name = YOUR NAME
+        email = you@yourdomain.com
 [alias]
         a = config --get-regexp alias
         b = branch

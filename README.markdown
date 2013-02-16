@@ -3,6 +3,7 @@
 - `git clone git://github.com/therod/dotfiles ~/.dotfiles`
 - `cd ~/.dotfiles`
 - `rake install`
+- `rake dependencies`
 
 The install rake task will symlink the appropriate files in `.dotfiles` to your
 home directory. Everything is configured and tweaked within `~/.dotfiles`,
@@ -33,9 +34,9 @@ There's a few special files in the hierarchy.
 - **topic/\*.completion.sh**: Any files ending in `completion.sh` get loaded
   last so that they get loaded after we set up zsh autocomplete functions.
 
-## Notes on Vim
-I use a lightweight vim folder using pathogen and my custom bundle script. 
-For more information read the README.md inside the `vim` folder.
+## VIM
+
+Plugins are installed using [Vundle](https://github.com/gmarik/vundle).
 
 ## Special Thanks
 

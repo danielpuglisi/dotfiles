@@ -4,13 +4,68 @@
 set nocompatible
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" PATHOGEN
+" VUNDLE (https://github.com/gmarik/vundle)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use pathogen for bundle management -
-" http://www.vim.org/scripts/script.php?script_id=2332
-call pathogen#infect()
-call pathogen#helptags()
-call pathogen#runtime_append_all_bundles()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+"
+" Brief help
+" :BundleList          - list configured bundles
+" :BundleInstall(!)    - install(update) bundles
+" :BundleSearch(!) foo - search(or refresh cache first) for foo
+" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+"
+" see :h vundle for more details or wiki for FAQ
+" NOTE: comments after Bundle command are not allowed..
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" VUNDLES
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Core
+Bundle 'kien/ctrlp.vim'
+Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-eunuch'
+Bundle 'tpope/vim-fugitive'
+Bundle 'vim-scripts/taglist.vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'skalnik/vim-vroom'
+
+" Experimental
+
+" Utils
+Bundle 'benmills/vimux'
+Bundle 'mattn/gist-vim'
+Bundle 'mattn/webapi-vim'
+Bundle 'tpope/vim-surround'
+Bundle 'vim-scripts/AutoTag'
+Bundle 't9md/vim-ruby-xmpfilter'
+
+" Ruby & Rails
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'sunaku/vim-ruby-minitest'
+Bundle 'tpope/vim-rails'
+Bundle 'danchoi/ri.vim'
+
+" HTML & CSS & Others
+Bundle 'kchmck/vim-coffee-script'
+
+" Markdown etc.
+Bundle 'tpope/vim-markdown'
+Bundle 'duwanis/tomdoc.vim'
+Bundle 'davidoc/taskpaper.vim'
+
+" Colorschemes
+Bundle 'altercation/vim-colors-solarized'
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" COLOR
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set t_Co=256
+colorscheme solarized
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITING CONFIGURATION
@@ -23,7 +78,6 @@ set nocursorcolumn
 set nocursorline
 set backspace=indent,eol,start
 set cmdheight=1
-" set cursorline
 set encoding=utf-8
 set expandtab
 set formatoptions+=n
@@ -86,26 +140,18 @@ augroup vimrcEx
   " Indent p tags
   autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
 
-  " Don't syntax highlight markdown because it's often wrong
-  " autocmd! FileType mkd setlocal syn=off
-
   " Velocity
   autocmd! BufRead,BufNewFile *.vm set filetype=velocity
 
 augroup END
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" COLOR
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set t_Co=256
-set background=dark
-colorscheme solarized
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TABS N SHIT
+" TABS N SHIT | TODO: Add shortcuts to jump to specific tabs
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <C-t>     :tabnew<CR>
+map <C-t> :tabnew<CR>
+map <C-l> :tabnext<CR>
+map <C-h> :tabprev<CR>
 
 " ----------------------------------------------------------------------------
 " REMAPPING
@@ -149,7 +195,7 @@ map <leader>e :edit %%
 map <leader>V :view %%
 
 " Search for open Todos inside the directory structure
-map <leader>T :Ack --all --ignore-dir=.bundle TODO *<CR>
+map <leader>N :Ack --ignore-dir=tmp 'TODO\|FIXME\|CHANGED\|NOTE' *<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Control P
@@ -157,6 +203,9 @@ map <leader>T :Ack --all --ignore-dir=.bundle TODO *<CR>
 set wildignore+=*/vendor/rails/*
 set wildignore+=*/.bundle/*
 set wildignore+=*/tmp/*
+let g:ctrlp_use_caching = 0 "Do not use caching
+let g:ctrlp_max_height = 20 "Display 20 results
+let g:ctrlp_show_hidden = 0 "Do not scan for dotfiles and dotdirs
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " SWITCH BETWEEN TEST AND PRODUCTION CODE
@@ -188,6 +237,21 @@ function! AlternateForCurrentFile()
 endfunction
 nnoremap <leader>. :call OpenTestAlternate()<cr>
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RUNNING TESTS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let vroom_detect_spec_helper = 1
+let g:vroom_use_vimux = 1 "enable vimux for vroom
+let g:vroom_use_spring = 1 "enable spring by default
+let g:VimuxUseNearestPane = 1
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" RI Documentation lookup
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap  ,di :call ri#OpenSearchPrompt(0)<cr> " horizontal split
+nnoremap  ,DI :call ri#OpenSearchPrompt(1)<cr> " vertical split
+nnoremap  ,DK :call ri#LookupNameUnderCursor()<cr> " keyword lookup
+
 " ----------------------------------------------------------------------------
 " STATUS LINE
 " ----------------------------------------------------------------------------
@@ -199,17 +263,21 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 " clear the search buffer when hitting return
 :nnoremap <CR> :nohlsearch<cr>
 
-" Run the current file in irb
-map <leader>c :!irb -r %<cr>
-
 " Shortcut to rapidly toggle `set list
 nmap <leader>l :set list!<cr>
 
+=======
+" Shortcut to rapidly toggle `set list
+nmap <leader>l :set list!<cr>
+
+" xmpfilter awesomeness!
+nmap <buffer> <leader>x <Plug>(xmpfilter-run)
+nmap <buffer> <leader>X <Plug>(xmpfilter-mark)
 " ---------------------------------------------------------------------------
 " STRIP ALL TRAILING WHITESPACE
 " ---------------------------------------------------------------------------
 function! StripWhitespace ()
-    exec ':%s/ \+$//gc'
+  exec ':%s/ \+$//gc'
 endfunction
 map ,s :call StripWhitespace ()<CR>
 
@@ -224,12 +292,12 @@ au InsertLeave * match ExtraWhiteSpace /\s\+$/
 " Indent if we're at the beginning of a line. Else, do completion.
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
+  let col = col('.') - 1
+  if !col || getline('.')[col - 1] !~ '\k'
+      return "\<tab>"
+  else
+      return "\<c-p>"
+  endif
 endfunction
 inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 inoremap <s-tab> <c-n>
@@ -239,8 +307,8 @@ inoremap <s-tab> <c-n>
 " ---------------------------------------------------------------------------
 map <leader>ta :exec("tag ".expand("<cword>"))<CR>
 map <leader>ts :vsp <CR>:exec("tag " .expand("<cword>"))<CR>
+map <Leader>tt :!ctags --extra=+f --exclude=.git --exclude=log -R * `rbenv prefix`/lib/ruby/gems/1.9.1/gems/*<CR><CR>
 set tags+=./tags;
-set tags+=./gems.tags;
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ARROW KEYS ARE UNACCEPTABLE
@@ -268,4 +336,18 @@ map <leader>n :call RenameFile()<cr>
 " OS X Specific
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Open the file using Marked.app => Good for previewing MARKDOWN files
-map <leader>p :!open -a /Applications/Marked.app %<cr>
+map <leader>p :!open -a /Applications/Marked.app '%'<cr>
+
+" ---------------------------------------------------------------------------
+" VARIOUS
+" ---------------------------------------------------------------------------
+let g:netrw_home = $HOME
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" GUI
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has("gui_running")
+set guifont=Inconsolata:h14
+set wrap
+set linebreak
+endif
