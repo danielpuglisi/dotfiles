@@ -19,9 +19,11 @@ filetype plugin indent on
 syntax on
 
 set autoindent
+set nocursorcolumn
+set nocursorline
 set backspace=indent,eol,start
 set cmdheight=1
-set cursorline
+" set cursorline
 set encoding=utf-8
 set expandtab
 set formatoptions+=n
@@ -96,7 +98,7 @@ augroup END
 " COLOR
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set t_Co=256
-set background=light
+set background=dark
 colorscheme solarized
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 
