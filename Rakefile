@@ -74,6 +74,8 @@ task :dependencies do
     "reattach-to-user-namespace",
     "vim --with-ruby",
     "ctags",
+    "rbenv",
+    "ruby-build",
     "curl",
     "macvim",
     "nodejs",
@@ -84,8 +86,4 @@ task :dependencies do
     puts "Installing #{recipe}..."
     system("brew install #{recipe}")
   end
-
-  system("git clone git://github.com/sstephenson/rbenv.git ~/.rbenv")
-  system("git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build")
-
 end
