@@ -1,10 +1,11 @@
 ## Installation
 
-- `git clone git://github.com/therod/dotfiles ~/.dotfiles`
-- `cd ~/.dotfiles`
-- `rake install`
-- `rake dependencies`
-- `git submodule init`
+* `git clone git://github.com/therod/dotfiles ~/.dotfiles`
+* `cd ~/.dotfiles`
+* `rake install`
+* `rake dependencies`
+* `git submodule init`
+* `git submodule update`
 
 The install rake task will symlink the appropriate files in `.dotfiles` to your
 home directory. Everything is configured and tweaked within `~/.dotfiles`,
