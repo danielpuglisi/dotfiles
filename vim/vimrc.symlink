@@ -41,6 +41,7 @@ Bundle 'mattn/webapi-vim'
 Bundle 'tpope/vim-surround'
 Bundle 'vim-scripts/AutoTag'
 Bundle 't9md/vim-ruby-xmpfilter'
+Bundle 'airblade/vim-gitgutter'
 
 " Ruby & Rails
 Bundle 'vim-ruby/vim-ruby'
