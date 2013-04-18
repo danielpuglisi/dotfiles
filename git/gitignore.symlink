@@ -4,6 +4,6 @@
 *~
 *.swp
 *.rbc
-tags
+# tags
 gems.tags
 *.taskpaper
