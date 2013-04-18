@@ -243,6 +243,8 @@ let g:vroom_use_vimux = 1 "enable vimux for vroom
 let g:vroom_use_spring = 1 "enable spring by default
 let g:VimuxUseNearestPane = 1
 
+map <leader>r :! spring rspec --color %<CR>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RI Documentation lookup
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
