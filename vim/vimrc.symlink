@@ -46,6 +46,7 @@ Bundle 't9md/vim-ruby-xmpfilter'
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'tpope/vim-rails'
 Bundle 'danchoi/ri.vim'
+Bundle 'lucapette/vim-ruby-doc'
 
 " HTML & CSS & Others
 Bundle 'kchmck/vim-coffee-script'
