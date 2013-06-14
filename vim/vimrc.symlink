@@ -202,6 +202,7 @@ map <leader>N :Ack --ignore-dir=tmp 'TODO\|FIXME\|CHANGED\|NOTE' *<CR>
 set wildignore+=*/vendor/rails/*
 set wildignore+=*/.bundle/*
 set wildignore+=*/tmp/*
+set wildignore+=*/public/system/*
 let g:ctrlp_use_caching = 0 "Do not use caching
 let g:ctrlp_max_height = 20 "Display 20 results
 let g:ctrlp_show_hidden = 0 "Do not scan for dotfiles and dotdirs
