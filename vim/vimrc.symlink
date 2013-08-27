@@ -51,6 +51,7 @@ Bundle 'lucapette/vim-ruby-doc'
 
 " HTML & CSS & Others
 Bundle 'kchmck/vim-coffee-script'
+Bundle 'othree/html5.vim'
 
 " Markdown etc.
 Bundle 'tpope/vim-markdown'
@@ -135,9 +136,6 @@ augroup vimrcEx
 
   autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
   autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
-
-  " Indent p tags
-  autocmd FileType html,eruby if g:html_indent_tags !~ '\\|p\>' | let g:html_indent_tags .= '\|p\|li\|dt\|dd' | endif
 
   " Velocity
   autocmd! BufRead,BufNewFile *.vm set filetype=velocity
