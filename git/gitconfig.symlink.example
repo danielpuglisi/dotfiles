@@ -51,6 +51,8 @@
         autocorrect = 1
 [status]
         submodule = 1
+[branch]
+  autosetuprebase = always
 [push]
         # Only push branches that have been set up to track a remote branch.
         default = current
