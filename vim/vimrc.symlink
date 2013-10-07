@@ -42,6 +42,8 @@ Bundle 'tpope/vim-surround'
 Bundle 'vim-scripts/AutoTag'
 Bundle 't9md/vim-ruby-xmpfilter'
 " Bundle 'airblade/vim-gitgutter'
+Bundle 'rizzatti/funcoo.vim'
+Bundle 'rizzatti/dash.vim'
 
 " Ruby & Rails
 Bundle 'vim-ruby/vim-ruby'
