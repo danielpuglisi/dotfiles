@@ -1,8 +1,9 @@
 # Do not set RBENV_VERSION
 tmux set-environment -gu RBENV_VERSION
+set-environment -gu RBENV_VERSION
 
 # Fix pb{copy,paste} requires: reattach-to-usernamespace brew
- set-option -g default-command "reattach-to-user-namespace -l zsh"
+set-option -g default-command "reattach-to-user-namespace -l zsh"
 
 # Don't torture me with your C-b
 unbind C-b
