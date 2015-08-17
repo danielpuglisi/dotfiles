@@ -45,6 +45,7 @@ Bundle 't9md/vim-ruby-xmpfilter'
 " Bundle 'airblade/vim-gitgutter'
 Bundle 'rizzatti/funcoo.vim'
 Bundle 'rizzatti/dash.vim'
+Bundle 'AndrewRadev/splitjoin.vim'
 
 " Ruby & Rails
 Bundle 'vim-ruby/vim-ruby'
@@ -340,7 +341,7 @@ map <leader>n :call RenameFile()<cr>
 " OS X Specific
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Open the file using Marked.app => Good for previewing MARKDOWN files
-map <leader>p :!open -a /Applications/Marked.app '%'<cr>
+map <leader>mp :!open -a /Applications/Marked.app '%'<cr>
 
 " ---------------------------------------------------------------------------
 " VARIOUS

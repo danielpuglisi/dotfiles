@@ -73,12 +73,9 @@ task :dependencies do
     "tmux",
     "reattach-to-user-namespace",
     "ctags",
-    "rbenv",
-    "ruby-build",
     "curl",
-    "macvim",
-    "nodejs",
-    "postgresql"
+    "rbenv",
+    "ruby-build"
   ]
 
   brew_recipes.each do |recipe|
