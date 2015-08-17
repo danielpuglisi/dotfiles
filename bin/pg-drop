@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# Drop connection of a postgres db
+
+dbname=$1
+if [[ -n "$dbname" ]]; then
+  psql -c "SELECT pg_terminate_backend(pg_stat_activity.pid) FROM pg_stat_activity WHERE pg_stat_activity.datname = '$dbname' AND pid <> pg_backend_pid();"
+else
+  echo "Please provide a database name"
+fi
