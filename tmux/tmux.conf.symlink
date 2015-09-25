@@ -1,5 +1,5 @@
 # Do not set RBENV_VERSION
-tmux set-environment -gu RBENV_VERSION
+set-environment -gu RBENV_VERSION
 set-environment -gu RBENV_VERSION
 
 # Fix pb{copy,paste} requires: reattach-to-usernamespace brew
