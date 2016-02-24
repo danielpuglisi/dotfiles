@@ -1,0 +1,18 @@
+# ~/.tmuxinator/rails.yml
+
+name: <%= @args[0] %>
+root: ~/code/<%= @args[0] %>
+
+windows:
+  - code: vim
+  - console: b rails c
+  - test:
+      layout: main-vertical
+      panes:
+        - b guard
+        - vim
+  - logs:
+      layout: main-vertical
+      panes:
+        - tail -f log/development.log
+        - tail -f ~/Library/Logs/Pow/apps/<%= @args[0] %>.log
