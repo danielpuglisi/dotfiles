@@ -1,6 +1,6 @@
 # ~/.tmuxinator/rails.yml
 
-name: <%= @args[0] %>
+name: <%= @args[0].gsub('.', '_') %>
 root: ~/code/<%= @args[0] %>
 
 windows:
