@@ -22,8 +22,6 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'mileszs/ack.vim'
 " Plugin 'vim-scripts/taglist.vim'
 
-" Experimental
-
 " Utils
 Plugin 'benmills/vimux'
 Plugin 'tpope/vim-surround'
@@ -53,6 +51,11 @@ Plugin 'duwanis/tomdoc.vim'
 
 " Colorschemes
 Plugin 'altercation/vim-colors-solarized'
+
+" Experimental
+Plugin 'bling/vim-bufferline'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -141,14 +144,6 @@ augroup vimrcEx
 
 augroup END
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" TABS N SHIT | TODO: Add shortcuts to jump to specific tabs
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <C-t> :tabnew<CR>
-map <C-l> :tabnext<CR>
-map <C-h> :tabprev<CR>
-
 " ----------------------------------------------------------------------------
 " REMAPPING
 " ----------------------------------------------------------------------------
@@ -192,6 +187,15 @@ map <leader>V :view %%
 
 " Search for open Todos inside the directory structure
 map <leader>N :Ack --ignore-dir=tmp 'TODO\|FIXME\|CHANGED\|NOTE' *<CR>
+
+" ----------------------------------------------------------------------------
+" BUFFERS N SHIT, BECAUSE FUCK TABS
+" ----------------------------------------------------------------------------
+map <C-t> :enew<CR>
+map <C-l> :bnext<CR>
+map <C-h> :bprevious<CR>
+map <leader>x :bp <BAR> bd #<CR>
+map <leader>bl :ls<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Control P
@@ -268,13 +272,6 @@ nnoremap  ,DK :call ri#LookupNameUnderCursor()<cr> " keyword lookup
 
 " Shortcut to rapidly toggle `set list
 nmap <leader>l :set list!<cr>
-
-" Shortcut to rapidly toggle `set list
-nmap <leader>l :set list!<cr>
-
-" xmpfilter awesomeness!
-nmap <buffer> <leader>x <Plug>(xmpfilter-run)
-nmap <buffer> <leader>X <Plug>(xmpfilter-mark)
 " ---------------------------------------------------------------------------
 " STRIP ALL TRAILING WHITESPACE
 " ---------------------------------------------------------------------------
@@ -353,3 +350,8 @@ set guifont=Inconsolata:h14
 set wrap
 set linebreak
 endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Airline
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:airline_powerline_fonts=1
