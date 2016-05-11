@@ -2,43 +2,39 @@ autoload colors && colors
 # cheers, @ehrenmurdick
 # http://github.com/ehrenmurdick/config/blob/master/zsh/prompt.zsh
 
+if (( $+commands[git] ))
+then
+  git="$commands[git]"
+else
+  git="/usr/bin/git"
+fi
+
 git_branch() {
-  echo $(/usr/bin/env git symbolic-ref HEAD 2>/dev/null | awk -F/ {'print $NF'})
+  echo $($git symbolic-ref HEAD 2>/dev/null | awk -F/ {'print $NF'})
 }
 
 git_dirty() {
-  st=$(/usr/bin/git status 2>/dev/null | tail -n 1)
-  if [[ $st == "" ]]
+  if $(! $git status -s &> /dev/null)
   then
     echo ""
   else
-    if [[ $st == "nothing to commit, working directory clean" ]]
+    if [[ $($git status --porcelain) == "" ]]
     then
-      echo "(%{$fg[green]%}$(git_prompt_info)%{$reset_color%})"
+      echo "(%{$fg_bold[green]%}$(git_prompt_info)%{$reset_color%})"
     else
-      echo "(%{$fg[red]%}$(git_prompt_info)%{$reset_color%})"
+      echo "(%{$fg_bold[red]%}$(git_prompt_info)%{$reset_color%})"
     fi
   fi
 }
 
 git_prompt_info () {
- ref=$(/usr/bin/git symbolic-ref HEAD 2>/dev/null) || return
-  # echo "(%{\e[0;33m%}${ref#refs/heads/}%{\e[0m%})"
+ ref=$($git symbolic-ref HEAD 2>/dev/null) || return
+# echo "(%{\e[0;33m%}${ref#refs/heads/}%{\e[0m%})"
  echo "${ref#refs/heads/}"
 }
 
-project_name () {
-  name=$(pwd | awk -F'Development/' '{print $2}' | awk -F/ '{print $1}')
-  echo $name
-}
-
-project_name_color () {
- name=$(project_name)
-  echo "%{\e[0;35m%}${name}%{\e[0m%}"
-}
-
 unpushed () {
-  /usr/bin/git cherry -v origin/$(git_branch) 2>/dev/null
+  $git cherry -v @{upstream} 2>/dev/null
 }
 
 need_push () {
@@ -50,22 +46,14 @@ need_push () {
   fi
 }
 
-rvm_prompt(){
-  if $(which rvm &> /dev/null)
-  then
-	  echo "%{$fg_bold[yellow]%}$(rvm tools identifier)%{$reset_color%}"
-	else
-	  echo ""
-  fi
-}
-
-directory_name(){
+directory_name() {
   echo "%{$fg_bold[cyan]%}%1/%\/%{$reset_color%}"
 }
 
- set_prompt () {
-  export PROMPT=$'\n$(directory_name) $(git_dirty)$(need_push) › '
- }
+export PROMPT=$'\n$(directory_name) $(git_dirty)$(need_push)› '
+set_prompt () {
+  export RPROMPT="%{$fg_bold[cyan]%}%{$reset_color%}"
+}
 
 precmd() {
   title "zsh" "%m" "%55<...<%~"
