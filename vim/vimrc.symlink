@@ -64,6 +64,7 @@ filetype plugin indent on    " required
 set t_Co=256
 colorscheme solarized
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+so ~/.vim/plugin/background-color.vim
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITING CONFIGURATION
