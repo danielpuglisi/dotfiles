@@ -39,7 +39,7 @@ There's a few special files in the hierarchy.
 
 ## VIM
 
-Plugins are installed using [Vundle](https://github.com/gmarik/vundle).
+Plugins are installed using [Vundle](https://github.com/VundleVim/Vundle.vim).
 
 ## Special Thanks
 
