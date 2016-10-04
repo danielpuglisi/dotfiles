@@ -45,7 +45,7 @@ Plug 'tpope/vim-markdown'
 Plug 'duwanis/tomdoc.vim'
 
 " Colorschemes
-Plug 'altercation/vim-colors-solarized'
+Plug 'chriskempson/base16-vim'
 
 " Experimental
 Plug 'bling/vim-bufferline'
@@ -59,13 +59,17 @@ Plug 'vimwiki/vimwiki'
 call plug#end()              " required
 filetype plugin indent on    " required
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" COLOR
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set t_Co=256
-colorscheme solarized
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-so ~/.vim/plugin/background-color.vim
+" ----------------------------------------------------------------------------
+" COLOR STUFF
+" ----------------------------------------------------------------------------
+" gui colors if running iTerm
+if has("nvim")
+  set termguicolors
+end
+
+if filereadable(expand("~/.vimrc_background"))
+  source ~/.vimrc_background
+endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " BASIC EDITING CONFIGURATION
