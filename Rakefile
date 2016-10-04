@@ -75,7 +75,9 @@ task :dependencies do
     "ctags",
     "curl",
     "rbenv",
-    "ruby-build"
+    "ruby-build",
+    "fzf",
+    "the_silver_searcher"
   ]
 
   brew_recipes.each do |recipe|
