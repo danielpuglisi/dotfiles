@@ -203,6 +203,13 @@ map <leader>bl :ls<CR>
 map \\ :Commentary<CR>
 
 " ----------------------------------------------------------------------------
+" FZF
+" ----------------------------------------------------------------------------
+" Ignore rules can be changed in .zshrc. Read more here:
+" https://github.com/junegunn/fzf#respecting-gitignore-hgignore-and-svnignore
+nnoremap <C-p> :FZF<cr>
+
+" ----------------------------------------------------------------------------
 " NERDTree
 " ----------------------------------------------------------------------------
 map <C-n> :NERDTreeToggle<CR>
