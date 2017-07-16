@@ -121,10 +121,12 @@ set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 " ############################################################################
 " gui colors if running iTerm
 if has("nvim")
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   set termguicolors
 end
 
 if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
   source ~/.vimrc_background
 endif
 
@@ -382,7 +384,7 @@ endif
 " ---------------------------------------------------------------------------
 set noshowmode
 let g:airline_powerline_fonts=1
-let g:bufferline_echo = 1
+let g:bufferline_echo = 0
 let g:airline_section_c = ''
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#enabled = 1
