@@ -39,3 +39,25 @@ alias s="sr google -l $*"
 
 # Fix Airplay
 alias fixairplay="sudo kill `ps -ax | grep 'coreaudiod' | grep 'sbin' |awk '{print $1}'`"
+
+# Postgres
+alias pg-up='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start'
+alias pg-down='pg_ctl -D /usr/local/var/postgres stop -s -m fast'
+
+# Ruby
+alias r='rbenv local'
+alias b='bundle exec'
+
+# Tmux
+alias tlist="tmux list-sessions"
+alias tmux="env TERM=xterm-256color tmux"
+alias tkill="tmux kill-session -t $*"
+alias tnew="tmux new-session -s $*"
+alias tatt="tmux attach -t $*"
+
+# git
+alias git=hub
+
+# redis
+alias redis-up='redis-server /usr/local/etc/redis.conf > /dev/null &'
+alias redis-down='killall redis-server'
