@@ -4,9 +4,9 @@
 set nocompatible
 filetype off " required
 
-" ----------------------------------------------------------------------------
+" ############################################################################
 " PLUG (https://github.com/junegunn/vim-plug)
-" ----------------------------------------------------------------------------
+" ############################################################################
 call plug#begin('~/.config/nvim/plugged')
 
 " Core
@@ -47,33 +47,30 @@ Plug 'duwanis/tomdoc.vim'
 " Colorschemes
 Plug 'chriskempson/base16-vim'
 
+" Writing
+Plug 'vimwiki/vimwiki'
+Plug 'junegunn/goyo.vim'
+Plug 'reedes/vim-pencil'
+
 " Experimental
 Plug 'bling/vim-bufferline'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
-Plug 'junegunn/goyo.vim'
-Plug 'vimwiki/vimwiki'
+Plug 'mileszs/ack.vim'
+
+Plug 'godlygeek/tabular'
+Plug 'neomake/neomake'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'fishbullet/deoplete-ruby'
 
 " All of your Plugins must be added before the following line
 call plug#end()              " required
 filetype plugin indent on    " required
 
-" ----------------------------------------------------------------------------
-" COLOR STUFF
-" ----------------------------------------------------------------------------
-" gui colors if running iTerm
-if has("nvim")
-  set termguicolors
-end
-
-if filereadable(expand("~/.vimrc_background"))
-  source ~/.vimrc_background
-endif
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" BASIC EDITING CONFIGURATION
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ############################################################################
+" BASIC CONFIGURATION
+" ############################################################################
 filetype plugin indent on
 syntax on
 
@@ -119,9 +116,22 @@ set foldlevelstart=20
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ############################################################################
+" COLOR STUFF
+" ############################################################################
+" gui colors if running iTerm
+if has("nvim")
+  set termguicolors
+end
+
+if filereadable(expand("~/.vimrc_background"))
+  source ~/.vimrc_background
+endif
+
+" ############################################################################
 " CUSTOM AUTOCMDS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ############################################################################
+" ---------------------------------------------------------------------------
 augroup vimrcEx
   " Clear all autocmds in the group
   autocmd!
@@ -135,22 +145,53 @@ augroup vimrcEx
   "for ruby, autoindent with two spaces, always expand tabs
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
-  autocmd FileType ruby match OverLength /\%81v.\+/
-  autocmd FileType markdown match OverLength /\%81v.\+/
+  " autocmd FileType ruby match OverLength /\%81v.\+/
+  " autocmd FileType markdown match OverLength /\%81v.\+/
 
+  " Sass
   autocmd! BufRead,BufNewFile *.sass setfiletype sass
 
-  autocmd BufRead *.mkd  set ai formatoptions=tcroqn2 comments=n:&gt;
+  " Markdown
+  autocmd BufRead *.md  set ai formatoptions=tcroqn2 comments=n:&gt;
   autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
+
+  " Ruby
+  " autocmd Filetype ruby map <leader>r :VroomRunTestFile<CR>
+  " autocmd Filetype ruby map <leader>R :VroomRunNearestTest<CR>
+  autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+  autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
+  autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 
   " Velocity
   autocmd! BufRead,BufNewFile *.vm set filetype=velocity
 
 augroup END
+" ---------------------------------------------------------------------------
 
-" ----------------------------------------------------------------------------
+" VimWiki
+" ---------------------------------------------------------------------------
+augroup vimwiki_settings
+  autocmd!
+  autocmd FileType vimwiki setlocal wrap linebreak nolist textwidth=0 wrapmargin=0
+  let g:vimwiki_folding='syntax'
+augroup END
+" ---------------------------------------------------------------------------
+
+" Pencil
+" ---------------------------------------------------------------------------
+" augroup pencil
+"   autocmd!
+"   " autocmd FileType markdown,mkd,md call pencil#init({'wrap': 'hard'})
+"   " autocmd FileType text         call pencil#init({'wrap': 'soft'})
+" augroup END
+" ---------------------------------------------------------------------------
+
+" ############################################################################
 " REMAPPING
-" ----------------------------------------------------------------------------
+" ############################################################################
+
+" Default mappings
+" ---------------------------------------------------------------------------
 let mapleader = ","
 map WW :w!<CR>
 
@@ -167,74 +208,82 @@ vnoremap <Down> gj
 vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
-
-" Insert a hash rocket with <c-l>
-imap <c-l> <space>=><space>
-
-" Remap the tab key to do autocompletion or indentation depending on the
-" context (from http://www.vim.org/tips/tip.php?tip_id=102)
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <s-tab> <c-n>
+" ---------------------------------------------------------------------------
 
 " Map ,e and ,v to open files in the same directory as the current file
+" ---------------------------------------------------------------------------
 cnoremap %% <C-R>=expand('%:h').'/'<cr>
 map <leader>e :edit %%
 map <leader>V :view %%
+" ---------------------------------------------------------------------------
 
 " Search for open Todos inside the directory structure
-map <leader>N :Ack --ignore-dir=tmp 'TODO\|FIXME\|CHANGED\|NOTE' *<CR>
+" ---------------------------------------------------------------------------
+map <leader>N :Ag --ignore-dir=log 'TODO\|FIXME\|CHANGED\|NOTE' *<CR>
+" ---------------------------------------------------------------------------
 
-" ----------------------------------------------------------------------------
 " BUFFERS N SHIT, BECAUSE FUCK TABS
-" ----------------------------------------------------------------------------
+" ---------------------------------------------------------------------------
 map <C-t> :enew<CR>
 map <C-l> :bnext<CR>
 map <C-h> :bprevious<CR>
 map <leader>x :bp <BAR> bd #<CR>
 map <leader>bl :ls<CR>
+" ---------------------------------------------------------------------------
 
-" ----------------------------------------------------------------------------
 " Commentary
-" ----------------------------------------------------------------------------
+" ---------------------------------------------------------------------------
 map \\ :Commentary<CR>
+" ---------------------------------------------------------------------------
 
-" ----------------------------------------------------------------------------
 " FZF
-" ----------------------------------------------------------------------------
+" ---------------------------------------------------------------------------
 " Ignore rules can be changed in .zshrc. Read more here:
 " https://github.com/junegunn/fzf#respecting-gitignore-hgignore-and-svnignore
 nnoremap <C-p> :FZF<cr>
+" ---------------------------------------------------------------------------
 
-" ----------------------------------------------------------------------------
 " NERDTree
-" ----------------------------------------------------------------------------
+" ---------------------------------------------------------------------------
 map <C-n> :NERDTreeToggle<CR>
+" ---------------------------------------------------------------------------
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Control P
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set wildignore+=*/tmp/*
-set wildignore+=*/public/system/*
-set wildignore+=*/vendor/rails/*
-set wildignore+=*/.bundle/*
-set wildignore+=*/build/*
-set wildignore+=*/node_modules/*
-let g:ctrlp_match_window = 'bottom'
-let g:ctrlp_use_caching = 0 "Do not use caching
-let g:ctrlp_max_height = 20 "Display 20 results
-let g:ctrlp_show_hidden = 0 "Do not scan for dotfiles and dotdirs
+" RI Documentation lookup
+" ---------------------------------------------------------------------------
+nnoremap  ,di :call ri#OpenSearchPrompt(0)<cr> " horizontal split
+nnoremap  ,DI :call ri#OpenSearchPrompt(1)<cr> " vertical split
+nnoremap  ,DK :call ri#LookupNameUnderCursor()<cr> " keyword lookup
+" ---------------------------------------------------------------------------
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" MISC KEY MAPS
+" ---------------------------------------------------------------------------
+" clear the search buffer when hitting return
+:nnoremap <CR> :nohlsearch<cr>
+" ---------------------------------------------------------------------------
+
+" Shortcut to rapidly toggle `set list
+" ---------------------------------------------------------------------------
+nmap <leader>l :set list!<cr>
+" ---------------------------------------------------------------------------
+
+" OS X Specific
+" ---------------------------------------------------------------------------
+" Open the file using Marked.app => Good for previewing MARKDOWN files
+map <leader>mp :!open -a /Applications/Marked.app '%'<cr>
+" ---------------------------------------------------------------------------
+
+" Goyo & Pencil
+" ---------------------------------------------------------------------------
+map <F10> :Goyo <bar> :TogglePencil <CR>
+map <F9> :setlocal spell! spelllang=en_us<CR>
+" ---------------------------------------------------------------------------
+
+" ############################################################################
+" FUNCTIONS
+" ############################################################################
+
 " SWITCH BETWEEN TEST AND PRODUCTION CODE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ---------------------------------------------------------------------------
 function! OpenTestAlternate()
   let new_file = AlternateForCurrentFile()
   exec ':e ' . new_file
@@ -261,39 +310,8 @@ function! AlternateForCurrentFile()
   return new_file
 endfunction
 nnoremap <leader>. :call OpenTestAlternate()<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RUNNING TESTS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let vroom_detect_spec_helper = 1
-let g:vroom_use_vimux = 1 "enable vimux for vroom
-let g:vroom_use_spring = 1 "enable spring by default
-let g:VimuxUseNearestPane = 1
-let g:vroom_use_colors = 1
-
-map <leader>r :! spring rake test %<CR>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RI Documentation lookup
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap  ,di :call ri#OpenSearchPrompt(0)<cr> " horizontal split
-nnoremap  ,DI :call ri#OpenSearchPrompt(1)<cr> " vertical split
-nnoremap  ,DK :call ri#LookupNameUnderCursor()<cr> " keyword lookup
-
-" ----------------------------------------------------------------------------
-" STATUS LINE
-" ----------------------------------------------------------------------------
-:set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
-
-" ----------------------------------------------------------------------------
-" MISC KEY MAPS
-" ----------------------------------------------------------------------------
-" clear the search buffer when hitting return
-:nnoremap <CR> :nohlsearch<cr>
-
-" Shortcut to rapidly toggle `set list
-nmap <leader>l :set list!<cr>
 " ---------------------------------------------------------------------------
+
 " STRIP ALL TRAILING WHITESPACE
 " ---------------------------------------------------------------------------
 function! StripWhitespace ()
@@ -306,41 +324,10 @@ au ColorScheme * highlight ExtraWhitespace guibg=red
 au BufEnter * match ExtraWhitespace /\s\+$/
 au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhiteSpace /\s\+$/
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" MULTIPURPOSE TAB KEY
-" Indent if we're at the beginning of a line. Else, do completion.
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! InsertTabWrapper()
-  let col = col('.') - 1
-  if !col || getline('.')[col - 1] !~ '\k'
-      return "\<tab>"
-  else
-      return "\<c-p>"
-  endif
-endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <s-tab> <c-n>
-
 " ---------------------------------------------------------------------------
-" CTAGS
-" ---------------------------------------------------------------------------
-map <leader>ta :exec("tag ".expand("<cword>"))<CR>
-map <leader>ts :vsp <CR>:exec("tag " .expand("<cword>"))<CR>
-map <Leader>tt :!ctags --extra=+f --exclude=.git --exclude=log -R * `rbenv prefix`/lib/ruby/gems/1.9.1/gems/*<CR><CR>
-set tags+=./tags;
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" ARROW KEYS ARE UNACCEPTABLE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-map <Left> :echo "no!"<cr>
-map <Right> :echo "no!"<cr>
-map <Up> :echo "no!"<cr>
-map <Down> :echo "no!"<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RENAME CURRENT FILE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ---------------------------------------------------------------------------
 function! RenameFile()
   let old_name = expand('%')
   let new_name = input('New file name: ', expand('%'))
@@ -351,44 +338,92 @@ function! RenameFile()
   endif
 endfunction
 map <leader>n :call RenameFile()<cr>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" OS X Specific
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Open the file using Marked.app => Good for previewing MARKDOWN files
-map <leader>mp :!open -a /Applications/Marked.app '%'<cr>
-
 " ---------------------------------------------------------------------------
-" VARIOUS
-" ---------------------------------------------------------------------------
-let g:netrw_home = $HOME
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ####################
+" PLUGIN CONFIGURATION
+" ####################
+
+" Vroom
+" ---------------------------------------------------------------------------
+let vroom_detect_spec_helper = 1
+let g:vroom_use_vimux = 1 "enable vimux for vroom
+let g:vroom_use_spring = 1 "enable spring by default
+let g:VimuxUseNearestPane = 1
+let g:vroom_use_colors = 1
+
+map <leader>r :! spring rake test %<CR>
+" ---------------------------------------------------------------------------
+
+" Status line
+" ---------------------------------------------------------------------------
+:set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
+" ---------------------------------------------------------------------------
+
+" ag
+" ---------------------------------------------------------------------------
+let g:ackprg = 'ag --vimgrep --smart-case'
+cnoreabbrev ag Ack
+cnoreabbrev aG Ack
+cnoreabbrev Ag Ack
+cnoreabbrev AG Ack
+" ---------------------------------------------------------------------------
+
 " GUI
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ---------------------------------------------------------------------------
 if has("gui_running")
 set guifont=Inconsolata:h14
 set wrap
 set linebreak
 endif
+" ---------------------------------------------------------------------------
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Airline
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ---------------------------------------------------------------------------
 set noshowmode
 let g:airline_powerline_fonts=1
-let g:bufferline_echo = 0
+let g:bufferline_echo = 1
 let g:airline_section_c = ''
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_mode_map = {'c': 'C', '^S': 'S', 'R': 'R', 's': 'S', 't': 'T', 'V': 'VL', '^V': 'VB', 'i': 'I', '__': '------', 'S': 'SL', 'v': 'V', 'n': 'N'}
+let g:airline_section_z = ''
+let g:airline_right_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#show_tab_type = 0
+let g:airline#extensions#tabline#show_tabs = 0
+let g:airline#extensions#tabline#show_splits = 1
+let g:airline#extensions#tabline#show_buffers = 1
+" ---------------------------------------------------------------------------
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" VIMIWKI
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-augroup vimwiki_settings
-  autocmd!
-  autocmd FileType vimwiki setlocal wrap linebreak nolist textwidth=0 wrapmargin=0
-  let g:vimwiki_folding='syntax'
-augroup END
+" Neomake
+" ---------------------------------------------------------------------------
+autocmd! BufWritePost * Neomake
+" ---------------------------------------------------------------------------
+
+" Deoplete
+" ---------------------------------------------------------------------------
+let g:deoplete#enable_at_startup = 1
+if !exists('g:deoplete#omni#input_patterns')
+  let g:deoplete#omni#input_patterns = {}
+endif
+let g:deoplete#disable_auto_complete = 1
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" deoplete tab-complete
+inoremap <silent><expr> <TAB>
+          \ pumvisible() ? "\<C-n>" :
+          \ <SID>check_back_space() ? "\<TAB>" :
+          \ deoplete#mappings#manual_complete()
+          function! s:check_back_space() abort "{{{
+          let col = col('.') - 1
+          return !col || getline('.')[col - 1]  =~ '\s'
+          endfunction"}}}
+" ---------------------------------------------------------------------------
+
+" VARIOUS
+" ---------------------------------------------------------------------------
+let g:netrw_home = $HOME
+" ---------------------------------------------------------------------------
