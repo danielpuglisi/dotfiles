@@ -4,6 +4,7 @@ export ZSH=$HOME/.dotfiles
 # your project folder that we can `c [tab]` to
 export PROJECTS=~/code
 
+# Editor
 export EDITOR="nvim"
 
 # source every .zsh file in this rep
