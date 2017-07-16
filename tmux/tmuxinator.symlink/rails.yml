@@ -4,15 +4,15 @@ name: <%= @args[0].gsub('.', '_') %>
 root: ~/code/<%= @args[0] %>
 
 windows:
-  - code: vim
-  - console: b rails c
   - test:
       layout: main-vertical
       panes:
         - b guard
         - vim
+  - console: b rails c
   - logs:
       layout: main-vertical
       panes:
         - tail -f log/development.log
         - tail -f ~/Library/Logs/Pow/apps/<%= @args[0] %>.log
+  - worker: b rake jobs:work
