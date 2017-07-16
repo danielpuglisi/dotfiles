@@ -10,8 +10,6 @@ unbind C-b
 set-option -g prefix C-f
 
 # General configuration
-set-window-option -g utf8 on # utf8 support
-set-window-option -g mouse off # disable mouse
 set -sg escape-time 1
 
 # Monitor window activity
@@ -27,16 +25,14 @@ set -s escape-time 1
 
 # Vim configuraiton
 setw -g mode-keys vi
-unbind -t vi-copy Space
-unbind -t vi-copy Enter
-bind -t vi-copy v begin-selection
-bind -t vi-copy y copy-selection
+unbind -T copy-mode-vi Space
+unbind -T copy-mode-vi Enter
 unbind [
 bind Escape copy-mode
 unbind p
 bind p paste-buffer
-bind -t vi-copy 'v' begin-selection
-bind -t vi-copy 'y' copy-selection
+bind-key -Tcopy-mode-vi 'v' send -X begin-selection
+bind-key -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
 
 # Bindings
 bind h select-pane -L
@@ -51,10 +47,10 @@ bind r source-file ~/.tmux.conf \; display "Reloaded!"
 bind s split-window -v
 bind v split-window -h
 
-bind -r H resize-pane -L 5
-bind -r J resize-pane -D 5
-bind -r K resize-pane -U 5
-bind -r L resize-pane -R 5
+bind -r H resize-pane -L 1
+bind -r J resize-pane -D 1
+bind -r K resize-pane -U 1
+bind -r L resize-pane -R 1
 
 # Apperance
 set-option -ga terminal-overrides ",xterm-256color:Tc"
@@ -64,7 +60,11 @@ set-option -g pane-border-fg white
 set-option -g pane-active-border-fg white
 set -g status-bg black
 set -g status-fg white
-set -g status-right '#[fg=green]#H #[fg=white]| %m/%d %H:%M'
+set -g status-interval 30
+set -g status-left-length 80
+set -g status-left ""
+set -g status-right-length 45
+set -g status-right 'Batt: #{battery_icon} #{battery_percentage} #{battery_remain} | %a %h-%d %H:%M '
 
 set-window-option -g window-status-current-fg colour166 #orange
 set-option -g pane-border-fg colour235 #base02
@@ -74,3 +74,12 @@ set-option -g pane-active-border-fg colour240 #base01
 bind C-p run "tmux set-buffer \"$(xclip -o)\"; tmux paste-buffer"
 # move tmux copy buffer into x clipboard
 bind C-y run "tmux show-buffer | xclip -i"
+
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'tmux-plugins/tmux-battery'
+set -g @plugin 'tmux-plugins/tmux-urlview'
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
