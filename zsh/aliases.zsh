@@ -10,7 +10,7 @@ alias dotcd='cd ~/.dotfiles'
 
 # edit vim stuff
 alias vim='nvim'
-alias evimrc='vim ~/.dotfiles/vim/vimrc.symlink'
+alias evimrc='vim ~/.dotfiles/nvim/init.vim'
 
 # editors
 alias ovim='mvim -v'
