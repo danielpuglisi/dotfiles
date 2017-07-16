@@ -1,50 +1,32 @@
-# shortcut to this dotfiles path is $ZSH
-export ZSH=$HOME/.dotfiles
+# Setup the environment (needs to be on top)
+export ZSH=$HOME/.dotfiles/zsh
+export PROJECTS=$HOME/code
 
-# your project folder that we can `c [tab]` to
-export PROJECTS=~/code
+# use .localrc for SUPER SECRET CRAP that you don't
+# want in your public, versioned repo.
+source ~/.localrc
 
-# Editor
-export EDITOR="nvim"
+# Setup paths
+source $ZSH/exports.zsh
 
-# source every .zsh file in this rep
-for config_file ($ZSH/**/*.zsh) source $config_file
+# Functions to import
+fpath=($ZSH/functions $fpath)
+autoload -U $ZSH/functions/c(:t)
+autoload -U $ZSH/functions/smartextract(:t)
+
+# Import additional .zsh files
+source $ZSH/aliases.zsh
+source $ZSH/config.zsh
+source $ZSH/prompt.zsh
+source $ZSH/plugins.zsh # Slow thanks to base16
 
 # Remove PATH duplicates
 typeset -U path cdpath manpath fpath
 
-# use .localrc for SUPER SECRET CRAP that you don't
-# want in your public, versioned repo.
-if [[ -a ~/.localrc ]]
-then
-  source ~/.localrc
-fi
-
 # initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
-
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-### FZF Config
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# Set ignore
-export FZF_DEFAULT_COMMAND='ag --hidden --ignore /tmp/ --ignore /.bundle/ --ignore /.git/ -g ""'
-
-### Base 16 colors
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
-
-# load cg command
-eval "$($HOME/.cg/bin/cg init -)"
-
-# Ensure vim has same shell as Terminal
-if [[ -a /etc/zshenv ]]; then
-  sudo mv /etc/zshenv /etc/zprofile
-fi
-
-# Rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+	compinit;
+else
+	compinit -C;
+fi;
