@@ -28,8 +28,8 @@
         unstage = reset HEAD
         count   = !git shortlog -sn
         current-branch = !git symbolic-ref -q HEAD | sed -e 's|^refs/heads/||'
-        wtf     = !$ZSH/bin/git-wtf
-        rank = !$ZSH/bin/git-rank-contributers
+        wtf     = !$DOTFILES/bin/git-wtf
+        rank = !$DOTFILES/bin/git-rank-contributers
 [color]
         diff = auto
         ui = auto

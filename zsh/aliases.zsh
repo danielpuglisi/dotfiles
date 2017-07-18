@@ -2,15 +2,15 @@ alias zsh_benchmark='for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
 alias zsh_debug='zsh -i -c -x exit'
 
 # edit this file
-alias ealias='vim ~/.dotfiles/zsh/aliases.zsh'
+alias ealias='vim $ZSH/aliases.zsh'
 
 # edit dotfiles
-alias edot='vim ~/.dotfiles'
-alias dotcd='cd ~/.dotfiles'
+alias edot='vim $DOTFILES'
+alias dotcd='cd $DOTFILES'
 
 # edit vim stuff
 alias vim='nvim'
-alias evimrc='vim ~/.dotfiles/nvim/init.vim'
+alias evimrc='vim $DOTFILES/nvim/init.vim'
 
 # editors
 alias ovim='mvim -v'
