@@ -65,7 +65,7 @@ task :dependencies do
 
   brew_recipes = [
     "zsh",
-    "mercurial",
+    "neovim",
     "git",
     "hub",
     "bash-completion",
@@ -77,7 +77,14 @@ task :dependencies do
     "rbenv",
     "ruby-build",
     "fzf",
-    "the_silver_searcher"
+    "the_silver_searcher",
+    "heroku-toolbelt",
+    "python",
+    "python@2",
+    "postgresql",
+    "p7zip",
+    "imagemagick",
+    "puma/puma/puma-dev"
   ]
 
   brew_recipes.each do |recipe|
