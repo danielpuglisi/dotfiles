@@ -1,11 +1,9 @@
 ## Installation
 
-* `git clone git://github.com/therod/dotfiles ~/.dotfiles`
+* `git clone git://github.com/danielpuglisi/dotfiles ~/.dotfiles`
 * `cd ~/.dotfiles`
 * `rake install`
 * `rake dependencies`
-* `git submodule init`
-* `git submodule update`
 
 The install rake task will symlink the appropriate files in `.dotfiles` to your
 home directory. Everything is configured and tweaked within `~/.dotfiles`,
@@ -39,7 +37,7 @@ There's a few special files in the hierarchy.
 
 ## VIM
 
-Plugins are installed using [Vundle](https://github.com/VundleVim/Vundle.vim).
+Plugins are installed using [vim-plug](https://github.com/junegunn/vim-plug).
 
 ## Special Thanks
 
