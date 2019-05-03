@@ -16,3 +16,4 @@ windows:
         - tail -f log/development.log
         - tail -f ~/Library/Logs/Pow/apps/<%= @args[0] %>.log
   - worker: b rake jobs:work
+  - webpack: b bin/webpack-dev-server
