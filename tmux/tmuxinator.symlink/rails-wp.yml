@@ -14,6 +14,6 @@ windows:
       layout: even-horizontal
       panes:
         - tail -f log/development.log
-        - tail -f ~/Library/Logs/Pow/apps/<%= @args[0] %>.log
+        - tail -f ~/Library/Logs/puma-dev.log
   - worker: b rake jobs:work
   - webpack: b bin/webpack-dev-server
