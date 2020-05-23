@@ -1,5 +1,6 @@
 ---
 BUNDLE_PATH: ".bundle"
-BUNDLE_GEM__TEST: minitest
-BUNDLE_GEM__MIT: false
-BUNDLE_GEM__COC: true
+BUNDLE_GEM__TEST: "minitest"
+BUNDLE_GEM__MIT: "false"
+BUNDLE_GEM__COC: "true"
+BUNDLE_GITHUB__HTTPS: "true"
