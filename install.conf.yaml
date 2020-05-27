@@ -15,7 +15,7 @@
     ~/.gitignore: git/gitignore
     ~/.Guardfile: guard/Guardfile
     ~/.config/nvim: nvim
-    ~/.puma-config.rb: puma-dev/powconfig
+    ~/.powconfig: puma-dev/powconfig
     ~/.gemrc: ruby/gemrc
     ~/.irbrc: ruby/irbrc
     ~/.zshrc: zsh/zshrc
