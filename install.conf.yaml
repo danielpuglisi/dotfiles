@@ -1,0 +1,21 @@
+# https://github.com/anishathalye/dotbot/#configuration
+- defaults:
+    link:
+      relink: true
+- clean: ['~', '~/.config']
+
+- link:
+    ~/.localrc: localrc
+    ~/.tmux.conf: tmux/tmux.conf
+    ~/.config/tmuxinator: tmux/tmuxinator
+    ~/.ackrc: ack/ackrc
+    ~/.bin: bin
+    ~/.bundle: bundler/bundle
+    ~/.gitconfig: git/gitconfig
+    ~/.gitignore: git/gitignore
+    ~/.Guardfile: guard/Guardfile
+    ~/.config/nvim: nvim
+    ~/.puma-config.rb: puma-dev/powconfig
+    ~/.gemrc: ruby/gemrc
+    ~/.irbrc: ruby/irbrc
+    ~/.zshrc: zsh/zshrc

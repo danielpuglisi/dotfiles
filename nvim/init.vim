@@ -62,8 +62,6 @@ Plug 'mileszs/ack.vim'
 
 Plug 'godlygeek/tabular'
 Plug 'neomake/neomake'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'fishbullet/deoplete-ruby'
 
 " All of your Plugins must be added before the following line
 call plug#end()              " required
@@ -404,26 +402,6 @@ let g:airline#extensions#tabline#show_buffers = 1
 " Neomake
 " ---------------------------------------------------------------------------
 autocmd! BufWritePost * Neomake
-" ---------------------------------------------------------------------------
-
-" Deoplete
-" ---------------------------------------------------------------------------
-let g:deoplete#enable_at_startup = 1
-if !exists('g:deoplete#omni#input_patterns')
-  let g:deoplete#omni#input_patterns = {}
-endif
-let g:deoplete#disable_auto_complete = 1
-" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-
-" deoplete tab-complete
-inoremap <silent><expr> <TAB>
-          \ pumvisible() ? "\<C-n>" :
-          \ <SID>check_back_space() ? "\<TAB>" :
-          \ deoplete#mappings#manual_complete()
-          function! s:check_back_space() abort "{{{
-          let col = col('.') - 1
-          return !col || getline('.')[col - 1]  =~ '\s'
-          endfunction"}}}
 " ---------------------------------------------------------------------------
 
 " VARIOUS
