@@ -84,7 +84,8 @@ task :dependencies do
     "postgresql",
     "p7zip",
     "imagemagick",
-    "puma/puma/puma-dev"
+    "puma/puma/puma-dev",
+    "potrace"
   ]
 
   brew_recipes.each do |recipe|
