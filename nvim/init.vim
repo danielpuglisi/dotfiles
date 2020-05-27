@@ -55,8 +55,6 @@ Plug 'reedes/vim-pencil'
 
 " Experimental
 Plug 'bling/vim-bufferline'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'mileszs/ack.vim'
 
@@ -377,26 +375,6 @@ set guifont=Inconsolata:h14
 set wrap
 set linebreak
 endif
-" ---------------------------------------------------------------------------
-
-" Airline
-" ---------------------------------------------------------------------------
-set noshowmode
-let g:airline_powerline_fonts=1
-let g:bufferline_echo = 0
-let g:airline_section_c = ''
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_mode_map = {'c': 'C', '^S': 'S', 'R': 'R', 's': 'S', 't': 'T', 'V': 'VL', '^V': 'VB', 'i': 'I', '__': '------', 'S': 'SL', 'v': 'V', 'n': 'N'}
-let g:airline_section_z = ''
-let g:airline_right_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline#extensions#tabline#show_close_button = 0
-let g:airline#extensions#tabline#show_tab_type = 0
-let g:airline#extensions#tabline#show_tabs = 0
-let g:airline#extensions#tabline#show_splits = 1
-let g:airline#extensions#tabline#show_buffers = 1
 " ---------------------------------------------------------------------------
 
 " Neomake

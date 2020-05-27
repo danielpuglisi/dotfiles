@@ -1,7 +1,6 @@
 .DS_Store
-vim/vim.symlink/bundle/*
 .rake_tasks~
 nvim/plugged/*
 nvim/bundle/*
 nvim/spell/*
-bundler/bundle.symlink/cache/*
+bundler/bundle/cache/*
