@@ -12,6 +12,13 @@ though.
 The main file you'll want to change right off the bat is `zsh/zshrc.symlink`,
 which sets up a few paths that'll be different on your particular machine.
 
+## Color scheme
+
+```
+$ git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
+$ base16_<auto complete>
+```
+
 ## Topical
 
 Everything's built around topic areas. If you're adding a new area to your
