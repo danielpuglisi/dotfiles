@@ -49,7 +49,8 @@ task :dependencies do
   ]
 
   brew_fonts = [
-    "font-roboto-mono"
+    "font-roboto-mono",
+    "font-montserrat",
   ]
 
   brew_taps.each do |tap|
