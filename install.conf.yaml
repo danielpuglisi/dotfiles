@@ -17,5 +17,6 @@
     ~/.config/nvim: nvim
     ~/.powconfig: puma-dev/powconfig
     ~/.gemrc: ruby/gemrc
+    ~/.rubocop.yml: ruby/rubocop.yml
     ~/.irbrc: ruby/irbrc
     ~/.zshrc: zsh/zshrc
