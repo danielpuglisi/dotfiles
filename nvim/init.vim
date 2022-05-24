@@ -62,7 +62,9 @@ Plug 'godlygeek/tabular'
 Plug 'neomake/neomake'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'iamcco/coc-tailwindcss',  {'do': 'yarn install --frozen-lockfile && yarn run build'}
+" Plug 'iamcco/coc-tailwindcss',  {'do': 'yarn install --frozen-lockfile && yarn run build'}
+" Plug 'rodrigore/coc-tailwind-intellisense', {'do': 'yarn install --frozen-lockfile && yarn run build'}
+Plug 'rodrigore/coc-tailwind-intellisense', {'do': 'npm install'}
 
 Plug 'ngmy/vim-rubocop'
 
@@ -160,8 +162,6 @@ augroup vimrcEx
   autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
 
   " Ruby
-  " autocmd Filetype ruby map <leader>r :VroomRunTestFile<CR>
-  " autocmd Filetype ruby map <leader>R :VroomRunNearestTest<CR>
   autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
   autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
   autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
@@ -350,13 +350,16 @@ map <leader>n :call RenameFile()<cr>
 
 " Vroom
 " ---------------------------------------------------------------------------
-let vroom_detect_spec_helper = 1
-let g:vroom_use_vimux = 1 "enable vimux for vroom
-let g:vroom_use_spring = 1 "enable spring by default
-let g:VimuxUseNearestPane = 1
+let g:vroom_map_keys = 1 "Disable Vroom
 let g:vroom_use_colors = 1
+let g:vroom_use_vimux = 1
+let g:vroom_use_terminal = 0
+let g:vroom_clear_screen = 0
+let g:vroom_test_unit_command = 'bin/rails test'
+let g:vroom_use_bundle_exec = 0
 
-map <leader>r :! spring rake test %<CR>
+autocmd Filetype ruby map <leader>r :VroomRunTestFile<CR>
+autocmd Filetype ruby map <leader>R :VroomRunNearestTest<CR>
 " ---------------------------------------------------------------------------
 
 " Status line
