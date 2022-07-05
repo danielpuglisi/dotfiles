@@ -46,7 +46,7 @@ Plug 'tpope/vim-markdown'
 Plug 'duwanis/tomdoc.vim'
 
 " Colorschemes
-Plug 'chriskempson/base16-vim'
+Plug 'base16-project/base16-vim'
 
 " Writing
 " Plug 'vimwiki/vimwiki'

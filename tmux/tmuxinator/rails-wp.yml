@@ -15,5 +15,5 @@ windows:
       panes:
         - tail -f log/development.log
         - tail -f ~/Library/Logs/puma-dev.log
-  - worker: b rake jobs:work
+  - worker: b good_job start
   - webpack: b bin/webpack-dev-server

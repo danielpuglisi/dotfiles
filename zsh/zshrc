@@ -7,6 +7,9 @@ export PROJECTS=$HOME/code
 # want in your public, versioned repo.
 source ~/.localrc
 
+# Tmux colorschemes
+export TERM="xterm-256color"
+
 # Setup paths
 source $ZSH/exports.zsh
 
