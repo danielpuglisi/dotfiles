@@ -2,7 +2,7 @@
 
 * `git clone git://github.com/danielpuglisi/dotfiles ~/.dotfiles`
 * `cd ~/.dotfiles`
-* `rake install`
+* `./install`
 * `rake dependencies`
 
 The install rake task will symlink the appropriate files in `.dotfiles` to your
