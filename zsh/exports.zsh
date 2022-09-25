@@ -8,6 +8,9 @@ export NODE_PATH="/usr/local/lib/node"
 export NODE_BIN="/usr/local/share/npm/bin"
 export PATH="/usr/local/share/npm/bin:$PATH"
 
+# ANACONDA
+export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+
 # YARN SLOW!!!!
 # export PATH="$PATH:`yarn global bin`"
 
