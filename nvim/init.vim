@@ -129,9 +129,9 @@ if has("nvim")
   set termguicolors
 end
 
-if filereadable(expand("~/.vimrc_background"))
+if filereadable(expand("~/.config/nvim/vimrc_background"))
   let base16colorspace=256
-  source ~/.vimrc_background
+  source ~/.config/nvim/vimrc_background
 endif
 
 " ############################################################################
