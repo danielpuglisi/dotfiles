@@ -42,3 +42,6 @@ BASE16_SHELL=$HOME/.config/base16-shell/
 
 # Nodenv
 eval "$(nodenv init -)"
+
+# Pyenv
+eval "$(pyenv init -)"
