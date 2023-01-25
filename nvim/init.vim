@@ -38,8 +38,11 @@ Plug 'tpope/vim-endwise'
 " HTML & CSS & Others
 Plug 'kchmck/vim-coffee-script'
 Plug 'othree/html5.vim'
-Plug 'pangloss/vim-javascript'
 Plug 'digitaltoad/vim-jade'
+
+" Javascript
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
 
 " Markdown etc.
 Plug 'tpope/vim-markdown'
@@ -152,14 +155,16 @@ augroup vimrcEx
   autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
   autocmd FileType python set sw=4 sts=4 et
   " autocmd FileType ruby match OverLength /\%81v.\+/
-  " autocmd FileType markdown match OverLength /\%81v.\+/
+  " autocmd FileType md, markdown match OverLength /\%81v.\+/
 
   " Sass
   autocmd! BufRead,BufNewFile *.sass setfiletype sass
 
   " Markdown
-  autocmd BufRead *.md  set ai formatoptions=tcroqn2 comments=n:&gt;
-  autocmd BufRead *.markdown  set ai formatoptions=tcroqn2 comments=n:&gt;
+  autocmd BufRead *.md set ai formatoptions=tcroqn2 comments=n:&gt; number textwidth=80 wrapmargin=0 linebreak wrap
+  autocmd BufRead *.markdown set ai formatoptions=tcroqn2 comments=n:&gt; number textwidth=80 wrapmargin=0 linebreak wrap
+  autocmd BufRead *.md.erb set ai formatoptions=tcroqn2 comments=n:&gt; number textwidth=80 wrapmargin=0 linebreak wrap
+  autocmd BufRead,BufNewFile *.md.erb set filetype=eruby.markdown
 
   " Ruby
   autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
@@ -249,6 +254,7 @@ nnoremap <C-p> :FZF<cr>
 
 " NERDTree
 " ---------------------------------------------------------------------------
+let g:NERDTreeMinimalMenu=1
 map <C-n> :NERDTreeToggle<CR>
 " ---------------------------------------------------------------------------
 
