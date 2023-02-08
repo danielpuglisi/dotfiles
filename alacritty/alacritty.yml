@@ -129,13 +129,29 @@ cursor:
 # Live config reload (changes require restart)
 live_config_reload: true
 
-# shell:
-#  program: /usr/local/bin/zsh
+shell:
+  program: zsh
+  args:
+    - -l
+    - -c
+    - "source ~/.zshrc; tmux attach 2> /dev/null || tmux"
 
 working_directory: None
 
 key_bindings:
-  # - { key: N,      mods: Command,         action: SpawnNewInstance }
+  - { key: Key1, mods: Command, command: { program: "zsh", args: ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==1' | awk -F: '{print $1}'); tmux switch -t $id"] } }
+  - { key: Key2, mods: Command, command: { program: "zsh", args: ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==2' | awk -F: '{print $1}'); tmux switch -t $id"] } }
+  - { key: Key3, mods: Command, command: { program: "zsh", args: ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==3' | awk -F: '{print $1}'); tmux switch -t $id"] } }
+  - { key: Key4, mods: Command, command: { program: "zsh", args: ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==4' | awk -F: '{print $1}'); tmux switch -t $id"] } }
+  - { key: Key5, mods: Command, command: { program: "zsh", args: ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==5' | awk -F: '{print $1}'); tmux switch -t $id"] } }
+  - { key: Key6, mods: Command, command: { program: "zsh", args: ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==6' | awk -F: '{print $1}'); tmux switch -t $id"] } }
+  - { key: Key7, mods: Command, command: { program: "zsh", args: ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==7' | awk -F: '{print $1}'); tmux switch -t $id"] } }
+  - { key: Key8, mods: Command, command: { program: "zsh", args: ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==8' | awk -F: '{print $1}'); tmux switch -t $id"] } }
+  - { key: Key9, mods: Command, command: { program: "zsh", args: ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==9' | awk -F: '{print $1}'); tmux switch -t $id"] } }
+  - { key: T,    mods: Command, command: { program: "zsh", args: ["-l", "-c", "tmux switch -t `tmux new -dP`"] } }
+  - { key: W,    mods: Command, command: { program: "zsh", args: ["-l", "-c", "id=$(tmux list-sessions | grep '(attached)' | awk -F: '{print $1}'); tmux switchc -p; tmux kill-session -t $id"] } }
+  - { key: Left, mods: Command, command: { program: "zsh", args: ["-l", "-c", "tmux switch -p"] } }
+  - { key: Right, mods: Command, command: { program: "zsh", args: ["-l", "-c", "tmux switch -n"] } }
 
   - { key: Key0,   mods: Command,         action: ResetFontSize    }
   - { key: Plus,    mods: Command,         action: IncreaseFontSize }
@@ -147,7 +163,6 @@ key_bindings:
   - { key: H,      mods: Command,         action: Hide             }
   - { key: M,      mods: Command,         action: Minimize         }
   - { key: Q,      mods: Command,         action: Quit             }
-  - { key: W,      mods: Command,         action: Quit             }
   - { key: Return, mods: Command,         action: ToggleSimpleFullscreen }
   - { key: N,      mods: Command,         action: CreateNewWindow }
 
