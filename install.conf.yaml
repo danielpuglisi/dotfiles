@@ -7,13 +7,14 @@
 - link:
     ~/.localrc: localrc
     ~/.tmux.conf: tmux/tmux.conf
+    ~/.tmux.conf: tmux/tmux.conf
     ~/.config/tmuxinator: tmux/tmuxinator
+    ~/.config/alacritty: alacritty
     ~/.ackrc: ack/ackrc
     ~/.bin: bin
     ~/.bundle: bundler/bundle
     ~/.gitconfig: git/gitconfig
     ~/.gitignore: git/gitignore
-    ~/.Guardfile: guard/Guardfile
     ~/.config/nvim: nvim
     ~/.powconfig: puma-dev/powconfig
     ~/.gemrc: ruby/gemrc

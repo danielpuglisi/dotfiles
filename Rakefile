@@ -10,8 +10,8 @@ task :dependencies do
   end
 
   brew_taps = [
-    "homebrew-cask-fonts",
-    "heroku/brew"
+    "heroku/brew",
+    "homebrew/cask-fonts"
   ]
 
   brew_recipes = [
@@ -28,14 +28,19 @@ task :dependencies do
     "curl",
     "rbenv",
     "ruby-build",
+    "nodenv",
+    "pyenv",
     "fzf",
     "the_silver_searcher",
     "heroku",
+    "doctl",
+    "flyctl",
     "python",
     "python@2",
     "postgresql",
     "p7zip",
     "imagemagick",
+    "vips",
     "puma/puma/puma-dev",
     "potrace",
     "nodejs",
@@ -43,7 +48,7 @@ task :dependencies do
   ]
 
   brew_casks = [
-    "iterm2",
+    "alacritty",
     "brave-browser",
     "rectangle",
   ]
@@ -51,6 +56,7 @@ task :dependencies do
   brew_fonts = [
     "font-roboto-mono",
     "font-montserrat",
+    "font-inter"
   ]
 
   brew_taps.each do |tap|
@@ -65,6 +71,6 @@ task :dependencies do
 
   (brew_casks + brew_fonts).each do |cask|
     puts "Installing cask #{cask}..."
-    system("brew cask install #{cask}")
+    system("brew install --cask #{cask}")
   end
 end
