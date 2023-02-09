@@ -11,7 +11,8 @@ task :dependencies do
 
   brew_taps = [
     "heroku/brew",
-    "homebrew/cask-fonts"
+    "homebrew/cask-fonts",
+    "petere/postgresql"
   ]
 
   brew_recipes = [
@@ -37,14 +38,15 @@ task :dependencies do
     "flyctl",
     "python",
     "python@2",
-    "postgresql",
     "p7zip",
     "imagemagick",
     "vips",
     "puma/puma/puma-dev",
     "potrace",
     "nodejs",
-    "yarn"
+    "yarn",
+    "petere/postgresql/postgresql-common",
+    "petere/postgresql/postgresql@14",
   ]
 
   brew_casks = [
