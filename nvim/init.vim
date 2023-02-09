@@ -71,6 +71,8 @@ Plug 'rodrigore/coc-tailwind-intellisense', {'do': 'npm install'}
 
 Plug 'ngmy/vim-rubocop'
 
+Plug 'aduros/ai.vim', {'branch': 'main'}
+
 " All of your Plugins must be added before the following line
 call plug#end()              " required
 filetype plugin indent on    " required
