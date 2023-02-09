@@ -45,6 +45,7 @@ task :dependencies do
     "potrace",
     "nodejs",
     "yarn",
+    "redis",
     "petere/postgresql/postgresql-common",
     "petere/postgresql/postgresql@14",
   ]
