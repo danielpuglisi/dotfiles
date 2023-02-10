@@ -48,6 +48,7 @@ task :dependencies do
     "redis",
     "petere/postgresql/postgresql-common",
     "petere/postgresql/postgresql@14",
+    "ffmpeg"
   ]
 
   brew_casks = [
