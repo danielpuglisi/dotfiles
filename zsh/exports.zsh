@@ -8,12 +8,6 @@ export NODE_PATH="/usr/local/lib/node"
 export NODE_BIN="/usr/local/share/npm/bin"
 export PATH="/usr/local/share/npm/bin:$PATH"
 
-# LIBPQ
-export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
-
-# ANACONDA
-export PATH="/opt/homebrew/anaconda3/bin:$PATH"
-
 # YARN SLOW!!!!
 # export PATH="$PATH:`yarn global bin`"
 
@@ -43,3 +37,28 @@ export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
 export LESS_TERMCAP_so=$'\E[38;5;016m\E[48;5;220m'    # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+
+# JAVA/ANDROID
+export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
+
+export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+export ANDROID_HOME=$ANDROID_SDK_ROOT
+export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/homebrew/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/homebrew/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/homebrew/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/homebrew/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+export PATH="/opt/homebrew/Cellar/postgresql@14/14.10/bin:$PATH"

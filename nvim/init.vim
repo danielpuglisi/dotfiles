@@ -72,6 +72,7 @@ Plug 'rodrigore/coc-tailwind-intellisense', {'do': 'npm install'}
 Plug 'ngmy/vim-rubocop'
 
 Plug 'aduros/ai.vim', {'branch': 'main'}
+Plug 'github/copilot.vim', {'branch': 'release'}
 
 " All of your Plugins must be added before the following line
 call plug#end()              " required
@@ -124,6 +125,9 @@ set foldlevelstart=20
 " Store temporary files in a central spot
 set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+
+" Detect file changes from outside vim and reload when changed
+" set autoread | au CursorHold * checktime | call feedkeys("lh")
 
 " ############################################################################
 " COLOR STUFF

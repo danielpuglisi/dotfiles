@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Check if a file name is provided
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 [SRT file] [TXT file]"
+    exit 1
+fi
+
+# File name
+input="$1"
+output="$2"
+
+# Process the file
+sed -e '/^[0-9][0-9]*$/d' -e '/-->/'d -e 's/\r//g' "$input" > "$output"
