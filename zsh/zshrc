@@ -13,11 +13,6 @@ export TERM="xterm-256color"
 # Setup paths
 source $ZSH/exports.zsh
 
-# Load env variables
-if [ -f ~/.env ]; then
-  source ~/.env
-fi
-
 # Functions to import
 fpath=($ZSH/functions $fpath)
 autoload -U $ZSH/functions/c(:t)
