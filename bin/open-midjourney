@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# echo "Script started" > ~/Desktop/midjourney_debug.log
+
+for file in "$@"
+do
+    # echo "Processing file: $file" >> ~/Desktop/midjourney_debug.log
+
+    # Get the filename
+    filename=$(basename "$file")
+    # echo "Filename: $filename" >> ~/Desktop/midjourney_debug.log
+
+    # Extract UUID and index
+    uuid=$(echo "$filename" | grep -oE '[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}')
+    index=$(echo "$filename" | grep -oE '_[0-9]+\.png$' | grep -oE '[0-9]+')
+
+    # echo "Extracted UUID: $uuid" >> ~/Desktop/midjourney_debug.log
+    # echo "Extracted Index: $index" >> ~/Desktop/midjourney_debug.log
+
+    # Construct and open URL
+    if [ ! -z "$uuid" ]; then
+        url="https://alpha.midjourney.com/jobs/${uuid}?index=${index}"
+        # echo "Opening URL: $url" >> ~/Desktop/midjourney_debug.log
+        /usr/bin/open "$url"
+    # else
+        # echo "Could not extract UUID or index from filename: $filename" >> ~/Desktop/midjourney_debug.log
+    fi
+done
+
+# echo "Script ended" >> ~/Desktop/midjourney_debug.log
