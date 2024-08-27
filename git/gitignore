@@ -9,3 +9,5 @@ gems.tags
 *.taskpaper
 .bundle
 .powenv
+.avante_chat_history/
+mandark-history.json

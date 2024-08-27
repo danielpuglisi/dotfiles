@@ -60,6 +60,7 @@ Plug 'reedes/vim-pencil'
 Plug 'bling/vim-bufferline'
 Plug 'scrooloose/nerdtree'
 Plug 'mileszs/ack.vim'
+Plug 'yetone/avante.nvim', {'branch': 'main'}
 
 Plug 'godlygeek/tabular'
 Plug 'neomake/neomake'
