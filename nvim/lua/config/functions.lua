@@ -1,11 +1,10 @@
-local M = {}
-
-function M.open_test_alternate()
+function tulpa.open_test_alternate()
   local current_file = vim.fn.expand("%")
   local new_file = current_file
   local in_spec = string.match(current_file, "^spec/") ~= nil
   local going_to_spec = not in_spec
-  local in_app = string.match(current_file, "controllers") or string.match(current_file, "models") or string.match(current_file, "views")
+  local in_app = string.match(current_file, "controllers") or string.match(current_file, "models") or
+      string.match(current_file, "views")
 
   if going_to_spec then
     if in_app then
@@ -24,11 +23,11 @@ function M.open_test_alternate()
   vim.cmd("e " .. new_file)
 end
 
-function M.strip_whitespace()
+function tulpa.strip_whitespace()
   vim.cmd([[%s/\s\+$//gc]])
 end
 
-function M.rename_file()
+function tulpa.rename_file()
   local old_name = vim.fn.expand('%')
   local new_name = vim.fn.input('New file name: ', vim.fn.expand('%'), 'file')
   if new_name ~= '' and new_name ~= old_name then
@@ -37,5 +36,3 @@ function M.rename_file()
     vim.cmd('redraw!')
   end
 end
-
-return M
