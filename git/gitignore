@@ -11,3 +11,6 @@ gems.tags
 .powenv
 .avante_chat_history/
 mandark-history.json
+.byebug_history
+code_composer_history.json
+compose_history.json

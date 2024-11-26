@@ -47,4 +47,4 @@ export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 
 # Postgres
-export PATH="/opt/homebrew/Cellar/postgresql@14/14.10/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@14/bin:$PATH"

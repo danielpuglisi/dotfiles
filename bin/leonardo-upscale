@@ -1,0 +1,264 @@
+#!/usr/bin/env ruby
+
+require 'json'
+require 'net/http'
+require 'uri'
+require 'optparse'
+require 'securerandom'
+require 'logger'
+
+class LeonardoUpscaler
+  def initialize(api_key, image_path, options = {})
+    @logger = Logger.new(STDOUT)
+    @logger.level = options[:verbose] ? Logger::DEBUG : Logger::INFO
+
+    @api_key = api_key
+    @image_path = image_path
+    @options = {
+      style: 'REALISTIC',
+      creativity: 5,
+      detail_contrast: 5,
+      similarity: 5,
+      upscale_multiplier: 2.0,
+      max_poll_attempts: 30,
+      poll_interval: 10
+    }.merge(options)
+
+    @logger.debug "Initialized with options: #{@options}"
+  end
+
+  def upscale
+    # Validate input
+    raise "API Key not found. Set LEONARDO_API_KEY environment variable." if @api_key.nil? || @api_key.empty?
+    raise "Image file not found: #{@image_path}" unless File.exist?(@image_path)
+
+    # Set up headers
+    headers = {
+      'Accept' => 'application/json',
+      'Content-Type' => 'application/json',
+      'Authorization' => "Bearer #{@api_key}"
+    }
+
+    # Get presigned URL for upload
+    @logger.debug "Initializing image upload"
+    upload_init_url = URI('https://cloud.leonardo.ai/api/rest/v1/init-image')
+    upload_init_response = make_request(upload_init_url, :post, headers, { extension: 'jpg' })
+
+    # Parse upload details
+    upload_details = upload_init_response['uploadInitImage']
+    image_id = upload_details['id']
+    upload_url = upload_details['url']
+    upload_fields = JSON.parse(upload_details['fields'])
+
+    @logger.debug "Image ID: #{image_id}"
+    @logger.debug "Upload URL: #{upload_url}"
+
+    # Upload image manually
+    @logger.info "Uploading image..."
+    manual_multipart_upload(upload_url, upload_fields, @image_path)
+
+    # Create upscale variation
+    @logger.info "Creating upscale variation..."
+    upscale_url = URI('https://cloud.leonardo.ai/api/rest/v1/variations/universal-upscaler')
+    upscale_payload = {
+      ultraUpscaleStyle: @options[:style],
+      creativityStrength: @options[:creativity],
+      detailContrast: @options[:detail_contrast],
+      similarity: @options[:similarity],
+      upscaleMultiplier: @options[:upscale_multiplier],
+      initImageId: image_id
+    }
+
+    @logger.debug "Upscale payload: #{upscale_payload}"
+
+    upscale_response = make_request(upscale_url, :post, headers, upscale_payload)
+    variation_id = upscale_response['universalUpscaler']['id']
+
+    @logger.info "Variation ID: #{variation_id}"
+    @logger.info "Waiting for upscale to complete..."
+
+    # Poll for completion
+    final_response = poll_for_completion(variation_id, headers)
+
+    # Save upscaled image
+    timestamp = Time.now.strftime('%Y%m%d%H%M%S')
+    output_path = File.join(File.dirname(@image_path), "upscaled_#{timestamp}_#{File.basename(@image_path)}")
+
+    @logger.info "Downloading upscaled image..."
+    download_image(final_response['url'], output_path)
+
+    @logger.info "Upscaled image saved to: #{output_path}"
+    output_path
+  rescue StandardError => e
+    @logger.error "Error during upscaling: #{e.message}"
+    @logger.error e.backtrace.join("\n")
+    raise
+  end
+
+  private
+
+  def poll_for_completion(variation_id, headers)
+    retrieve_url = URI("https://cloud.leonardo.ai/api/rest/v1/variations/#{variation_id}")
+
+    @options[:max_poll_attempts].times do |attempt|
+      @logger.debug "Polling attempt #{attempt + 1}"
+
+      response = make_request(retrieve_url, :get, headers)
+      status = response['generated_image_variation_generic'][0]['status']
+
+      @logger.debug "Current status: #{status}"
+
+      if status == 'COMPLETE'
+        url = response['generated_image_variation_generic'][0]['url']
+        raise "No URL found for completed variation" if url.nil?
+        return response['generated_image_variation_generic'][0]
+      elsif status == 'FAILED'
+        raise "Upscale variation failed"
+      end
+
+      # Wait before next poll
+      sleep(@options[:poll_interval])
+    end
+
+    raise "Max polling attempts reached. Upscale did not complete."
+  end
+
+  def make_request(url, method, headers, body = nil)
+    @logger.debug "Making #{method.upcase} request to #{url}"
+
+    # Ensure url is a URI object
+    url = URI(url) if url.is_a?(String)
+
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+
+    request = case method
+              when :post
+                req = Net::HTTP::Post.new(url.path, headers)
+                req.body = body.to_json if body
+                req
+              when :get
+                Net::HTTP::Get.new(url.path, headers)
+              end
+
+    @logger.debug "Request headers: #{headers}"
+    @logger.debug "Request body: #{body}" if body
+
+    response = http.request(request)
+
+    @logger.debug "Response status: #{response.code}"
+    @logger.debug "Response body: #{response.body}"
+
+    raise "Request failed: #{response.code}" unless response.code.to_i == 200
+
+    JSON.parse(response.body)
+  rescue JSON::ParserError => e
+    @logger.error "JSON parsing error: #{e.message}"
+    @logger.error "Response body: #{response.body}"
+    raise
+  end
+
+  def manual_multipart_upload(upload_url, upload_fields, image_path)
+    # Ensure upload_url is a URI object
+    upload_url = URI(upload_url) if upload_url.is_a?(String)
+
+    boundary = SecureRandom.hex
+
+    # Prepare multipart body
+    body_parts = upload_fields.map { |key, value| "Content-Disposition: form-data; name=\"#{key}\"\r\n\r\n#{value}" }
+    body_parts << "Content-Disposition: form-data; name=\"file\"; filename=\"#{File.basename(image_path)}\"\r\nContent-Type: image/jpeg\r\n\r\n#{File.read(image_path)}"
+
+    multipart_body = "--#{boundary}\r\n" + body_parts.join("\r\n--#{boundary}\r\n") + "\r\n--#{boundary}--\r\n"
+
+    http = Net::HTTP.new(upload_url.host, upload_url.port)
+    http.use_ssl = true
+
+    request = Net::HTTP::Post.new(upload_url.path)
+    request.body = multipart_body
+    request.content_type = "multipart/form-data; boundary=#{boundary}"
+
+    @logger.debug "Multipart upload to: #{upload_url}"
+    @logger.debug "Multipart request content type: #{request.content_type}"
+
+    response = http.request(request)
+
+    @logger.debug "Upload response status: #{response.code}"
+
+    raise "Image upload failed: #{response.code}" unless response.code.to_i == 204
+  end
+
+  def download_image(image_url, output_path)
+    # Ensure image_url is a URI object
+    image_url = URI(image_url) if image_url.is_a?(String)
+
+    @logger.debug "Downloading image from: #{image_url}"
+
+    Net::HTTP.start(image_url.host, image_url.port, use_ssl: image_url.scheme == 'https') do |http|
+      response = http.get(image_url.path)
+
+      @logger.debug "Download response status: #{response.code}"
+
+      File.open(output_path, 'wb') { |file| file.write(response.body) }
+    end
+  end
+end
+
+# Command-line option parsing
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: leonardo_upscaler.rb [options] <image_file>"
+
+  opts.on('--style STYLE', 'Upscale style (default: ARTISTIC)') do |v|
+    options[:style] = v
+  end
+
+  opts.on('--creativity LEVEL', Integer, 'Creativity strength (default: 5)') do |v|
+    options[:creativity] = v
+  end
+
+  opts.on('--detail-contrast LEVEL', Integer, 'Detail contrast (default: 5)') do |v|
+    options[:detail_contrast] = v
+  end
+
+  opts.on('--similarity LEVEL', Integer, 'Similarity (default: 5)') do |v|
+    options[:similarity] = v
+  end
+
+  opts.on('--upscale-multiplier MULTIPLIER', Float, 'Upscale multiplier (default: 2.0)') do |v|
+    options[:upscale_multiplier] = v
+  end
+
+  opts.on('--max-poll-attempts ATTEMPTS', Integer, 'Maximum polling attempts (default: 30)') do |v|
+    options[:max_poll_attempts] = v
+  end
+
+  opts.on('--poll-interval SECONDS', Integer, 'Polling interval in seconds (default: 10)') do |v|
+    options[:poll_interval] = v
+  end
+
+  opts.on('-v', '--verbose', 'Enable verbose logging') do
+    options[:verbose] = true
+  end
+
+  opts.on('-h', '--help', 'Prints this help') do
+    puts opts
+    exit
+  end
+end.parse!
+
+# Validate image file argument
+if ARGV.empty?
+  puts "Error: Please provide an image file"
+  exit 1
+end
+
+image_path = ARGV[0]
+api_key = ENV['LEONARDO_API_KEY']
+
+begin
+  upscaler = LeonardoUpscaler.new(api_key, image_path, options)
+  upscaler.upscale
+rescue StandardError => e
+  puts "Error: #{e.message}"
+  exit 1
+end

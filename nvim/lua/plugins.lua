@@ -73,14 +73,6 @@ return {
       })
     end,
   },
-  -- {
-  --   "zbirenbaum/copilot.lua",
-  --   cmd = "Copilot",
-  --   event = "InsertEnter",
-  --   config = function()
-  --     require("copilot").setup({})
-  --   end,
-  -- },
   {
     "yetone/avante.nvim",
     event = "VeryLazy",
@@ -99,13 +91,13 @@ return {
         }
       },
       --- The below is optional, make sure to setup it properly if you have lazy=true
-      {
-        'MeanderingProgrammer/render-markdown.nvim',
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
+      -- {
+      --   'MeanderingProgrammer/render-markdown.nvim',
+      --   opts = {
+      --     file_types = { "markdown", "Avante" },
+      --   },
+      --   ft = { "markdown", "Avante" },
+      -- },
     },
   }
 }

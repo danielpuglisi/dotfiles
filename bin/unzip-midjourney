@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Check if there are any zip files in the current directory
+if ls midjourney_session_*.zip 1> /dev/null 2>&1; then
+    # Initialize counter
+    total_files=$(ls -1 midjourney_session_*.zip 2>/dev/null | wc -l)
+    processed=0
+
+    # Loop through each zip file in the format "midjourney_session_YYYY-MM-DD_[XX-YY].zip"
+    for zipfile in midjourney_session_*.zip; do
+        # Increment counter
+        ((processed++))
+
+        # Extract date from the filename (e.g., "2024-9-26")
+        folder_name=$(echo "$zipfile" | awk -F'[_[]' '{print $3}')
+
+        # Display progress
+        echo "Processing file $processed of $total_files: $zipfile"
+
+        # Create the target folder if it doesn't exist
+        mkdir -p "$folder_name"
+
+        # Unzip the contents into the folder
+        unzip -q "$zipfile" -d "$folder_name"
+
+        # Remove the zip file after extraction
+        rm "$zipfile"
+    done
+
+    echo "All $total_files zip files have been extracted and deleted."
+else
+    echo "No zip files found in the current directory."
+fi
