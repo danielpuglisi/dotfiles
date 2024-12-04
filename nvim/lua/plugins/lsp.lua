@@ -363,6 +363,7 @@ return {
 
       require("mason-lspconfig").setup({
         ensure_installed = {
+          "marksman",
           "bashls",
           "cssls",
           "dockerls",
@@ -382,6 +383,19 @@ return {
           function(ls)
             require("lspconfig")[ls].setup({
               capabilities = capabilities,
+            })
+          end,
+          -- Specific handler for ruby_lsp
+          ["ruby_lsp"] = function()
+            require("lspconfig").ruby_lsp.setup({
+              capabilities = capabilities,
+              filetypes = { "ruby" }, -- Remove 'eruby' to prevent interference with markdown
+              settings = {
+                rubyLsp = {
+                  diagnostics = false, -- Disable diagnostics in non-ruby files
+                  formatter = false,   -- Disable formatting in non-ruby files
+                }
+              }
             })
           end,
         },

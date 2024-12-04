@@ -43,3 +43,7 @@ fpath+=${ZDOTDIR:-~}/.zsh_functions
 
 # Created by `pipx` on 2023-12-14 16:21:51
 export PATH="$PATH:/Users/pulleasy/.local/bin"
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

@@ -1,5 +1,18 @@
 return {
   {
+    "RRethy/nvim-base16",
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("base16-eighties")
+
+      vim.defer_fn(function()
+        -- Set specific links
+        vim.api.nvim_set_hl(0, "@variable", { link = "@field" })
+        vim.api.nvim_set_hl(0, "@variable.member", { link = "TSVariable" })
+      end, 100)
+    end,
+  },
+  {
     "kevinhwang91/nvim-ufo", -- Better folds in Neovim
     dependencies = "kevinhwang91/promise-async",
     keys = {

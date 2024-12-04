@@ -21,3 +21,4 @@
     ~/.rubocop.yml: ruby/rubocop.yml
     ~/.irbrc: ruby/irbrc
     ~/.zshrc: zsh/zshrc
+    ~/.rbenv/default-gems: rbenv/default-gems

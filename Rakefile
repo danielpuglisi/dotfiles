@@ -48,6 +48,7 @@ task :dependencies do
     "redis",
     "petere/postgresql/postgresql-common",
     "petere/postgresql/postgresql@14",
+    "petere/postgresql/postgresql@15",
     "ffmpeg"
   ]
 
@@ -77,4 +78,7 @@ task :dependencies do
     puts "Installing cask #{cask}..."
     system("brew install --cask #{cask}")
   end
+
+  puts "Install rbenv-default-gems"
+  system("git clone https://github.com/rbenv/rbenv-default-gems.git $(rbenv root)/plugins/rbenv-default-gems")
 end

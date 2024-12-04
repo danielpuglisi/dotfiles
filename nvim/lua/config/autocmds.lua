@@ -40,9 +40,10 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   command = "setfiletype sass"
 })
 
-vim.api.nvim_create_autocmd("BufRead", {
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = { "*.md", "*.markdown", "*.md.erb" },
   callback = function()
+    -- vim.bo.filetype = "markdown.erb"
     vim.opt_local.ai = true
     vim.opt_local.formatoptions = "tcroqn2"
     vim.opt_local.comments = "n:>"
@@ -55,13 +56,8 @@ vim.api.nvim_create_autocmd("BufRead", {
 })
 
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = { "*.md.erb" },
-  command = "set filetype=eruby.markdown"
-})
-
-
--- Neomake setup
-vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = "*",
-  command = "Neomake",
+  pattern = "*.md.erb",
+  callback = function()
+    vim.bo.filetype = "markdown.eruby"
+  end,
 })

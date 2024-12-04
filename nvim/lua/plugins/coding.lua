@@ -1,4 +1,15 @@
 return {
+  "tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
+  {
+    "echasnovski/mini.diff",
+    config = function()
+      local diff = require("mini.diff")
+      diff.setup({
+        -- Disabled by default
+        source = diff.gen_source.none(),
+      })
+    end,
+  },
   {
     "olimorris/codecompanion.nvim",
     dependencies = {
@@ -8,7 +19,7 @@ return {
       -- { "stevearc/dressing.nvim", opts = {} },
       -- { "nvim-telescope/telescope.nvim" },
       { "echasnovski/mini.pick", config = true },
-      { "ibhagwan/fzf-lua", config = true },
+      { "ibhagwan/fzf-lua",      config = true },
       -- The following are optional:
       -- { "MeanderingProgrammer/render-markdown.nvim", ft = { "markdown", "codecompanion" } }
     },
@@ -98,6 +109,12 @@ return {
               "<LocalLeader>a",
               "<cmd>CodeCompanionChat Toggle<CR>",
               description = "Toggle a chat buffer",
+              mode = { "n", "v" },
+            },
+            {
+              "<leader>a",
+              "<cmd>CodeCompanion<CR>",
+              description = "Toggle an inline chat",
               mode = { "n", "v" },
             },
             {

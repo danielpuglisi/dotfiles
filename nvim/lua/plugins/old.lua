@@ -33,7 +33,7 @@ return {
   "vim-ruby/vim-ruby",
   "tpope/vim-rails",
   "danchoi/ri.vim",
-  "tpope/vim-endwise",
+  -- "tpope/vim-endwise",
 
   -- HTML, CSS & Others
   "kchmck/vim-coffee-script",
@@ -46,10 +46,7 @@ return {
 
   -- Markdown
   "tpope/vim-markdown",
-  "duwanis/tomdoc.vim",
-
-  -- Colorscheme
-  "chriskempson/base16-vim",
+  -- "duwanis/tomdoc.vim",
 
   -- Writing
   "junegunn/goyo.vim",
@@ -60,12 +57,9 @@ return {
   "scrooloose/nerdtree",
 
   "godlygeek/tabular",
-  "neomake/neomake",
+  -- "neomake/neomake",
 
-  { "neoclide/coc.nvim", branch = "release" },
-  { "rodrigore/coc-tailwind-intellisense", build = "npm install" },
-
-  "ngmy/vim-rubocop",
+  -- "ngmy/vim-rubocop",
 
   -- {
   --   "github/copilot.vim",
