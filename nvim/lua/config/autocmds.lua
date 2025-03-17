@@ -23,6 +23,8 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.sw = 2
     vim.opt_local.sts = 2
     vim.opt_local.expandtab = true
+    vim.opt_local.smartindent = true
+    vim.opt_local.cindent = false
   end
 })
 
@@ -48,7 +50,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.opt_local.formatoptions = "tcroqn2"
     vim.opt_local.comments = "n:>"
     vim.opt_local.number = true
-    vim.opt_local.textwidth = 80
     vim.opt_local.wrapmargin = 0
     vim.opt_local.linebreak = true
     vim.opt_local.wrap = true

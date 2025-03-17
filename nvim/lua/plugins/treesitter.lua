@@ -13,7 +13,6 @@ return {
       },
       {
         "PriceHiller/nvim-treesitter-endwise", -- Automatically add end keywords for Ruby, Lua, Python, and more
-        branch = "fix/iter-matches",
       },
       {
         "windwp/nvim-autopairs", -- Autopair plugin
@@ -51,7 +50,7 @@ return {
       require("nvim-treesitter.configs").setup({
         ensure_installed = "all",
         ignore_install = { "phpdoc" }, -- list of parser which cause issues or crashes
-        highlight = { enable = true, additional_vim_regex_highlighting = true },
+        highlight = { enable = true, additional_vim_regex_highlighting = false },
         incremental_selection = {
           enable = true,
           keymaps = {

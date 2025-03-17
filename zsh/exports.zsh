@@ -48,3 +48,6 @@ export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 
 # Postgres
 export PATH="/opt/homebrew/opt/postgresql@14/bin:$PATH"
+
+# Cargo
+export PATH="/Users/pulleasy/.cargo/bin:$PATH"
