@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# Define the history file in the current directory
+HISTORY_FILE="$PWD/.fsel_history"
+
+# Check if the --history flag is provided
+if [ "$1" == "--history" ]; then
+    if [ -s "$HISTORY_FILE" ]; then
+        selected_files=$(cat "$HISTORY_FILE")
+    else
+        echo "No history found in $HISTORY_FILE"
+        exit 1
+    fi
+else
+    # List files recursively, excluding hidden files
+    file_list=$(find . -type f ! -path '*/\.*' | sed 's|^\./||')
+
+    # Use fzf to select files
+    selected_files=$(echo "$file_list" | fzf --multi --layout=reverse --prompt="Select files: ")
+
+    # Exit if no files are selected
+    if [ -z "$selected_files" ]; then
+        echo "No files selected"
+        exit 1
+    fi
+
+    # Add selected files to history (avoid duplicates)
+    for file in $selected_files; do
+        if [ -f "$file" ] && ! grep -Fxq "$file" "$HISTORY_FILE" 2>/dev/null; then
+            echo "$file" >> "$HISTORY_FILE"
+        fi
+    done
+fi
+
+# Convert selected files into an array
+IFS=$'\n' read -d '' -r -a files <<< "$selected_files"
+
+# Detect clipboard command
+if command -v pbcopy > /dev/null; then
+    clipboard_cmd="pbcopy"
+elif command -v xclip > /dev/null; then
+    clipboard_cmd="xclip -selection clipboard"
+elif command -v wl-copy > /dev/null; then
+    clipboard_cmd="wl-copy"
+else
+    echo "No clipboard utility found. Install pbcopy, xclip, or wl-copy."
+    exit 1
+fi
+
+# Format output and copy to clipboard using relative paths
+(
+    for file in "${files[@]}"; do
+        if [ -f "$file" ]; then
+            # Use relative path as-is (already relative to PWD from fzf)
+            echo "<file:$file>"
+            cat "$file"
+            echo "</file>"
+        else
+            echo "Error: $file not found" >&2
+        fi
+    done
+) | $clipboard_cmd
