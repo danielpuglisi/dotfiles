@@ -68,3 +68,20 @@ alias hosts="head -2 ~/.ssh/known_hosts | tail -1 > ~/.ssh/known_hosts"
 
 # Pipe my public key to my clipboard. Fuck you, pay me.
 alias pubkey="more ~/.ssh/id_rsa.pub| pbcopy | echo '=> Public key copied to pasteboard.'"
+
+# Function to change theme and reload tmux
+change_theme() {
+    # Run the base16 theme command
+    eval "$1"
+
+    # Tell alacritty to reload config with USR1 signal
+    pkill alacritty && open -a Alacritty
+
+    echo "Theme changed to $2"
+}
+
+# Night theme alias using base16_eighties
+alias night="change_theme 'base16_eighties' 'Night (Eighties)'"
+
+# Day theme alias using base16_atelier-dune-light
+alias day="change_theme 'base16_atelier-dune-light' 'Day (Atelier Dune Light)'"
