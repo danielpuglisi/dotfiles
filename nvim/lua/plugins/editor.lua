@@ -1,5 +1,17 @@
 return {
   {
+    "zaldih/themery.nvim",
+    priority = 900,
+    lazy = false,
+    config = function()
+      require("themery").setup({
+        themes = { "base16-eighties", "base16-selenized-light" },
+        livePreview = true,
+        defaultTheme = "base16-eighties"
+      })
+    end
+  },
+  {
     "RRethy/nvim-base16",
     priority = 1000,
     config = function()

@@ -52,16 +52,6 @@ vim.opt.statusline = "%<%f\\ (%{&ft})\\ %-4(%m%)%=%-19(%3l,%02c%03V%)"
 vim.opt.backupdir = '~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp'
 vim.opt.directory = '~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp'
 
--- Color configuration
--- if vim.fn.has("nvim") == 1 then
---   vim.opt.termguicolors = true
--- end
-
--- if vim.fn.filereadable(vim.fn.expand("~/.config/nvim/vimrc_background")) == 1 then
---   vim.g.base16colorspace = 256
---   vim.cmd('source ~/.config/nvim/vimrc_background')
--- end
-
 -- Vroom configuration
 vim.g.vroom_map_keys = 1
 vim.g.vroom_use_colors = 1
