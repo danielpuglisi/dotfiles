@@ -4,8 +4,18 @@ return {
     priority = 900,
     lazy = false,
     config = function()
+      -- Set up an autocmd to run customizations on any colorscheme change
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        pattern = "*",
+        callback = function()
+          vim.api.nvim_set_hl(0, "@variable", { link = "@field" })
+          vim.api.nvim_set_hl(0, "@variable.member", { link = "TSVariable" })
+          vim.api.nvim_set_hl(0, "@comment", { bg = "NONE" })
+        end,
+      })
+
       require("themery").setup({
-        themes = { "base16-eighties", "base16-selenized-light" },
+        themes = { "base16-eighties", "base16-atelier-dune-light" },
         livePreview = true,
         defaultTheme = "base16-eighties"
       })
@@ -16,12 +26,6 @@ return {
     priority = 1000,
     config = function()
       vim.cmd.colorscheme("base16-eighties")
-
-      vim.defer_fn(function()
-        -- Set specific links
-        vim.api.nvim_set_hl(0, "@variable", { link = "@field" })
-        vim.api.nvim_set_hl(0, "@variable.member", { link = "TSVariable" })
-      end, 100)
     end,
   },
   {
