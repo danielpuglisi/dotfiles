@@ -1,0 +1,141 @@
+#!/bin/bash
+
+# --- Configuration ---
+DEFAULT_EXCLUDE_DIR_NAMES=(".git" "node_modules" "__pycache__" "fonts")
+DEFAULT_EXCLUDE_PATTERNS=(".DS_Store" ".keep" "*.otf" "*.eot" "*.ttf" "*.woff" "*.woff2" "*.afm" "LICENSE.txt" "*.zip" "*.gif" "*.jpeg" "*.png" "*.jpg" "*.xls" "*.xlsx" "*.bak" "favicon.ico" "*.log" "*.tmp" "*.o" "*.obj" "*.bin")
+TEXT_MIME_REGEX='^text/|^application/(json|javascript|x-sh|xml|yaml|toml)|inode/x-empty'
+
+# --- Helper Functions ---
+usage() {
+    echo "Usage: $(basename "$0") [OPTIONS] [path ...]"
+    echo "Copies a tree structure and optionally text file contents from given paths (default: '.') to the clipboard."
+    echo
+    echo "Options:"
+    echo "  --exclude-dir <name>     Exclude directories named <name> (e.g., 'build')"
+    echo "  --exclude-pattern <patt> Exclude files matching <patt> (e.g., '*.log')"
+    echo "  --tree-only              Output only the tree structure, no file contents"
+    echo "  -h, --help               Show this help"
+    exit 1
+}
+
+# --- Argument Parsing ---
+exclude_dir_names=("${DEFAULT_EXCLUDE_DIR_NAMES[@]}")
+exclude_patterns=("${DEFAULT_EXCLUDE_PATTERNS[@]}")
+target_paths=()
+tree_only=false
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --exclude-dir)
+            [[ -z "$2" || "$2" == -* ]] && { echo "Error: --exclude-dir needs a name" >&2; usage; }
+            exclude_dir_names+=("$(basename "$2")")
+            shift 2 ;;
+        --exclude-pattern)
+            [[ -z "$2" || "$2" == -* ]] && { echo "Error: --exclude-pattern needs a pattern" >&2; usage; }
+            exclude_patterns+=("$2")
+            shift 2 ;;
+        --tree-only)
+            tree_only=true
+            shift ;;
+        -h|--help)
+            usage ;;
+        *)
+            target_paths+=("$1")
+            shift ;;
+    esac
+done
+
+# Default to current directory if no paths provided
+if [[ ${#target_paths[@]} -eq 0 ]]; then
+    target_paths=(".")  # Explicitly set as an array with one element
+fi
+
+# --- Dependency Checks ---
+for cmd in tree file; do
+    command -v "$cmd" >/dev/null || { echo "Error: '$cmd' not found" >&2; exit 1; }
+done
+if command -v pbcopy >/dev/null; then clipboard_cmd="pbcopy"
+elif command -v xclip >/dev/null; then clipboard_cmd="xclip -selection clipboard"
+elif command -v wl-copy >/dev/null; then clipboard_cmd="wl-copy"
+else echo "Error: No clipboard tool (pbcopy, xclip, wl-copy)" >&2; exit 1; fi
+
+# --- Prepare Find and Tree Conditions ---
+all_excludes=("${exclude_dir_names[@]}" "${exclude_patterns[@]}")
+unique_excludes=($(printf "%s\n" "${all_excludes[@]}" | sort -u))
+# Escape wildcards for tree -I (e.g., *.log -> \*.log)
+tree_excludes=()
+for excl in "${unique_excludes[@]}"; do
+    tree_excludes+=("$(printf '%s' "$excl" | sed 's/[].*+?{}|]/\\&/g')")
+done
+tree_pattern=$(printf "%s|" "${tree_excludes[@]}" | sed 's/|$//')
+
+# Find prune condition: exclude directories by name
+prune_conditions=()
+for name in "${exclude_dir_names[@]}"; do prune_conditions+=(-name "$name" -o); done
+unset 'prune_conditions[${#prune_conditions[@]}-1]'  # Remove trailing -o
+find_prune=()
+[[ ${#prune_conditions[@]} -gt 0 ]] && find_prune=(-type d \( "${prune_conditions[@]}" \))
+
+# Find select condition: files, not matching patterns
+select_conditions=(-type f)
+for pattern in "${exclude_patterns[@]}"; do select_conditions+=(-not -name "$pattern"); done
+
+# --- Generate Tree ---
+echo "Generating tree..." >&2
+tree_output=$(tree -if --noreport -I "$tree_pattern" "${target_paths[@]}" 2>/dev/null | sed 's|^\./||' | grep -vE "^\.$")
+for pattern in "${exclude_patterns[@]}"; do
+    regex_pattern=$(echo "$pattern" | sed 's/\./\\./g; s/\*/.*/g')
+    tree_output=$(echo "$tree_output" | grep -vE "$regex_pattern")
+done
+if [[ -z "$tree_output" ]]; then
+    tree_output="[No files or directories found after exclusions]"
+fi
+
+# --- Process Output ---
+if [[ "$tree_only" == "true" ]]; then
+    echo "Copying tree only..." >&2
+    (
+        echo "<tree>"
+        echo "$tree_output"
+        echo "</tree>"
+    ) | $clipboard_cmd
+else
+    # Count Files
+    echo "Counting files..." >&2
+    total_files=$(find "${target_paths[@]}" "${find_prune[@]}" -prune -o "${select_conditions[@]}" -print0 | tr -cd '\0' | wc -c | tr -d '[:space:]')
+    if [[ -z "$total_files" || ! "$total_files" =~ ^[0-9]+$ ]]; then
+        total_files=0
+    fi
+    echo "Found $total_files files to check" >&2
+
+    # Process Files and Copy
+    echo "Processing and copying..." >&2
+    (
+        echo "<tree>"
+        echo "$tree_output"
+        echo "</tree>"
+
+        if [[ "$total_files" -gt 0 ]]; then
+            current=0
+            find "${target_paths[@]}" "${find_prune[@]}" -prune -o "${select_conditions[@]}" -print0 | while IFS= read -r -d $'\0' file; do
+                ((current++))
+                printf "\r[%d/%d] %s" "$current" "$total_files" "$file" >&2
+
+                # Determine relative path
+                relative_path="$file"
+                if [[ "$file" == ./* && "${target_paths[*]}" =~ ^\.$ ]]; then
+                    relative_path="${file#./}"  # Remove leading './' if in current dir
+                fi
+
+                if file -b --mime-type "$file" 2>/dev/null | grep -qE "$TEXT_MIME_REGEX"; then
+                    echo "<file:$relative_path>"
+                    cat "$file" 2>/dev/null || echo "[Error reading $file]"
+                    echo "</file>"
+                fi
+            done
+        fi
+    ) | $clipboard_cmd
+fi
+
+echo -e "\nDone. Copied to clipboard." >&2
+[[ "$tree_only" == "false" && "$total_files" -eq 0 ]] && echo "Note: No files found after exclusions. Check if directory is empty or all files are excluded." >&2

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Check if required arguments are provided
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <input_file> <output_file> <fade_duration>"
+    exit 1
+fi
+
+INPUT_FILE="$1"
+OUTPUT_FILE="$2"
+FADE_DURATION="$3"
+
+# Check if input file exists
+if [ ! -f "$INPUT_FILE" ]; then
+    echo "Error: Input file '$INPUT_FILE' not found."
+    exit 1
+fi
+
+# Get video properties using ffprobe
+echo "Getting video information..."
+FFPROBE_DATA=$(ffprobe -v error -show_streams "$INPUT_FILE" | grep "r_frame_rate\|duration")
+echo "$FFPROBE_DATA"
+
+# Extract the duration
+DURATION=$(echo "$FFPROBE_DATA" | grep "^duration=" | cut -d'=' -f2)
+
+# Calculate the setpts value: total duration - 2*(fade duration)
+SETPTS_VALUE=$(echo "scale=6; $DURATION - (2 * $FADE_DURATION)" | bc)
+
+echo "Video duration: $DURATION"
+echo "Fade duration: $FADE_DURATION"
+echo "Calculated setpts value: $SETPTS_VALUE"
+
+# Run the ffmpeg command with the calculated values
+ffmpeg -i "$INPUT_FILE" -filter_complex "[0]split[body][pre];[pre]trim=duration=$FADE_DURATION,format=yuva420p,fade=d=$FADE_DURATION:alpha=1,setpts=PTS+($SETPTS_VALUE/TB)[jt];[body]trim=$FADE_DURATION,setpts=PTS-STARTPTS[main];[main][jt]overlay" "$OUTPUT_FILE"
+
+echo "Processing completed. Output saved to $OUTPUT_FILE"

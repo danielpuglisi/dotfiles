@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Check if correct number of arguments is provided
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 input_file output_file aspect_ratio"
+    echo "Example: $0 input.mp4 output.mp4 5:7"
+    exit 1
+fi
+
+# Assign arguments to variables
+INPUT_FILE="$1"
+OUTPUT_FILE="$2"
+ASPECT_RATIO="$3"
+
+# Validate input file exists
+if [ ! -f "$INPUT_FILE" ]; then
+    echo "Error: Input file '$INPUT_FILE' does not exist."
+    exit 1
+fi
+
+# Validate aspect ratio format (w:h)
+if ! echo "$ASPECT_RATIO" | grep -qE '^[0-9]+:[0-9]+$'; then
+    echo "Error: Aspect ratio must be in the format 'w:h' (e.g., 5:7)."
+    exit 1
+fi
+
+# Extract width and height from aspect ratio
+W=$(echo "$ASPECT_RATIO" | cut -d':' -f1)
+H=$(echo "$ASPECT_RATIO" | cut -d':' -f2)
+
+# Check if aspect ratio values are valid numbers
+if [ "$W" -le 0 ] || [ "$H" -le 0 ]; then
+    echo "Error: Aspect ratio values must be positive integers."
+    exit 1
+fi
+
+# Run FFmpeg command to crop video
+ffmpeg -i "$INPUT_FILE" -vf "crop='min(iw,ih*$W/$H)':'min(ih,iw*$H/$W)',setsar=1" "$OUTPUT_FILE"
+
+# Check if FFmpeg command was successful
+if [ $? -eq 0 ]; then
+    echo "Video cropped successfully to $ASPECT_RATIO. Output saved as '$OUTPUT_FILE'."
+else
+    echo "Error: FFmpeg failed to process the video."
+    exit 1
+fi
