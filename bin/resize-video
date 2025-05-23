@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Check if correct number of arguments are provided
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 input_file output_file resolution"
+    echo "Example: $0 input.mp4 output.mp4 720p"
+    echo "Resolution: 480p, 720p, 1080p or custom like 1920x1080"
+    exit 1
+fi
+
+INPUT_FILE=$1
+OUTPUT_FILE=$2
+RESOLUTION=$3
+
+# Convert resolution to target height or width
+case $RESOLUTION in
+    "480p")
+        SCALE="-1:480"
+        ;;
+    "720p")
+        SCALE="-1:720"
+        ;;
+    "1080p")
+        SCALE="-1:1080"
+        ;;
+    *)
+        # Check if resolution is in WIDTHxHEIGHT format
+        if [[ $RESOLUTION =~ ^[0-9]+x[0-9]+$ ]]; then
+            SCALE="${RESOLUTION/x/:/}"
+        else
+            echo "Invalid resolution format. Use 480p, 720p, 1080p or WIDTHxHEIGHT"
+            exit 1
+        fi
+        ;;
+esac
+
+# Check if input file exists
+if [ ! -f "$INPUT_FILE" ]; then
+    echo "Input file does not exist"
+    exit 1
+fi
+
+# Check if ffmpeg is installed
+if ! command -v ffmpeg &> /dev/null; then
+    echo "ffmpeg is not installed"
+    exit 1
+fi
+
+# Resize video using ffmpeg, maintaining aspect ratio
+ffmpeg -i "$INPUT_FILE" -vf "scale=$SCALE:force_original_aspect_ratio=decrease,pad=ceil(iw/2)*2:ceil(ih/2)*2" -c:a copy "$OUTPUT_FILE"
+
+if [ $? -eq 0 ]; then
+    echo "Video successfully resized to $RESOLUTION (maintaining aspect ratio) and saved as $OUTPUT_FILE"
+else
+    echo "Error occurred during video processing"
+    exit 1
+fi
