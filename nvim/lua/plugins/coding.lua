@@ -35,6 +35,7 @@ return {
         },
       },
     },
+    default_dir_path = vim.fn.expand("~/Pictures/screenshots"), -- Set default path
   },
 
   {
@@ -68,28 +69,44 @@ return {
                 },
               },
             },
-            slash_commands = {
-              ["buffer"] = {
-                opts = {
-                  provider = "telescope",
-                },
-              },
-              ["help"] = {
-                opts = {
-                  provider = "telescope",
-                },
-              },
-              ["file"] = {
-                opts = {
-                  provider = "telescope",
-                },
-              },
-              ["symbols"] = {
-                opts = {
-                  provider = "telescope",
-                },
+            tools = {
+              opts = {
+                auto_submit_errors = true,  -- Send any errors to the LLM automatically?
+                auto_submit_success = true, -- Send any successful output to the LLM automatically?
               },
             },
+            -- slash_commands = {
+            --   ["buffer"] = {
+            --     opts = {
+            --       provider = "telescope",
+            --     },
+            --   },
+            --   ["help"] = {
+            --     opts = {
+            --       provider = "telescope",
+            --     },
+            --   },
+            --   ["file"] = {
+            --     opts = {
+            --       provider = "telescope",
+            --     },
+            --   },
+            --   ["symbols"] = {
+            --     opts = {
+            --       provider = "telescope",
+            --     },
+            --   },
+            -- },
+            opts = {
+              ---Decorate the user message before it's sent to the LLM
+              ---@param message string
+              ---@param adapter CodeCompanion.Adapter
+              ---@param context table
+              ---@return string
+              prompt_decorator = function(message, adapter, context)
+                return string.format([[<prompt>%s</prompt>]], message)
+              end,
+            }
           },
         },
         display = {
@@ -100,8 +117,14 @@ return {
             show_references = true,
             show_header_separator = false,
             show_settings = false,
+            auto_scroll = false,
+            window = {
+              width = 0.3,
+              height = 0.6,
+            },
           },
           diff = {
+            enabled = true,
             provider = "mini_diff",
           },
         },
