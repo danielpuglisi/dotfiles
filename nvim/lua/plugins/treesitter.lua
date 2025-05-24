@@ -5,14 +5,21 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",   -- Syntax aware text-objects, select, move, swap, and peek support.
       {
-        "JoosepAlviste/nvim-ts-context-commentstring", -- Smart commenting in multi language files - Enabled in Treesitter file
+        "JoosepAlviste/nvim-ts-context-commentstring", -- Smart commenting in multi language files
       },
       {
         "windwp/nvim-ts-autotag", -- Autoclose and autorename HTML and Vue tags
         config = true,
       },
       {
-        "PriceHiller/nvim-treesitter-endwise", -- Automatically add end keywords for Ruby, Lua, Python, and more
+        "RRethy/nvim-treesitter-endwise", -- Automatically add end keywords for Ruby, Lua, Python, and more
+        config = function()
+          require("nvim-treesitter.configs").setup({
+            endwise = {
+              enable = true,
+            },
+          })
+        end,
       },
       {
         "windwp/nvim-autopairs", -- Autopair plugin
@@ -50,7 +57,7 @@ return {
       require("nvim-treesitter.configs").setup({
         ensure_installed = "all",
         ignore_install = { "phpdoc" }, -- list of parser which cause issues or crashes
-        highlight = { enable = true, additional_vim_regex_highlighting = false },
+        highlight = { enable = true, additional_vim_regex_highlighting = true },
         incremental_selection = {
           enable = true,
           keymaps = {
@@ -61,9 +68,6 @@ return {
           },
         },
         indent = { enable = true },
-
-        -- nvim-treesitter-endwise plugin
-        endwise = { enable = true },
 
         textobjects = {
           select = {

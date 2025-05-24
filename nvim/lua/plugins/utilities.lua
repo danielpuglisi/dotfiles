@@ -1,5 +1,5 @@
 return {
-  { "nvim-lua/plenary.nvim" },    -- Required dependency for many plugins. Super useful Lua functions
+  { "nvim-lua/plenary.nvim" },    -- Required dependency for many plugins
   {
     "mrjones2014/legendary.nvim", -- A command palette for keymaps, commands and autocmds
     priority = 10000,
@@ -7,7 +7,7 @@ return {
     dependencies = "kkharji/sqlite.lua",
     keys = {
       {
-        "<C-p>",
+        "<leader>p",
         function()
           require("legendary").find()
         end,
@@ -23,96 +23,26 @@ return {
           lazy_nvim = true,
           which_key = false,
         },
-        -- Load these with the plugin to ensure they are loaded before any Neovim events
-        -- autocmds = require("config.autocmds"),
       })
     end,
   },
-  -- {
-  --   "olimorris/persisted.nvim", -- Session management
-  --   lazy = true,
-  --   opts = {
-  --     save_dir = Sessiondir .. "/",
-  --     use_git_branch = true,
-  --     autosave = true,
-  --     -- autoload = true,
-  --     -- allowed_dirs = {
-  --     --   "~/Code",
-  --     -- },
-  --     -- on_autoload_no_session = function()
-  --     --   return vim.notify("No session found", vim.log.levels.WARN)
-  --     -- end,
-  --     should_save = function()
-  --       local excluded_filetypes = {
-  --         "alpha",
-  --         "oil",
-  --         "lazy",
-  --         "",
-  --       }
-
-  --       for _, filetype in ipairs(excluded_filetypes) do
-  --         if vim.bo.filetype == filetype then
-  --           return false
-  --         end
-  --       end
-
-  --       return true
-  --     end,
-  --   },
-  --   init = function()
-  --     require("legendary").keymaps({
-  --       {
-  --         itemgroup = "Persisted",
-  --         icon = "",
-  --         description = "Session management...",
-  --         keymaps = {
-  --           {
-  --             "<Leader>s",
-  --             '<cmd>lua require("persisted").toggle()<CR>',
-  --             description = "Toggle a session",
-  --             opts = { silent = true },
-  --           },
-  --         },
-  --       },
-  --     })
-  --     require("legendary").commands({
-  --       {
-  --         itemgroup = "Persisted",
-  --         commands = {
-  --           {
-  --             ":Sessions",
-  --             function()
-  --               vim.cmd([[Telescope persisted]])
-  --             end,
-  --             description = "List sessions",
-  --           },
-  --           {
-  --             ":SessionSave",
-  --             description = "Save the session",
-  --           },
-  --           {
-  --             ":SessionStart",
-  --             description = "Start a session",
-  --           },
-  --           {
-  --             ":SessionStop",
-  --             description = "Stop the current session",
-  --           },
-  --           {
-  --             ":SessionLoad",
-  --             description = "Load the last session",
-  --           },
-  --           {
-  --             ":SessionDelete",
-  --             description = "Delete the current session",
-  --           },
-  --         },
-  --       },
-  --     })
-  --   end,
-  -- },
   {
     "kevinhwang91/nvim-bqf", -- Better quickfix window,
     ft = "qf",
   },
+  {
+    "numToStr/Comment.nvim", -- Modern commenting plugin
+    config = true,
+    event = "VeryLazy",
+  },
+  { "tpope/vim-surround" },        -- Easily add, change or delete surrounding characters
+  { "AndrewRadev/splitjoin.vim" }, -- Easily split or join lines (gS / gJ)
+  { "tpope/vim-fugitive" },        -- Git integration for Vim
+  { "tpope/vim-rhubarb" },         -- GitHub integration for Vim
+  { "benmills/vimux" },            -- Run commands in a tmux pane
+  { "skalnik/vim-vroom" },         -- Run code in a REPL-like environment
+
+  -- Rails support
+  { "tpope/vim-rails" },   -- Rails-specific commands and helpers
+  { "vim-ruby/vim-ruby" }, -- Ruby syntax highlighting and indentation
 }

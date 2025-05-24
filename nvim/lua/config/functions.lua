@@ -1,3 +1,6 @@
+-- Utility functions for Neovim
+
+-- Switch between implementation and test files in Ruby projects
 function tulpa.open_test_alternate()
   local current_file = vim.fn.expand("%")
   local new_file = current_file
@@ -20,19 +23,37 @@ function tulpa.open_test_alternate()
     end
   end
 
-  vim.cmd("e " .. new_file)
+  -- Check if the file exists before opening
+  if vim.fn.filereadable(new_file) == 1 or vim.fn.filereadable(vim.fn.findfile(new_file)) == 1 then
+    vim.cmd("e " .. new_file)
+  else
+    vim.notify("Test alternate file not found: " .. new_file, vim.log.levels.WARN)
+  end
 end
 
+-- Strip trailing whitespace from the current buffer
 function tulpa.strip_whitespace()
-  vim.cmd([[%s/\s\+$//gc]])
+  local cursor_pos = vim.fn.getcurpos()
+  vim.cmd([[%s/\s\+$//e]])
+  vim.fn.setpos('.', cursor_pos)
+  vim.notify("Trailing whitespace removed", vim.log.levels.INFO)
 end
 
+-- Rename the current file
 function tulpa.rename_file()
   local old_name = vim.fn.expand('%')
   local new_name = vim.fn.input('New file name: ', vim.fn.expand('%'), 'file')
   if new_name ~= '' and new_name ~= old_name then
-    vim.cmd('saveas ' .. new_name)
-    vim.cmd('silent !rm ' .. old_name)
-    vim.cmd('redraw!')
+    -- Save the current file first
+    vim.cmd('silent! write')
+    -- Rename the file
+    local success, err = os.rename(old_name, new_name)
+    if success then
+      vim.cmd('edit ' .. new_name)
+      vim.cmd('silent! bdelete! ' .. old_name)
+      vim.notify("File renamed to " .. new_name, vim.log.levels.INFO)
+    else
+      vim.notify("Failed to rename file: " .. (err or "Unknown error"), vim.log.levels.ERROR)
+    end
   end
 end

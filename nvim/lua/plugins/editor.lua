@@ -49,59 +49,89 @@ return {
     },
   },
   {
-    "stevearc/oil.nvim", -- File manager
+    "nvim-tree/nvim-tree.lua",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons", -- optional, for file icons
+    },
     opts = {
-      default_file_explorer = false,
-      delete_to_trash = true,
-      skip_confirm_for_simple_edits = true,
-      float = {
-        border = "none",
+      sort_by = "case_sensitive",
+      view = {
+        width = 30,
+        relativenumber = false,
       },
-      is_always_hidden = function(name, bufnr)
-        return name == ".."
-      end,
-      keymaps = {
-        ["<C-c>"] = false,
-        ["q"] = "actions.close",
-        [">"] = "actions.toggle_hidden",
-        ["<C-y>"] = "actions.copy_entry_path",
-        ["gd"] = {
-          desc = "Toggle detail view",
-          callback = function()
-            local oil = require("oil")
-            local config = require("oil.config")
-            if #config.columns == 1 then
-              oil.set_columns({ "icon", "permissions", "size", "mtime" })
-            else
-              oil.set_columns({ "icon" })
-            end
-          end,
+      renderer = {
+        group_empty = true,
+        indent_markers = {
+          enable = true,
+        },
+        icons = {
+          show = {
+            file = true,
+            folder = true,
+            folder_arrow = true,
+            git = false,
+          },
         },
       },
-      buf_options = {
-        buflisted = false,
+      filters = {
+        dotfiles = false,
       },
+      actions = {
+        open_file = {
+          quit_on_open = false,
+          window_picker = {
+            enable = true,
+          },
+        },
+      },
+      on_attach = function(bufnr)
+        local api = require("nvim-tree.api")
+
+        -- NERDTree-like mappings
+        local function opts(desc)
+          return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+        end
+
+        -- Default mappings
+        vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
+        vim.keymap.set('n', 'o', api.node.open.edit, opts('Open'))
+        vim.keymap.set('n', 'l', api.node.open.edit, opts('Open'))
+        vim.keymap.set('n', '<C-v>', api.node.open.vertical, opts('Open: Vertical Split'))
+        vim.keymap.set('n', '<C-s>', api.node.open.horizontal, opts('Open: Horizontal Split'))
+        vim.keymap.set('n', '<C-t>', api.node.open.tab, opts('Open: New Tab'))
+        vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('Close Directory'))
+        vim.keymap.set('n', 'q', api.tree.close, opts('Close'))
+        vim.keymap.set('n', 'R', api.tree.reload, opts('Refresh'))
+        vim.keymap.set('n', 'a', api.fs.create, opts('Create'))
+        vim.keymap.set('n', 'd', api.fs.create, opts('Create Directory'))
+        vim.keymap.set('n', 'D', api.fs.remove, opts('Delete'))
+        vim.keymap.set('n', 'r', api.fs.rename, opts('Rename'))
+        vim.keymap.set('n', 'x', api.fs.cut, opts('Cut'))
+        vim.keymap.set('n', 'c', api.fs.copy.node, opts('Copy'))
+        vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
+        vim.keymap.set('n', 'y', api.fs.copy.filename, opts('Copy Name'))
+        vim.keymap.set('n', 'Y', api.fs.copy.relative_path, opts('Copy Relative Path'))
+        vim.keymap.set('n', '.', api.tree.toggle_hidden_filter, opts('Toggle Dotfiles'))
+        vim.keymap.set('n', 'I', api.tree.toggle_gitignore_filter, opts('Toggle Git Ignore'))
+      end,
     },
+    config = function(_, opts)
+      require("nvim-tree").setup(opts)
+
+      -- Disable netrw as recommended by nvim-tree docs
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+
+      -- Set termguicolors to enable highlight groups
+      vim.opt.termguicolors = true
+    end,
     keys = {
       {
-        "_",
+        "<C-n>",
         function()
-          -- Stop me being dumb and opening a file explorer in openai.nvim
-          if vim.bo.buftype ~= "acwrite" then
-            require("oil").toggle_float(vim.fn.getcwd())
-          end
+          require("nvim-tree.api").tree.toggle()
         end,
-        desc = "Oil.nvim: Open File Explorer",
-      },
-      {
-        "-",
-        function()
-          -- Stop me being dumb and opening a file explorer in openai.nvim
-          if vim.bo.buftype ~= "acwrite" then
-            require("oil").toggle_float()
-          end
-        end,
-        desc = "Oil.nvim: Open File Explorer to current file",
+        desc = "NvimTree: Toggle File Explorer",
       },
     },
   },
@@ -117,14 +147,14 @@ return {
       -- Use nvim-navic icons
       icons = {
         File = "󰈙 ",
-        Module = " ",
+        Module = " ",
         Namespace = "󰌗 ",
-        Package = " ",
+        Package = " ",
         Class = "󰌗 ",
         Method = "󰆧 ",
-        Property = " ",
-        Field = " ",
-        Constructor = " ",
+        Property = " ",
+        Field = " ",
+        Constructor = " ",
         Enum = "󰕘",
         Interface = "󰕘",
         Function = "󰊕 ",
@@ -137,9 +167,9 @@ return {
         Object = "󰅩 ",
         Key = "󰌋 ",
         Null = "󰟢 ",
-        EnumMember = " ",
+        EnumMember = " ",
         Struct = "󰌗 ",
-        Event = " ",
+        Event = " ",
         Operator = "󰆕 ",
         TypeParameter = "󰊄 ",
       },
@@ -160,7 +190,7 @@ return {
         keyword = "bg",
       },
       keywords = {
-        FIX = { icon = " " }, -- Custom fix icon
+        FIX = { icon = " " }, -- Custom fix icon
       },
     },
   },

@@ -1,8 +1,8 @@
 local icons = {
-  [vim.diagnostic.severity.ERROR] = "",
-  [vim.diagnostic.severity.WARN] = "",
-  [vim.diagnostic.severity.INFO] = "",
-  [vim.diagnostic.severity.HINT] = "",
+  [vim.diagnostic.severity.ERROR] = "",
+  [vim.diagnostic.severity.WARN] = "",
+  [vim.diagnostic.severity.INFO] = "",
+  [vim.diagnostic.severity.HINT] = "",
 }
 
 return {
@@ -187,6 +187,7 @@ return {
           },
         })
       end
+
       local function commands(client, bufnr)
         -- Only need to set these once!
         if vim.g.lsp_commands then
@@ -230,6 +231,7 @@ return {
 
         vim.g.lsp_commands = true
       end
+
       local function mappings(client, bufnr)
         if
             #vim.tbl_filter(function(keymap)
@@ -241,11 +243,11 @@ return {
 
         legendary.keymaps({
           itemgroup = "LSP",
-          icon = "",
+          icon = "",
           description = "LSP related functionality",
           keymaps = {
             {
-              "gf",
+              "<leader>fd", -- Changed from "gf"
               t.lazy_required_fn("telescope.builtin", "diagnostics", {
                 layout_strategy = "center",
                 bufnr = 0,
@@ -277,7 +279,7 @@ return {
             },
             {
               "K",
-              "<cmd>lua vim.lsp.buf.hover<CR>",
+              "<cmd>lua vim.lsp.buf.hover()<CR>",
               description = "Show hover information",
               opts = { buffer = bufnr },
             },
@@ -389,12 +391,24 @@ return {
           ["ruby_lsp"] = function()
             require("lspconfig").ruby_lsp.setup({
               capabilities = capabilities,
-              filetypes = { "ruby" }, -- Remove 'eruby' to prevent interference with markdown
+              cmd = { "bundle", "exec", "ruby-lsp" }, -- Use bundled version
+              filetypes = { "ruby", "eruby" },
               settings = {
                 rubyLsp = {
-                  diagnostics = false, -- Disable diagnostics in non-ruby files
-                  formatter = false,   -- Disable formatting in non-ruby files
-                }
+                  enabledFeatures = {
+                    "documentHighlights",
+                    "documentSymbols",
+                    "documentLink", -- Important for Rails navigation
+                    "diagnostics",
+                    "formatting",
+                    "codeActions",
+                    "workspaceSymbol", -- Find symbols across the project
+                    "definition",      -- Go to definition
+                    "foldingRanges",
+                    "selectionRanges",
+                    "semanticHighlighting",
+                  },
+                },
               }
             })
           end,
@@ -409,10 +423,6 @@ return {
         underline = false,
         update_in_insert = false,
         virtual_text = false,
-        -- virtual_text = {
-        --   prefix = "",
-        --   spacing = 0,
-        -- },
       })
     end,
   },
@@ -460,6 +470,6 @@ return {
     },
   },
 
-  -- Others
+  -- Icons for LSP
   "onsails/lspkind.nvim",
 }

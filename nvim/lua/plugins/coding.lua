@@ -13,15 +13,8 @@ return {
   {
     "olimorris/codecompanion.nvim",
     dependencies = {
-      -- { "nvim-treesitter/nvim-treesitter" },
-      -- { "nvim-lua/plenary.nvim" },
-      -- { "hrsh7th/nvim-cmp" },
-      -- { "stevearc/dressing.nvim", opts = {} },
-      -- { "nvim-telescope/telescope.nvim" },
       { "echasnovski/mini.pick", config = true },
       { "ibhagwan/fzf-lua",      config = true },
-      -- The following are optional:
-      -- { "MeanderingProgrammer/render-markdown.nvim", ft = { "markdown", "codecompanion" } }
     },
     config = function()
       require("codecompanion").setup({
@@ -30,9 +23,7 @@ return {
             return require("codecompanion.adapters").extend("copilot", {
               schema = {
                 model = {
-                  -- default = "o3-mini-2025-01-31",
                   default = "claude-3.7-sonnet",
-                  -- default = "claude-3.7-sonnet-thought",
                 },
                 max_tokens = {
                   default = 8192
@@ -50,7 +41,6 @@ return {
                 },
               },
             },
-            -- roles = { llm = "CodeCompanion", user = "olimorris" },
             slash_commands = {
               ["buffer"] = {
                 opts = {
@@ -94,11 +84,10 @@ return {
       })
     end,
     init = function()
-      -- vim.cmd([[cab cc CodeCompanion]])
       require("legendary").keymaps({
         {
           itemgroup = "CodeCompanion",
-          icon = "",
+          icon = "",
           description = "Use the power of AI...",
           keymaps = {
             {
@@ -133,57 +122,47 @@ return {
   {
     "zbirenbaum/copilot.lua", -- AI programming
     event = "InsertEnter",
+    enabled = function()
+      -- Try to use the nodenv global version regardless of local project settings
+      local node_path = vim.fn.expand("~/.nodenv/versions/$(nodenv global)/bin/node")
+      node_path = vim.fn.system("echo " .. node_path):gsub("%s+", "")
+
+      -- Store for plugin use
+      vim.g.copilot_node_path = node_path
+
+      -- Check version
+      local version_output = vim.fn.system(node_path .. " --version")
+      local major_version = tonumber(string.match(version_output, "v(%d+)"))
+
+      if not major_version or major_version < 20 then
+        vim.notify("Copilot requires Node.js ≥ 20. Found: " .. version_output, vim.log.levels.WARN)
+        return false
+      end
+
+      return true
+    end,
     keys = {
-      {
-        "<C-a>",
-        function()
-          require("copilot.suggestion").accept()
-        end,
-        desc = "Copilot: Accept suggestion",
-        mode = { "i" },
-      },
-      {
-        "<C-x>",
-        function()
-          require("copilot.suggestion").dismiss()
-        end,
-        desc = "Copilot: Dismiss suggestion",
-        mode = { "i" },
-      },
-      {
-        "<C-\\>",
-        function()
-          require("copilot.panel").open()
-        end,
-        desc = "Copilot: Show panel",
-        mode = { "n", "i" },
-      },
+      { "<C-a>",  function() require("copilot.suggestion").accept() end,  mode = { "i" } },
+      { "<C-x>",  function() require("copilot.suggestion").dismiss() end, mode = { "i" } },
+      { "<C-\\>", function() require("copilot.panel").open() end,         mode = { "n", "i" } },
     },
     init = function()
       require("legendary").commands({
         itemgroup = "Copilot",
         commands = {
-          {
-            ":CopilotToggle",
-            function()
-              require("copilot.suggestion").toggle_auto_trigger()
-            end,
-            description = "Toggle on/off for buffer",
-          },
+          { ":CopilotToggle", function() require("copilot.suggestion").toggle_auto_trigger() end },
         },
       })
     end,
     opts = {
-      panel = {
-        auto_refresh = true,
-      },
+      panel = { auto_refresh = true },
       suggestion = {
-        auto_trigger = true, -- Suggest as we start typing
-        keymap = {
-          accept_word = "<C-l>",
-          accept_line = "<C-j>",
-        },
+        auto_trigger = true,
+        keymap = { accept_word = "<C-l>", accept_line = "<C-j>" },
+      },
+      server_opts_overrides = {
+        node_path = function() return vim.g.copilot_node_path end,
       },
     },
-  },
+  }
 }

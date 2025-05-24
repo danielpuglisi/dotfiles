@@ -19,6 +19,7 @@ return {
           require("telescope").load_extension("frecency")
         end,
       },
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } -- Better sorting performance
     },
     init = function()
       local t = require("legendary.toolbox")
@@ -26,7 +27,7 @@ return {
         {
           itemgroup = "Telescope",
           description = "Gaze deeply into unknown regions using the power of the moon",
-          icon = "",
+          icon = "",
           keymaps = {
             {
               "<C-f>",
@@ -50,6 +51,18 @@ return {
                 { prompt_title = "Search CWD", path_display = { "smart" } }
               ),
               description = "Search CWD",
+            },
+            {
+              "<Leader>N",
+              t.lazy_required_fn(
+                "telescope.builtin",
+                "live_grep",
+                {
+                  prompt_title = "Find TODOs",
+                  default_text = "TODO\\|FIXME\\|CHANGED\\|NOTE"
+                }
+              ),
+              description = "Find TODOs, FIXMEs, etc.",
             },
             {
               "<C-b>",
@@ -99,7 +112,7 @@ return {
         defaults = {
           -- Appearance
           entry_prefix = "  ",
-          prompt_prefix = "   ",
+          prompt_prefix = "   ",
           selection_caret = "  ",
           color_devicons = true,
           path_display = { "smart" },
@@ -178,11 +191,6 @@ return {
               "*/node_modules/*",
               "*/vendor/*",
             },
-            -- workspaces = {
-            --   ["nvim"] = os.getenv("HOME_DIR") .. ".config/nvim",
-            --   ["dots"] = os.getenv("HOME_DIR") .. ".dotfiles",
-            --   ["project"] = os.getenv("PROJECT_DIR"),
-            -- },
           },
           fzf = {
             fuzzy = true,
@@ -204,8 +212,9 @@ return {
 
       -- Extensions
       telescope.load_extension("aerial")
-      -- telescope.load_extension("persisted")
-      -- telescope.load_extension("refactoring")
+      if pcall(require, "telescope._extensions.fzf") then
+        telescope.load_extension("fzf")
+      end
     end,
   },
 }
