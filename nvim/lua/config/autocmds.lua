@@ -95,13 +95,3 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
   desc = "Improve LSP documentation window styling",
 })
-
--- Treesitter folding
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "lua", "ruby", "javascript", "typescript", "python" },
-  callback = function()
-    vim.opt_local.foldmethod = "expr"
-    vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
-  end,
-  desc = "Enable treesitter-based folding for supported languages",
-})

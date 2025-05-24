@@ -29,26 +29,6 @@ return {
     end,
   },
   {
-    "kevinhwang91/nvim-ufo", -- Better folds in Neovim
-    dependencies = "kevinhwang91/promise-async",
-    keys = {
-      {
-        "zR",
-        function()
-          require("ufo").openAllFolds()
-        end,
-        desc = "Open all folds",
-      },
-      {
-        "zM",
-        function()
-          require("ufo").closeAllFolds()
-        end,
-        desc = "Close all folds",
-      },
-    },
-  },
-  {
     "nvim-tree/nvim-tree.lua",
     dependencies = {
       "nvim-tree/nvim-web-devicons", -- optional, for file icons
@@ -134,6 +114,46 @@ return {
         desc = "NvimTree: Toggle File Explorer",
       },
     },
+  },
+  {
+    "akinsho/bufferline.nvim",
+    version = "*",
+    dependencies = "nvim-tree/nvim-web-devicons",
+    config = function()
+      require("bufferline").setup({
+        options = {
+          mode = "buffers",
+          separator_style = "thin",
+          show_buffer_icons = true,
+          show_buffer_close_icons = false,
+          show_close_icon = false,
+          enforce_regular_tabs = true,
+          modified_icon = "+",
+          diagnostics = "nvim_lsp",
+          indicator = {
+            style = "icon",
+            icon = "▎",
+          },
+          numbers = function(opts)
+            return string.format('%s', opts.ordinal)
+          end,
+          custom_filter = function(buf_number, buf_numbers)
+            -- Filter out special buffers
+            local buftype = vim.bo[buf_number].buftype
+            if buftype == "quickfix" or buftype == "terminal" or buftype == "help" then
+              return false
+            end
+            return true
+          end
+        },
+        highlights = {
+          buffer_selected = {
+            italic = false,
+            bold = true,
+          },
+        },
+      })
+    end
   },
   {
     "stevearc/aerial.nvim", -- Toggled list of classes, methods etc in current file

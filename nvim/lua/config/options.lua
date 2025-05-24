@@ -52,9 +52,7 @@ vim.opt.wildmenu = true
 vim.opt.wildmode = 'longest,list'
 
 -- Folding (using tree-sitter)
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.opt.foldlevelstart = 20
+vim.opt.foldenable = false
 
 -- Status line
 vim.opt.statusline = "%<%f\\ (%{&ft})\\ %-4(%m%)%=%-19(%3l,%02c%03V%)"

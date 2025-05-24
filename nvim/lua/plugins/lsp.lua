@@ -149,15 +149,7 @@ return {
       require("lspconfig.ui.windows").default_options.border = "single"
       vim.o.runtimepath = vim.o.runtimepath .. ",~/.dotfiles/.config/snippets"
 
-      require("ufo").setup()
-      local capabilities = vim.tbl_deep_extend("force", require("cmp_nvim_lsp").default_capabilities(), {
-        textDocument = {
-          foldingRange = {
-            dynamicRegistration = false,
-            lineFoldingOnly = true,
-          },
-        },
-      })
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       local lspconfig_defaults = require("lspconfig").util.default_config
       lspconfig_defaults.capabilities = vim.tbl_deep_extend("force", lspconfig_defaults.capabilities, capabilities)
