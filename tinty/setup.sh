@@ -11,7 +11,6 @@ tinty sync
 # Create required directories for output files
 mkdir -p ~/.config/alacritty
 mkdir -p ~/.config/tmux
-mkdir -p ~/.config/nvim/colors
 
 # Create the tinty config directory
 mkdir -p ~/.config/tinty

@@ -38,110 +38,7 @@ style = "Regular"
 x = 0
 y = 0
 
-[[keyboard.bindings]]
-key = "Key1"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==1' | awk -F: '{print $1}'); tmux switch -t $id"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "Key2"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==2' | awk -F: '{print $1}'); tmux switch -t $id"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "Key3"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==3' | awk -F: '{print $1}'); tmux switch -t $id"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "Key4"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==4' | awk -F: '{print $1}'); tmux switch -t $id"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "Key5"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==5' | awk -F: '{print $1}'); tmux switch -t $id"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "Key6"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==6' | awk -F: '{print $1}'); tmux switch -t $id"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "Key7"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==7' | awk -F: '{print $1}'); tmux switch -t $id"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "Key8"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==8' | awk -F: '{print $1}'); tmux switch -t $id"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "Key9"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "id=$(tmux list-sessions | awk 'NR==9' | awk -F: '{print $1}'); tmux switch -t $id"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "T"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "tmux switch -t `tmux new -dP`"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "W"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "id=$(tmux list-sessions | grep '(attached)' | awk -F: '{print $1}'); tmux switchc -p; tmux kill-session -t $id"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "Left"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "tmux switch -p"]
-program = "zsh"
-
-[[keyboard.bindings]]
-key = "Right"
-mods = "Command"
-
-[keyboard.bindings.command]
-args = ["-l", "-c", "tmux switch -n"]
-program = "zsh"
-
+# Only keep Alacritty-specific bindings
 [[keyboard.bindings]]
 action = "ResetFontSize"
 key = "Key0"
@@ -157,25 +54,20 @@ action = "DecreaseFontSize"
 key = "Minus"
 mods = "Command"
 
-[[keyboard.bindings]]
-action = "ClearHistory"
-key = "K"
-mods = "Command"
+# [[keyboard.bindings]]
+# action = "ClearHistory"
+# key = "K"
+# mods = "Command"
 
-[[keyboard.bindings]]
-chars = "\f"
-key = "K"
-mods = "Command"
-
-[[keyboard.bindings]]
-action = "Paste"
-key = "V"
-mods = "Command"
-
-[[keyboard.bindings]]
-action = "Copy"
-key = "C"
-mods = "Command"
+# [[keyboard.bindings]]
+# action = "Paste"
+# key = "V"
+# mods = "Command"
+#
+# [[keyboard.bindings]]
+# action = "Copy"
+# key = "C"
+# mods = "Command"
 
 [[keyboard.bindings]]
 action = "Hide"
@@ -197,10 +89,10 @@ action = "ToggleSimpleFullscreen"
 key = "Return"
 mods = "Command"
 
-[[keyboard.bindings]]
-action = "CreateNewWindow"
-key = "N"
-mods = "Command"
+# [[keyboard.bindings]]
+# action = "CreateNewWindow"
+# key = "N"
+# mods = "Command"
 
 [[keyboard.bindings]]
 action = "ScrollPageUp"
@@ -231,12 +123,14 @@ history = 10000
 multiplier = 3
 
 [shell]
-args = ["-l", "-c", "source ~/.zshrc; tmux attach 2> /dev/null || tmux"]
+args = ["-l", "-c", "source ~/.zshrc; zellij -c ~/.dotfiles/zellij/config.kdl attach --create default"]
+# args = ["-l", "-c", "source ~/.zshrc; zellij"]
 program = "zsh"
 
 [window]
 decorations = "none"
 startup_mode = "Maximized"
+option_as_alt = "Both"
 
 [window.dimensions]
 columns = 150

@@ -1,12 +1,20 @@
 shell = "zsh -c '{}'"
 default-scheme = "base16-eighties"
-hooks = ["tmux source-file ~/.tmux.conf"]
+# hooks = ["tmux source-file ~/.tmux.conf"]
+# hooks = ["zellij kill-session default && sleep 1 && open -a Alacritty"]
+# hooks = ["pkill alacritty && open -a Alacritty"]
 
 [[items]]
-path = "https://github.com/tinted-theming/tinted-alacritty"
+path = "https://github.com/tinted-theming/tinted-terminal"
 name = "tinted-alacritty"
-themes-dir = "colors"
+themes-dir = "themes/alacritty"
 hook = "cp -f %f ~/.config/alacritty/colors.toml"
+
+[[items]]
+path = "~/.dotfiles/tinty/custom-zellij-template"
+name = "custom-zellij"
+themes-dir = "colors"
+hook = "cp -f %f ~/.config/zellij/themes/base16.kdl && touch ~/.dotfiles/zellij/config.kdl"
 
 [[items]]
 path = "https://github.com/tinted-theming/tinted-tmux"

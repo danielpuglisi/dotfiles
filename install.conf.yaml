@@ -10,7 +10,7 @@
     ~/.tmux.conf: tmux/tmux.conf
     ~/.config/tmuxinator: tmux/tmuxinator
     ~/.config/alacritty: alacritty
-    ~/.config/zellij: zellij
+    # ~/.config/zellij/config.kdl: zellij/config.kdl # we link to zellij/config.kdl directly from alacritty until symlink reloading works
     ~/.config/tinted-theming/tinty/config.toml: tinty/config.toml
     ~/.ackrc: ack/ackrc
     ~/.bin: bin
