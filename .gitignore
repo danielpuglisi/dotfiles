@@ -1,6 +1,8 @@
 .DS_Store
 .rake_tasks~
+alacritty/colors.toml
 nvim/plugged/*
 nvim/bundle/*
 nvim/spell/*
+nvim/theme.vim
 bundler/bundle/cache/*

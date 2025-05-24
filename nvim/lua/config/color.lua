@@ -1,11 +1,11 @@
--- Color highlighting for trailing whitespace
-vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = "red" })
-vim.cmd([[
-  au ColorScheme * highlight ExtraWhitespace guibg=red
-  au BufEnter * match ExtraWhitespace /\s\+$/
-  au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-  au InsertLeave * match ExtraWhiteSpace /\s\+$/
-]])
-
--- Enable true color support
-vim.opt.termguicolors = true
+-- -- Color highlighting for trailing whitespace
+-- vim.api.nvim_set_hl(0, 'ExtraWhitespace', { bg = "red" })
+-- vim.cmd([[
+--   au ColorScheme * highlight ExtraWhitespace guibg=red
+--   au BufEnter * match ExtraWhitespace /\s\+$/
+--   au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+--   au InsertLeave * match ExtraWhiteSpace /\s\+$/
+-- ]])
+--
+-- -- Enable true color support
+-- vim.opt.termguicolors = true

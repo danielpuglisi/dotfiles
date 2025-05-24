@@ -10,6 +10,9 @@ source ~/.localrc
 # Tmux colorschemes
 export TERM="xterm-256color"
 
+# Setup the theme
+[ -f $ZSH/theme.zsh ] && source $ZSH/theme.zsh
+
 # Setup paths
 source $ZSH/exports.zsh
 

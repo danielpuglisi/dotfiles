@@ -1,6 +1,12 @@
 require("config.util")
 require("config.options")
 
+-- Load the current theme from a file
+local theme_file = vim.fn.expand("~/.config/nvim/theme.vim")
+if vim.fn.filereadable(theme_file) == 1 then
+  vim.cmd("source " .. theme_file)
+end
+
 -- Begin Lazy install and plugin setup
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then

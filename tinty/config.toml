@@ -1,0 +1,27 @@
+shell = "zsh -c '{}'"
+default-scheme = "base16-eighties"
+hooks = ["tmux source-file ~/.tmux.conf"]
+
+[[items]]
+path = "https://github.com/tinted-theming/tinted-alacritty"
+name = "tinted-alacritty"
+themes-dir = "colors"
+hook = "cp -f %f ~/.config/alacritty/colors.toml"
+
+[[items]]
+path = "https://github.com/tinted-theming/tinted-tmux"
+name = "tinted-tmux"
+themes-dir = "colors"
+hook = "cp -f %f ~/.config/tmux/colors.conf"
+
+[[items]]
+path = "https://github.com/tinted-theming/tinted-shell"
+name = "tinted-shell"
+themes-dir = "scripts"
+hook = "cp -f %f ~/.base16_theme"
+
+[[items]]
+path = "https://github.com/tinted-theming/base16-vim"
+name = "tinted-vim"
+themes-dir = "colors"
+hook = "cp -f %f ~/.config/nvim/theme.vim"

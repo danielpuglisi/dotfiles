@@ -10,6 +10,8 @@
     ~/.tmux.conf: tmux/tmux.conf
     ~/.config/tmuxinator: tmux/tmuxinator
     ~/.config/alacritty: alacritty
+    ~/.config/zellij: zellij
+    ~/.config/tinted-theming/tinty/config.toml: tinty/config.toml
     ~/.ackrc: ack/ackrc
     ~/.bin: bin
     ~/.bundle: bundler/bundle
@@ -22,3 +24,6 @@
     ~/.irbrc: ruby/irbrc
     ~/.zshrc: zsh/zshrc
     ~/.rbenv/default-gems: rbenv/default-gems
+
+- shell:
+    - [tinty/setup.sh, Setting up Flavours]
