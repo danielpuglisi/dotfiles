@@ -1,7 +1,7 @@
 return {
-  "tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
+  "tpope/vim-sleuth",        -- Automatically detects which indents should be used in the current buffer
   {
-    "echasnovski/mini.diff",
+    "echasnovski/mini.diff", -- Already in your configuration
     config = function()
       local diff = require("mini.diff")
       diff.setup({
@@ -10,6 +10,33 @@ return {
       })
     end,
   },
+
+  -- Add markview.nvim
+  {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    opts = {
+      preview = {
+        filetypes = { "codecompanion" },
+        ignore_buftypes = {},
+      },
+    },
+  },
+
+  -- Add img-clip.nvim
+  {
+    "HakonHarnes/img-clip.nvim",
+    opts = {
+      filetypes = {
+        codecompanion = {
+          prompt_for_file_name = false,
+          template = "[Image]($FILE_PATH)",
+          use_absolute_path = true,
+        },
+      },
+    },
+  },
+
   {
     "olimorris/codecompanion.nvim",
     dependencies = {
