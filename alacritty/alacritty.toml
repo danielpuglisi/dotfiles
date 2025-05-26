@@ -54,10 +54,10 @@ action = "DecreaseFontSize"
 key = "Minus"
 mods = "Command"
 
-# [[keyboard.bindings]]
-# action = "ClearHistory"
-# key = "K"
-# mods = "Command"
+[[keyboard.bindings]]
+action = "ClearHistory"
+key = "K"
+mods = "Command"
 
 # [[keyboard.bindings]]
 # action = "Paste"
@@ -118,11 +118,117 @@ key = "End"
 mode = "~Alt"
 mods = "Shift"
 
+# Zellij keybindings
+[[keyboard.bindings]]
+key = "T"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action new-tab"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "W"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action close-tab"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "Left"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action go-to-previous-tab"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "Right"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action go-to-next-tab"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "Key1"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action go-to-tab 1"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "Key2"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action go-to-tab 2"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "Key3"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action go-to-tab 3"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "Key4"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action go-to-tab 4"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "Key5"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action go-to-tab 5"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "Key6"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action go-to-tab 6"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "Key7"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action go-to-tab 7"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "Key8"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action go-to-tab 8"]
+program = "zsh"
+
+[[keyboard.bindings]]
+key = "Key9"
+mods = "Command"
+
+[keyboard.bindings.command]
+args = ["-l", "-c", "zellij action go-to-tab 9"]
+program = "zsh"
+
 [scrolling]
 history = 10000
 multiplier = 3
 
 [shell]
+# args = ["-l", "-c", "source ~/.zshrc; zellij -c ~/.dotfiles/zellij/config.kdl"]
 args = ["-l", "-c", "source ~/.zshrc; zellij -c ~/.dotfiles/zellij/config.kdl attach --create default"]
 # args = ["-l", "-c", "source ~/.zshrc; zellij"]
 program = "zsh"
