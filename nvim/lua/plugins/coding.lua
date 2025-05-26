@@ -116,7 +116,7 @@ return {
           chat = {
             show_references = true,
             show_header_separator = false,
-            show_settings = true,
+            show_settings = false,
             auto_scroll = false,
             window = {
               width = 0.3,
