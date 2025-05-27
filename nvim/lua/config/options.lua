@@ -55,7 +55,6 @@ vim.opt.wildmode = 'longest,list'
 vim.opt.foldenable = false
 
 -- Status line
-vim.opt.statusline = "%{%v:lua.tulpa.tabline()%}"
 vim.opt.shortmess = 'filtIoOA'
 
 -- Shell

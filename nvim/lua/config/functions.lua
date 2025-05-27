@@ -58,34 +58,6 @@ function tulpa.rename_file()
   end
 end
 
--- Simple custom tabline
-function tulpa.tabline()
-  local buffers = ""
-  local current_buf = vim.api.nvim_get_current_buf()
-
-  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
-      local name = vim.api.nvim_buf_get_name(buf)
-      local filename = name == "" and "[No Name]" or vim.fn.fnamemodify(name, ":t")
-
-      -- Add + if buffer is modified
-      if vim.bo[buf].modified then
-        filename = filename .. "+"
-      end
-
-      if buf == current_buf then
-        buffers = buffers .. "%#TabLineSel# " .. filename .. " %#TabLine#"
-      else
-        buffers = buffers .. " " .. filename .. " "
-      end
-      buffers = buffers .. "|"
-    end
-  end
-
-  -- Just filetype and position info on the right
-  return buffers .. "%=(%{&ft}) %3l,%02c%03V"
-end
-
 -- Run Ruby tests in a new Zellij pane
 function tulpa.run_in_zellij_pane(command)
   -- Create a new pane and run the command

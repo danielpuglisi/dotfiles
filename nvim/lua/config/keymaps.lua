@@ -39,13 +39,6 @@ vim.keymap.set('n', '<C-p>', function()
   require('telescope.builtin').find_files({ hidden = true })
 end, { noremap = true, desc = "Find files (Telescope)" })
 
--- Buffer management
-vim.keymap.set('n', '<C-t>', ':enew<CR>', { noremap = true, desc = "New buffer" })
-vim.keymap.set('n', '<C-l>', ':bnext<CR>', { noremap = true, desc = "Next buffer" })
-vim.keymap.set('n', '<C-h>', ':bprevious<CR>', { noremap = true, desc = "Previous buffer" })
-vim.keymap.set('n', '<leader>x', ':bp <BAR> bd #<CR>', { noremap = true, desc = "Close buffer without closing window" })
-vim.keymap.set('n', '<leader>bl', ':ls<CR>', { noremap = true, desc = "List buffers" })
-
 -- RI Documentation lookup for Ruby
 vim.keymap.set('n', ',di', ':call ri#OpenSearchPrompt(0)<cr>', { noremap = true, desc = "RI documentation lookup" })
 vim.keymap.set('n', ',DI', ':call ri#OpenSearchPrompt(1)<cr>',
