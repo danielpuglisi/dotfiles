@@ -85,3 +85,24 @@ function tulpa.tabline()
   -- Just filetype and position info on the right
   return buffers .. "%=(%{&ft}) %3l,%02c%03V"
 end
+
+-- Run Ruby tests in a new Zellij pane
+function tulpa.run_in_zellij_pane(command)
+  -- Create a new pane and run the command
+  local zellij_command = string.format('zellij run --floating --cwd "%s" -- %s', vim.fn.getcwd(), command)
+
+  vim.fn.system(zellij_command)
+end
+
+function tulpa.run_ruby_test_file()
+  local file = vim.fn.expand('%')
+  local command = 'bin/rails test ' .. file
+  tulpa.run_in_zellij_pane(command)
+end
+
+function tulpa.run_ruby_nearest_test()
+  local file = vim.fn.expand('%')
+  local line = vim.fn.line('.')
+  local command = 'bin/rails test ' .. file .. ':' .. line
+  tulpa.run_in_zellij_pane(command)
+end

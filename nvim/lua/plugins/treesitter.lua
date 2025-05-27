@@ -3,12 +3,9 @@ return {
     "nvim-treesitter/nvim-treesitter", -- Smarter code understanding like syntax Highlight and navigation
     build = ":TSUpdate",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",   -- Syntax aware text-objects, select, move, swap, and peek support.
+      "nvim-treesitter/nvim-treesitter-textobjects", -- Syntax aware text-objects, select, move, swap, and peek support.
       {
-        "JoosepAlviste/nvim-ts-context-commentstring", -- Smart commenting in multi language files
-      },
-      {
-        "windwp/nvim-ts-autotag", -- Autoclose and autorename HTML and Vue tags
+        "windwp/nvim-ts-autotag",                    -- Autoclose and autorename HTML and Vue tags
         config = true,
       },
       {

@@ -27,13 +27,35 @@ return {
     end,
   },
   {
-    "kevinhwang91/nvim-bqf", -- Better quickfix window,
+    "kevinhwang91/nvim-bqf",
     ft = "qf",
+    opts = {
+      auto_resize_height = true,
+      preview = {
+        auto_preview = false,
+      },
+      func_map = {
+        open = "o",
+        openc = "", -- open and close quickfix
+      },
+    },
   },
   {
-    "numToStr/Comment.nvim", -- Modern commenting plugin
-    config = true,
+    "tpope/vim-commentary",
     event = "VeryLazy",
+    config = function()
+      vim.keymap.set('n', '\\\\', 'gcc', { remap = true, desc = "Toggle comment" })
+      vim.keymap.set('v', '\\\\', 'gc', { remap = true, desc = "Toggle comment for selection" })
+
+      -- Set commentstring for JSON files
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "json",
+        callback = function()
+          vim.bo.commentstring = "//%s"
+        end,
+        desc = "Set commentstring for JSON files",
+      })
+    end,
   },
   { "tpope/vim-surround" },        -- Easily add, change or delete surrounding characters
   { "AndrewRadev/splitjoin.vim" }, -- Easily split or join lines (gS / gJ)

@@ -46,13 +46,6 @@ vim.keymap.set('n', '<C-h>', ':bprevious<CR>', { noremap = true, desc = "Previou
 vim.keymap.set('n', '<leader>x', ':bp <BAR> bd #<CR>', { noremap = true, desc = "Close buffer without closing window" })
 vim.keymap.set('n', '<leader>bl', ':ls<CR>', { noremap = true, desc = "List buffers" })
 
--- Commentary
-vim.keymap.set('n', '\\\\', function()
-  require('Comment.api').toggle.linewise.current()
-end, { noremap = true, desc = "Toggle comment" })
-vim.keymap.set('v', '\\\\', "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>",
-  { noremap = true, desc = "Toggle comment for selection" })
-
 -- RI Documentation lookup for Ruby
 vim.keymap.set('n', ',di', ':call ri#OpenSearchPrompt(0)<cr>', { noremap = true, desc = "RI documentation lookup" })
 vim.keymap.set('n', ',DI', ':call ri#OpenSearchPrompt(1)<cr>',

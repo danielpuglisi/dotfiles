@@ -164,6 +164,10 @@ return {
               description = "Add selected text to a chat buffer",
               mode = { "n", "v" },
             },
+            { "<leader>co", ":copen<CR>",  description = "Open quickfix list" },
+            { "<leader>cc", ":cclose<CR>", description = "Close quickfix list" },
+            { "<leader>cn", ":cnext<CR>",  description = "Next quickfix item" },
+            { "<leader>cp", ":cprev<CR>",  description = "Previous quickfix item" },
           },
         },
       })
