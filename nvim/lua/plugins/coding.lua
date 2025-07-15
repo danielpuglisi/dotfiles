@@ -51,7 +51,7 @@ return {
             return require("codecompanion.adapters").extend("copilot", {
               schema = {
                 model = {
-                  default = "claude-sonnet-4",
+                  default = "claude-opus-4",
                 },
                 max_tokens = {
                   default = 8192
@@ -59,9 +59,26 @@ return {
               },
             })
           end,
+          openrouter_kimi = function()
+            return require("codecompanion.adapters").extend("openai_compatible", {
+              env = {
+                url = "https://openrouter.ai/api",
+                api_key = "OPENROUTER_API_KEY",
+                chat_url = "/v1/chat/completions",
+              },
+              schema = {
+                model = {
+                  default = "moonshotai/kimi-k2",
+                },
+              },
+            })
+          end,
         },
         strategies = {
+          --NOTE: Change the adapter as required
           chat = {
+            -- adapter = "openrouter_kimi",
+            adapter = "copilot",
             keymaps = {
               send = {
                 modes = {

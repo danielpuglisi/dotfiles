@@ -385,6 +385,13 @@ return {
               capabilities = capabilities,
               cmd = { "bundle", "exec", "ruby-lsp" }, -- Use bundled version
               filetypes = { "ruby", "eruby" },
+              init_options = {
+                addonSettings = {
+                  ["Ruby LSP Rails"] = {
+                    enablePendingMigrationsPrompt = false,
+                  },
+                },
+              },
               settings = {
                 rubyLsp = {
                   enabledFeatures = {
