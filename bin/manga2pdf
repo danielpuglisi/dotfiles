@@ -1,0 +1,64 @@
+#!/bin/bash
+
+# Creates volume PDFs from manga chapter folders.
+# Usage: ./script.sh "Manga Directory"
+# Requires: img2pdf (pip install img2pdf)
+
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 \"Manga Directory\""
+    exit 1
+fi
+
+manga_dir="$1"
+
+if [ ! -d "$manga_dir" ]; then
+    echo "Directory '$manga_dir' does not exist."
+    exit 1
+fi
+
+# Create output directory
+manga_name=$(basename "$manga_dir")
+output_dir="${manga_name} PDF"
+mkdir -p "$output_dir"
+
+# Process each chapter folder
+find "$manga_dir" -type d -mindepth 1 -maxdepth 1 | sort | while read -r folder; do
+    folder_name=$(basename "$folder")
+
+    # Extract volume number with original formatting (e.g., "01", "02")
+    if echo "$folder_name" | grep -qiE 'vol\.[[:space:]]*[0-9]+'; then
+        vol_num=$(echo "$folder_name" | grep -oiE 'vol\.[[:space:]]*[0-9]+' | grep -oE '[0-9]+')
+        vol_key="Vol${vol_num}"
+    else
+        vol_key="Chapters"
+    fi
+
+    # Check if folder contains images
+    if ! find "$folder" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -print -quit | grep -q .; then
+        continue
+    fi
+
+    # Append image paths to temp file for this volume
+    find "$folder" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -print0 | sort -z | xargs -0 printf "%s\n" >> "/tmp/manga_${vol_key}.txt"
+done
+
+# Create PDFs from collected image lists
+for list_file in /tmp/manga_*.txt; do
+    [ -f "$list_file" ] || continue
+
+    vol_key=$(basename "$list_file" .txt | sed 's/manga_//')
+    output_pdf="$output_dir/${manga_name}_${vol_key}.pdf"
+
+    # Read file list and pass to img2pdf
+    cat "$list_file" | tr '\n' '\0' | xargs -0 img2pdf --output "$output_pdf" 2>/dev/null
+
+    if [ $? -eq 0 ]; then
+        echo "Created: $output_pdf"
+    else
+        echo "Error creating: $output_pdf"
+    fi
+
+    rm "$list_file"
+done
+
+echo "All PDFs saved to: $output_dir"

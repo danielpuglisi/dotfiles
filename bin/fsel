@@ -52,9 +52,12 @@ fi
     for file in "${files[@]}"; do
         if [ -f "$file" ]; then
             # Use relative path as-is (already relative to PWD from fzf)
-            echo "<file:$file>"
+            echo "\`\`\`"
+            echo "# $file"
             cat "$file"
-            echo "</file>"
+            echo
+            echo "\`\`\`"
+            echo ""
         else
             echo "Error: $file not found" >&2
         fi

@@ -3,7 +3,7 @@
 # Check if correct number of arguments is provided
 if [ "$#" -ne 3 ]; then
     echo "Usage: $0 input_file output_file aspect_ratio"
-    echo "Example: $0 input.mp4 output.mp4 5:7"
+    echo "Example: $0 input.mp4 output.mp4 9:16"
     exit 1
 fi
 
@@ -20,7 +20,7 @@ fi
 
 # Validate aspect ratio format (w:h)
 if ! echo "$ASPECT_RATIO" | grep -qE '^[0-9]+:[0-9]+$'; then
-    echo "Error: Aspect ratio must be in the format 'w:h' (e.g., 5:7)."
+    echo "Error: Aspect ratio must be in the format 'w:h' (e.g., 9:16)."
     exit 1
 fi
 
@@ -34,12 +34,57 @@ if [ "$W" -le 0 ] || [ "$H" -le 0 ]; then
     exit 1
 fi
 
-# Run FFmpeg command to crop video
-ffmpeg -i "$INPUT_FILE" -vf "crop='min(iw,ih*$W/$H)':'min(ih,iw*$H/$W)',setsar=1" "$OUTPUT_FILE"
+# Get input dimensions using ffprobe (requires ffprobe, installed with ffmpeg)
+IW=$(ffprobe -v error -select_streams v:0 -show_entries stream=width -of csv=p=0 "$INPUT_FILE")
+IH=$(ffprobe -v error -select_streams v:0 -show_entries stream=height -of csv=p=0 "$INPUT_FILE")
+
+if [ -z "$IW" ] || [ -z "$IH" ]; then
+    echo "Error: Could not read input dimensions."
+    exit 1
+fi
+
+# Calculate target crop dimensions using bc for precision
+TARGET_W_FROM_H=$(echo "scale=2; $IH * $W / $H" | bc)
+TARGET_H_FROM_W=$(echo "scale=2; $IW * $H / $W" | bc)
+
+# Round to nearest even integer for H.264 compatibility
+round_even() {
+    local num=$(echo "$1" | bc)
+    local int=$(echo "$num / 2" | bc)
+    local frac=$(echo "$num - $int * 2" | bc)
+    if (( $(echo "$frac > 0" | bc -l) )); then
+        int=$(echo "$int + 1" | bc)
+    fi
+    echo "$int * 2" | bc
+}
+
+# Detect crop mode
+if (( $(echo "$TARGET_W_FROM_H > $IW" | bc -l) )); then
+    # Crop height (input taller than target)
+    CROP_W=$IW
+    CROP_H=$(round_even "$TARGET_H_FROM_W")
+    CROP_X=0
+    CROP_Y=$(echo "scale=0; ($IH - $CROP_H) / 2" | bc)
+else
+    # Crop width (input wider than target)
+    CROP_W=$(round_even "$TARGET_W_FROM_H")
+    CROP_H=$IH
+    CROP_X=$(echo "scale=0; ($IW - $CROP_W) / 2" | bc)
+    CROP_Y=0
+fi
+
+# Ensure crop doesn't exceed input (safety)
+CROP_W=$(echo "if ($CROP_W > $IW) $IW else $CROP_W" | bc)
+CROP_H=$(echo "if ($CROP_H > $IH) $IH else $CROP_H" | bc)
+CROP_X=$(echo "if ($CROP_X < 0) 0 else $CROP_X" | bc)
+CROP_Y=$(echo "if ($CROP_Y < 0) 0 else $CROP_Y" | bc)
+
+# Run FFmpeg command
+ffmpeg -i "$INPUT_FILE" -vf "crop=${CROP_W}:${CROP_H}:${CROP_X}:${CROP_Y}" -c:v libx264 -preset fast -crf 23 "$OUTPUT_FILE" -y
 
 # Check if FFmpeg command was successful
 if [ $? -eq 0 ]; then
-    echo "Video cropped successfully to $ASPECT_RATIO. Output saved as '$OUTPUT_FILE'."
+    echo "Video cropped successfully to ${CROP_W}x${CROP_H} (~${ASPECT_RATIO}). Output saved as '$OUTPUT_FILE'."
 else
     echo "Error: FFmpeg failed to process the video."
     exit 1
