@@ -45,7 +45,6 @@ alias pg-up='pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server
 alias pg-down='pg_ctl -D /usr/local/var/postgres stop -s -m fast'
 
 # Ruby
-alias r='rbenv local'
 alias b='bundle exec'
 
 # Tmux

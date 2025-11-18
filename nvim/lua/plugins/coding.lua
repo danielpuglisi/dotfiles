@@ -194,19 +194,39 @@ return {
     "zbirenbaum/copilot.lua", -- AI programming
     event = "InsertEnter",
     enabled = function()
-      -- Try to use the nodenv global version regardless of local project settings
-      local node_path = vim.fn.expand("~/.nodenv/versions/$(nodenv global)/bin/node")
-      node_path = vim.fn.system("echo " .. node_path):gsub("%s+", "")
+      -- Read node version from mise global config
+      local function get_mise_node()
+        local config = vim.fn.expand("~/.config/mise/config.toml")
+        if vim.fn.filereadable(config) == 1 then
+          for _, line in ipairs(vim.fn.readfile(config)) do
+            local version = line:match('^node%s*=%s*["\']([^"\']+)["\']')
+            if version then
+              -- Resolve aliases like "latest" or "lts"
+              if not version:match("^%d") then
+                version = vim.fn.system("mise latest node@" .. version .. " 2>/dev/null"):gsub("%s+", "")
+              end
 
-      -- Store for plugin use
+              if version ~= "" then
+                return vim.fn.expand("~/.local/share/mise/installs/node/" .. version .. "/bin/node")
+              end
+            end
+          end
+        end
+        return nil
+      end
+
+      local node_path = get_mise_node()
+      if not node_path then
+        vim.notify("Copilot: Could not find mise node installation", vim.log.levels.WARN)
+        return false
+      end
+
       vim.g.copilot_node_path = node_path
 
-      -- Check version
-      local version_output = vim.fn.system(node_path .. " --version")
-      local major_version = tonumber(string.match(version_output, "v(%d+)"))
-
-      if not major_version or major_version < 20 then
-        vim.notify("Copilot requires Node.js ≥ 20. Found: " .. version_output, vim.log.levels.WARN)
+      local version = vim.fn.system(node_path .. " --version"):gsub("%s+", "")
+      local major = tonumber(version:match("v(%d+)"))
+      if not major or major < 20 then
+        vim.notify("Copilot requires Node.js ≥ 20. Found: " .. version, vim.log.levels.WARN)
         return false
       end
 
