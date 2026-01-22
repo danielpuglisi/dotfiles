@@ -1,0 +1,250 @@
+#!/bin/bash
+
+# Check if a pattern file is provided
+if [ -z "$1" ]; then
+    echo "Usage: csel <pattern-file> [<pattern-file2> ...]"
+    echo "Example pattern file content:"
+    echo "  **/api/**"
+    echo "  config/routes.rb"
+    echo "  ../other-project/**/models/**"
+    echo "  !**/test/**"
+    exit 1
+fi
+
+# Get the top-level directory name of current directory
+CURRENT_TOP_LEVEL=$(basename "$PWD")
+
+# Temporary files to store matched and excluded files
+all_matched_temp=$(mktemp)
+all_excluded_temp=$(mktemp)
+# Store mapping of file -> project name and base directory
+file_info_map=$(mktemp)
+trap 'rm -f "$all_matched_temp" "$all_excluded_temp" "$file_info_map"' EXIT
+
+# Function to find files matching a pattern
+find_files_matching() {
+    local pattern="$1"
+    local base_dir="."
+
+    # Check if pattern starts with ../ or contains ../
+    if [[ "$pattern" == ../* ]]; then
+        # Extract the base directory (everything before the first **)
+        if [[ "$pattern" == *"**"* ]]; then
+            base_dir=$(echo "$pattern" | sed 's|\*\*.*||' | sed 's|/$||')
+            # Remove base_dir from pattern for matching
+            pattern="${pattern#$base_dir/}"
+        else
+            base_dir=$(dirname "$pattern")
+            pattern=$(basename "$pattern")
+        fi
+    fi
+
+    # Ensure base_dir exists
+    if [ ! -d "$base_dir" ]; then
+        return
+    fi
+
+    if [[ "$pattern" == *"*"* ]]; then
+        # Convert ** to match any depth for grep
+        find_pattern=$(echo "$pattern" | sed 's|\*\*/|*/|g; s|/\*\*|/*|g')
+        # Find files and preserve the full relative path
+        find "$base_dir" -type f ! -path '*/\.*' 2>/dev/null | \
+            grep -E "^${base_dir}/${find_pattern//\*/.*}$" | \
+            sed "s|^\./||"
+    else
+        # Specific file path
+        local full_path="${base_dir}/${pattern}"
+        full_path=$(echo "$full_path" | sed 's|^\./||')
+        if [ -f "$full_path" ]; then
+            echo "$full_path"
+        fi
+    fi
+}
+
+# Function to get project name from a path
+get_project_name() {
+    local path="$1"
+    
+    # Expand ~ to home directory
+    path="${path/#\~/$HOME}"
+    
+    if [[ "$path" == /* ]]; then
+        # Absolute path: extract the last directory component before .context
+        # e.g., /Users/pulleasy/code/pillhub-shop/.context/logic -> pillhub-shop
+        echo "$path" | sed 's|/.context/.*||' | xargs basename
+    elif [[ "$path" == ../* ]]; then
+        # Relative parent path: extract first directory after ../
+        # e.g., ../pillhub-shop/.context/logic -> pillhub-shop
+        echo "$path" | sed 's|^\.\./||' | cut -d'/' -f1
+    else
+        # Current directory
+        echo "$CURRENT_TOP_LEVEL"
+    fi
+}
+
+# Function to get base directory from pattern file path
+get_base_dir() {
+    local path="$1"
+    
+    # Expand ~ to home directory
+    path="${path/#\~/$HOME}"
+    
+    if [[ "$path" == /* ]]; then
+        # Absolute path: get directory before .context
+        echo "$path" | sed 's|/.context/.*||'
+    elif [[ "$path" == ../* ]]; then
+        # Relative parent path: extract path to project root
+        local project_dir=$(echo "$path" | sed 's|/.context/.*||')
+        echo "$project_dir"
+    else
+        # Current directory
+        echo "."
+    fi
+}
+
+# Function to convert file path to display format
+get_display_path() {
+    local file="$1"
+    local project_name="$2"
+    
+    if [[ "$file" == ../* ]]; then
+        # Remove ../ and project dir, prepend project name
+        local rel_path=$(echo "$file" | sed 's|^\.\./[^/]*/||')
+        echo "${project_name}/${rel_path}"
+    else
+        # Current directory file
+        echo "${project_name}/${file}"
+    fi
+}
+
+# Process each pattern file
+for PATTERN_FILE in "$@"; do
+    # Expand ~ to home directory for pattern file path
+    PATTERN_FILE_EXPANDED="${PATTERN_FILE/#\~/$HOME}"
+    
+    # Check if pattern file exists
+    if [ ! -f "$PATTERN_FILE_EXPANDED" ]; then
+        echo "Error: Pattern file '$PATTERN_FILE' not found"
+        exit 1
+    fi
+    
+    # Get the project name and base directory from the pattern file path
+    PROJECT_NAME=$(get_project_name "$PATTERN_FILE")
+    BASE_DIR=$(get_base_dir "$PATTERN_FILE")
+    
+    # Save current directory
+    ORIGINAL_DIR="$PWD"
+    
+    # Change to the base directory
+    if [ "$BASE_DIR" != "." ]; then
+        cd "$BASE_DIR" || {
+            echo "Error: Could not change to directory $BASE_DIR"
+            exit 1
+        }
+    fi
+
+    # Temporary files for this pattern file
+    matched_temp=$(mktemp)
+    excluded_temp=$(mktemp)
+
+    # Read patterns from file and find matching files
+    while IFS= read -r pattern || [ -n "$pattern" ]; do
+        # Skip empty lines and comments
+        [[ -z "$pattern" || "$pattern" =~ ^[[:space:]]*# ]] && continue
+
+        # Remove leading/trailing whitespace
+        pattern=$(echo "$pattern" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+
+        # Check for negation pattern
+        if [[ "$pattern" == "!"* ]]; then
+            # Remove the ! prefix
+            pattern="${pattern#!}"
+            find_files_matching "$pattern" >> "$excluded_temp"
+        else
+            # Include pattern
+            find_files_matching "$pattern" >> "$matched_temp"
+        fi
+    done < "$PATTERN_FILE_EXPANDED"
+
+    # Store file info (path, project name, base directory) for matched files
+    while IFS= read -r file; do
+        echo "$file|$PROJECT_NAME|$BASE_DIR" >> "$file_info_map"
+        echo "$file" >> "$all_matched_temp"
+    done < "$matched_temp"
+
+    # Add excluded files to global list
+    cat "$excluded_temp" >> "$all_excluded_temp"
+
+    # Return to original directory
+    cd "$ORIGINAL_DIR"
+
+    # Clean up temporary files
+    rm -f "$matched_temp" "$excluded_temp"
+done
+
+# Remove excluded files from matched files and remove duplicates
+if [ -s "$all_excluded_temp" ]; then
+    files=($(sort -u "$all_matched_temp" | grep -v -F -f "$all_excluded_temp"))
+else
+    files=($(sort -u "$all_matched_temp"))
+fi
+
+# Check if any files were matched
+if [ ${#files[@]} -eq 0 ]; then
+    echo "No files matched the patterns in the provided pattern files"
+    exit 1
+fi
+
+# Detect clipboard command
+if command -v pbcopy > /dev/null; then
+    clipboard_cmd="pbcopy"
+elif command -v xclip > /dev/null; then
+    clipboard_cmd="xclip -selection clipboard"
+elif command -v wl-copy > /dev/null; then
+    clipboard_cmd="wl-copy"
+else
+    echo "No clipboard utility found. Install pbcopy, xclip, or wl-copy."
+    exit 1
+fi
+
+# Format output and copy to clipboard
+(
+    for file in "${files[@]}"; do
+        # Get file info from the mapping
+        file_info=$(grep "^${file}|" "$file_info_map" | head -n1)
+        project_name=$(echo "$file_info" | cut -d'|' -f2)
+        base_dir=$(echo "$file_info" | cut -d'|' -f3)
+        
+        # Construct actual file path
+        if [ "$base_dir" = "." ]; then
+            actual_file="$file"
+        else
+            actual_file="${base_dir}/${file}"
+        fi
+        
+        if [ -f "$actual_file" ]; then
+            display_path=$(get_display_path "$file" "$project_name")
+            echo "\`\`\`"
+            echo "# $display_path"
+            cat "$actual_file"
+            echo
+            echo "\`\`\`"
+            echo ""
+        else
+            display_path=$(get_display_path "$file" "$project_name")
+            echo "Error: $display_path not found" >&2
+        fi
+    done
+) | $clipboard_cmd
+
+# Output the list of copied files
+echo "Copied files to clipboard:"
+for file in "${files[@]}"; do
+    # Get file info from the mapping
+    file_info=$(grep "^${file}|" "$file_info_map" | head -n1)
+    project_name=$(echo "$file_info" | cut -d'|' -f2)
+    display_path=$(get_display_path "$file" "$project_name")
+    echo "  $display_path"
+done
+echo ""
+echo "Total: ${#files[@]} file(s) copied"
