@@ -1,6 +1,3 @@
-# Mise setup
-eval "$(/Users/pulleasy/.local/bin/mise activate zsh)"
-
 # FZF Config
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

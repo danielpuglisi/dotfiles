@@ -1,0 +1,1 @@
+eval "$(/Users/pulleasy/.local/bin/mise activate zsh)"

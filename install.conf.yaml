@@ -6,6 +6,7 @@
 
 - link:
     ~/.localrc: localrc
+    ~/.zshenv: zsh/zshenv
     ~/.tmux.conf: tmux/tmux.conf
     ~/.tmux.conf: tmux/tmux.conf
     ~/.config/tmuxinator: tmux/tmuxinator
