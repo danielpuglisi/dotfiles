@@ -4,9 +4,9 @@ export PATH="/usr/local/bin:./bin:/usr/local/sbin:$DOTFILES/bin:$PATH"
 export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
 
 # NODE
-export NODE_PATH="/usr/local/lib/node"
-export NODE_BIN="/usr/local/share/npm/bin"
-export PATH="/usr/local/share/npm/bin:$PATH"
+# export NODE_PATH="/usr/local/lib/node"
+# export NODE_BIN="/usr/local/share/npm/bin"
+# export PATH="/usr/local/share/npm/bin:$PATH"
 
 # YARN SLOW!!!!
 # export PATH="$PATH:`yarn global bin`"
@@ -39,10 +39,10 @@ export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 # JAVA/ANDROID
-export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"
-
 export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
 export ANDROID_HOME=$ANDROID_SDK_ROOT
+
+export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH
 export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
 export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
 
@@ -51,3 +51,6 @@ export PATH="/opt/homebrew/opt/postgresql@14/bin:$PATH"
 
 # Cargo
 export PATH="/Users/pulleasy/.cargo/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/pulleasy/.antigravity/antigravity/bin:$PATH"

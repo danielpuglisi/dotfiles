@@ -61,7 +61,11 @@ end
 -- Run Ruby tests in a new Zellij pane
 function tulpa.run_in_zellij_pane(command)
   -- Create a new pane and run the command
-  local zellij_command = string.format('zellij run --floating --cwd "%s" -- %s', vim.fn.getcwd(), command)
+  local zellij_command = string.format(
+    'zellij run --floating --cwd "%s" -- zsh -c %s',
+    vim.fn.getcwd(),
+    vim.fn.shellescape(command)
+  )
 
   vim.fn.system(zellij_command)
 end

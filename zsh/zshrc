@@ -25,7 +25,7 @@ autoload -U $ZSH/functions/smartextract(:t)
 source $ZSH/aliases.zsh
 source $ZSH/config.zsh
 source $ZSH/prompt.zsh
-source $ZSH/plugins.zsh # Slow thanks to base16
+source $ZSH/plugins.zsh
 
 source $ZSH/plugins/fzf.zsh
 

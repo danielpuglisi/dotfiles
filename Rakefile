@@ -28,6 +28,7 @@ task :dependencies do
     "ctags",
     "curl",
     "ruby-build",
+    "mise",
     "fzf",
     "the_silver_searcher",
     "heroku",
@@ -75,7 +76,4 @@ task :dependencies do
     puts "Installing cask #{cask}..."
     system("brew install --cask #{cask}")
   end
-
-  puts "Install rbenv-default-gems"
-  system("git clone https://github.com/rbenv/rbenv-default-gems.git $(rbenv root)/plugins/rbenv-default-gems")
 end
