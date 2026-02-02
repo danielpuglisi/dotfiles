@@ -1,10 +1,10 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "model": "github-copilot/gemini-3-pro-preview",
-  "small_model": "github-copilot/gpt-4.1",
+  "small_model": "github-copilot/gpt-5-mini",
   "username": "dreamingtulpa",
   "compaction": {
-    "auto": false,
+    "auto": true,
     "prune": true
   },
   "agent": {
@@ -14,17 +14,13 @@
     "general": {
       "model": "github-copilot/gpt-5-mini"
     },
-    "title": {
-      "model": "github-copilot/gpt-4.1"
-    },
-    "summary": {
-      "model": "github-copilot/gpt-5-mini"
-    },
     "compaction": {
       "model": "github-copilot/gpt-5-mini"
     }
   },
-  "plugin": ["@mohak34/opencode-notifier@latest"],
+  "plugin": [
+    "@mohak34/opencode-notifier@latest"
+  ],
   "keybinds": {
     "variant_cycle": "alt+t"
   }
