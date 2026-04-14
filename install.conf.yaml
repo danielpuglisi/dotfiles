@@ -13,6 +13,7 @@
     ~/.config/alacritty: alacritty
     ~/.config/opencode/opencode.json: opencode/config.json
     ~/.config/opencode/commands: opencode/commands
+    ~/.agents/skills: opencode/skills
     # ~/.config/zellij/config.kdl: zellij/config.kdl # we link to zellij/config.kdl directly from alacritty until symlink reloading works
     ~/.config/tinted-theming/tinty/config.toml: tinty/config.toml
     ~/.ackrc: ack/ackrc
